@@ -47,7 +47,39 @@ local function trim(str)
   return (tostring(str or ""):gsub("^%s+", ""):gsub("%s+$", ""))
 end
 
+local function read_file(path)
+  local f = io.open(path, "r")
+  if not f then return nil end
+  local content = f:read("*all")
+  f:close()
+  return content
+end
+
+local function write_file(path, content)
+  local f = io.open(path, "w")
+  if not f then return false end
+  f:write(content)
+  f:close()
+  return true
+end
+
 function ltmermaid.render(infile, outfile, renderer, extra_args, pdf_fit)
+  local cache_file = outfile .. ".mmd"
+  local current_code = read_file(infile)
+  local cached_code = read_file(cache_file)
+
+  local outfile_exists = false
+  local f_out = io.open(outfile, "rb")
+  if f_out then
+    outfile_exists = true
+    f_out:close()
+  end
+
+  if outfile_exists and current_code and cached_code and current_code == cached_code then
+    texio.write_nl("term and log", "[ltmermaid] Skipping compilation, diagram code has not changed: " .. outfile)
+    return
+  end
+
   local cmd = trim(renderer)
   if cmd == "" then
     cmd = "npx -y @mermaid-js/mermaid-cli"
@@ -98,6 +130,11 @@ function ltmermaid.render(infile, outfile, renderer, extra_args, pdf_fit)
   f:close()
   if header ~= "%PDF" then
     tex.error("ltmermaid: generated file is not a valid PDF: " .. outfile)
+  end
+
+  -- Save the compiled code to cache
+  if current_code then
+    write_file(cache_file, current_code)
   end
 end
 \end{luacode*}
