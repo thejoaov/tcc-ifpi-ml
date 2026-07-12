@@ -1,0 +1,175 @@
+% Local compatibility implementation inspired by the ltMermaid package API.
+% Purpose: render Mermaid diagrams to PDF during LuaLaTeX compilation.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ltmermaid}[2026/05/26 Local Mermaid embedding for LuaLaTeX]
+
+\RequirePackage{ifluatex}
+\ifluatex\else
+  \PackageError{ltmermaid}{This package requires LuaLaTeX (lualatex).}{}
+  \expandafter\endinput
+\fi
+
+\RequirePackage{graphicx}
+\RequirePackage{adjustbox}
+\RequirePackage{fancyvrb}
+\RequirePackage{luacode}
+\RequirePackage{kvoptions}
+
+\SetupKeyvalOptions{family=ltmermaid,prefix=ltmermaid@}
+\DeclareStringOption[npx -y @mermaid-js/mermaid-cli]{Renderer}
+\ProcessKeyvalOptions*
+
+\makeatletter
+
+\def\ltmermaid@xargs{}
+\def\ltmermaid@pdffit{-f}
+\def\ltmermaid@graphicsopts{}
+\def\ltmermaid@boxopts{max width=0.9\linewidth,center}
+\def\ltmermaid@envgraphicsopts{}
+\def\ltmermaid@graphicsoptsmerged{}
+
+\newcommand{\MermaidRendererOptions}[1]{\def\ltmermaid@xargs{#1}}
+\newcommand{\MermaidNoPdfFit}{\def\ltmermaid@pdffit{}}
+\newcommand{\MermaidGraphicsOpts}[1]{\def\ltmermaid@graphicsopts{#1}}
+\newcommand{\MermaidAdjustBoxOpts}[1]{\def\ltmermaid@boxopts{#1}}
+
+\newcounter{ltmermaiddiag}
+
+\begin{luacode*}
+ltmermaid = ltmermaid or {}
+
+local function shell_quote(str)
+  str = tostring(str or "")
+  return "'" .. str:gsub("'", "'\\''") .. "'"
+end
+
+local function trim(str)
+  return (tostring(str or ""):gsub("^%s+", ""):gsub("%s+$", ""))
+end
+
+function ltmermaid.render(infile, outfile, renderer, extra_args, pdf_fit)
+  local cmd = trim(renderer)
+  if cmd == "" then
+    cmd = "npx -y @mermaid-js/mermaid-cli"
+  end
+
+  local args = trim(extra_args)
+
+  -- Auto-detect puppeteer-config.json for CI/Docker compatibility
+  local config_file = "puppeteer-config.json"
+  local f_cfg = io.open(config_file, "r")
+  if f_cfg then
+    f_cfg:close()
+    if args ~= "" then
+      args = "-p " .. config_file .. " " .. args
+    else
+      args = "-p " .. config_file
+    end
+  end
+
+  local fit = trim(pdf_fit)
+  if fit ~= "" then
+    if args ~= "" then
+      args = fit .. " " .. args
+    else
+      args = fit
+    end
+  end
+
+  os.execute("mkdir -p " .. shell_quote("mermaid"))
+
+  local full = cmd
+  if args ~= "" then
+    full = full .. " " .. args
+  end
+  full = full .. " -i " .. shell_quote(infile) .. " -o " .. shell_quote(outfile)
+
+  texio.write_nl("term and log", "[ltmermaid] " .. full)
+  local ok1, ok2, ok3 = os.execute(full)
+  texio.write_nl("term and log", string.format("[ltmermaid] os.execute -> %s / %s / %s", tostring(ok1), tostring(ok2), tostring(ok3)))
+
+  local f = io.open(outfile, "rb")
+  if not f then
+    tex.error("ltmermaid: output PDF was not produced. Check Mermaid syntax, Node/npx availability, Puppeteer/Chromium, and LuaLaTeX -shell-escape.\nCommand: " .. full)
+    return
+  end
+
+  local header = f:read(4)
+  f:close()
+  if header ~= "%PDF" then
+    tex.error("ltmermaid: generated file is not a valid PDF: " .. outfile)
+  end
+end
+\end{luacode*}
+
+\newcommand{\ltmermaid@mergegraphics}{%
+  \ifx\ltmermaid@graphicsopts\@empty
+    \ifx\ltmermaid@envgraphicsopts\@empty
+      \def\ltmermaid@graphicsoptsmerged{}%
+    \else
+      \edef\ltmermaid@graphicsoptsmerged{\ltmermaid@envgraphicsopts}%
+    \fi
+  \else
+    \ifx\ltmermaid@envgraphicsopts\@empty
+      \edef\ltmermaid@graphicsoptsmerged{\ltmermaid@graphicsopts}%
+    \else
+      \edef\ltmermaid@graphicsoptsmerged{\ltmermaid@graphicsopts,\ltmermaid@envgraphicsopts}%
+    \fi
+  \fi
+}
+
+\newcommand{\ltmermaid@include}[1]{%
+  \ltmermaid@mergegraphics
+  \begin{center}%
+    \bgroup
+    \edef\ltmermaid@tmp{%
+      \egroup
+      \noexpand\adjustbox{\ltmermaid@boxopts}{%
+        \noexpand\includegraphics[\ltmermaid@graphicsoptsmerged]{#1}%
+      }%
+    }%
+    \ltmermaid@tmp
+  \end{center}%
+}
+
+\newcommand{\mermaidfile}[2][]{%
+  \begingroup
+    \def\ltmermaid@envgraphicsopts{#1}%
+    \stepcounter{ltmermaiddiag}%
+    \edef\ltmermaid@in{#2}%
+    \edef\ltmermaid@out{mermaid/\jobname-mermaid-\arabic{ltmermaiddiag}.pdf}%
+    \directlua{ltmermaid.render("\luaescapestring{\ltmermaid@in}", "\luaescapestring{\ltmermaid@out}", "\luaescapestring{\ltmermaid@Renderer}", "\luaescapestring{\ltmermaid@xargs}", "\luaescapestring{\ltmermaid@pdffit}")}%
+    \IfFileExists{\ltmermaid@out}{%
+      \ltmermaid@include{\ltmermaid@out}%
+    }{%
+      \PackageError{ltmermaid}{Output PDF was not produced for Mermaid file `#2'.}{}
+    }%
+  \endgroup
+}
+
+\def\ltmermaid@env@scanopt{\@ifnextchar[{\ltmermaid@env@gotopt}{\ltmermaid@env@startenv{}}}
+\def\ltmermaid@env@gotopt[#1]{\ltmermaid@env@startenv{#1}}
+\def\ltmermaid@env@startenv#1{%
+  \def\ltmermaid@envgraphicsopts{#1}%
+  \stepcounter{ltmermaiddiag}%
+  \edef\ltmermaid@in{mermaid/\jobname-mermaid-\arabic{ltmermaiddiag}.mmd}%
+  \edef\ltmermaid@out{mermaid/\jobname-mermaid-\arabic{ltmermaiddiag}.pdf}%
+  \directlua{os.execute("mkdir -p 'mermaid'")}%
+  \VerbatimOut{\ltmermaid@in}%
+}
+
+\newenvironment{mermaid}{%
+  \catcode`\^^M=\active
+  \ltmermaid@env@scanopt
+}{%
+  \endVerbatimOut
+  \directlua{ltmermaid.render("\luaescapestring{\ltmermaid@in}", "\luaescapestring{\ltmermaid@out}", "\luaescapestring{\ltmermaid@Renderer}", "\luaescapestring{\ltmermaid@xargs}", "\luaescapestring{\ltmermaid@pdffit}")}%
+  \IfFileExists{\ltmermaid@out}{%
+    \ltmermaid@include{\ltmermaid@out}%
+  }{%
+    \PackageError{ltmermaid}{Output PDF was not produced for Mermaid environment.}{}
+  }%
+}
+
+\makeatother
+\endinput

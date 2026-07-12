@@ -1,0 +1,93 @@
+[
+  {
+    "parametro": "PORCENT_ESCOLA_PUBLICA",
+    "valor": 85.0,
+    "evidencia": "PI: 715.748 estudantes na rede pública (2025); no BR, 82,0% das matrículas do EM são da rede pública",
+    "fonte": "INEP - Sinopse Estatística do Censo Escolar / Todos Pela Educação (Panorama Piauí)",
+    "nivel": "estadual (PI)"
+  },
+  {
+    "parametro": "PORCENT_RENDA_PC_ATE_MEIO_SM",
+    "valor": 60.0,
+    "evidencia": "PROXY: SIS/IBGE - 45,3% da população geral do PI em pobreza (2023, linha ~0,5 SM); pobreza <18 anos é maior que a geral (BR: 45,6%; NE: ~2/3 em 2022)",
+    "fonte": "IBGE - Síntese de Indicadores Sociais 2024 / Fundação Abrinq - Um Retrato da Infância e Adolescência no Brasil (PNAD Contínua)",
+    "nivel": "estadual (PI) - proxy: população geral, não estudantes 15-17"
+  },
+  {
+    "parametro": "PORCENT_MASCULINO / PORCENT_PARDO+PRETO",
+    "valor": "49 / 77",
+    "evidencia": "PI (Censo 2022): pardos 64,8%, pretos 12,3% (77,1% pretos+pardos), brancos 22,6%; razão de sexo 95,81 homens/100 mulheres",
+    "fonte": "IBGE - Censo Demográfico 2022 (divulgação cor ou raça)",
+    "nivel": "estadual (PI)"
+  },
+  {
+    "parametro": "PORCENT_TRABALHA",
+    "valor": 26.3,
+    "evidencia": "PROXY: 26,3% dos alunos do EM de baixa renda conciliam trabalho e estudo (literatura); PI 5-17 anos: 6,8-8,6% em trabalho infantil (conceito distinto); BR 16-17: 15,3% (2024)",
+    "fonte": "SciELO/CEBAPE / MTE - Diagnóstico Ligeiro do Trabalho Infantil na PNADc 2023-2024",
+    "nivel": "decisão de modelagem - ancorada em literatura nacional + taxa PI de conceito adjacente"
+  },
+  {
+    "parametro": "PORCENT_ACESSO_INTERNET",
+    "valor": 92.5,
+    "evidencia": "PI: 92,5% dos domicílios com utilização de internet (2025; 88,9% em 2023)",
+    "fonte": "IBGE - PNAD Contínua TIC, SIDRA tabela 7307",
+    "nivel": "estadual (PI)"
+  },
+  {
+    "parametro": "PORCENT_POSSUI_COMPUTADOR",
+    "valor": 25.5,
+    "evidencia": "PI: 25,5% dos domicílios com microcomputador ou tablet (2025); BR: 40,9% - exclusão de dispositivo acentuada no PI",
+    "fonte": "IBGE - PNAD Contínua TIC, SIDRA tabela 7302",
+    "nivel": "estadual (PI)"
+  },
+  {
+    "parametro": "PORCENT_DISTORCAO_IDADE_SERIE",
+    "valor": 21.7,
+    "evidencia": "Distorção idade-série de 21,7% na rede pública estadual do PI (histórico 2022: 33,2%); idade com assimetria positiva até 24 anos",
+    "fonte": "INEP - Taxas de Distorção Idade-série (dados abertos) / Todos Pela Educação (PDF Piauí)",
+    "nivel": "estadual (PI)"
+  },
+  {
+    "parametro": "TAXA_ADESAO_PE_DE_MEIA / PE_DE_MEIA_FREQ_MINIMA",
+    "valor": "85 / 80",
+    "evidencia": "Elegibilidade: 14-24 anos, CadÚnico com renda per capita <= 0,5 SM, frequência mínima de 80%/mês; PI: 187.620 atendidos, abandono 8,6% -> 0,5%",
+    "fonte": "Lei nº 14.818 (Pé-de-Meia) - CAIXA / Portal da Transparência / MDS Informe CadÚnico nº 50 / Cadernos Cajuína",
+    "nivel": "estadual (PI) - regra nacional com efeito documentado no PI"
+  },
+  {
+    "parametro": "PORCENT_OUTLIERS_RESILIENCIA",
+    "valor": 3.0,
+    "evidencia": "Perfis vulneráveis de alto desempenho (ex.: U.E. Augustinho Brandão, Cocal dos Alves-PI) validam fronteiras de decisão sem determinismo social",
+    "fonte": "SEDUC-PI / Fundação Lemann",
+    "nivel": "decisão de modelagem - âncora qualitativa estadual (PI)"
+  },
+  {
+    "parametro": "LDB_MEDIA_MINIMA / LDB_FREQ_MINIMA",
+    "valor": "6.0 / 75",
+    "evidencia": "Critérios reais de aprovação no ensino médio: média final >= 6,0 e frequência mínima de 75% da carga horária",
+    "fonte": "LDB - Lei nº 9.394/1996, art. 24 (frequência); média 6,0 como padrão das redes estaduais",
+    "nivel": "normativo (nacional)"
+  },
+  {
+    "parametro": "BANDA_RISCO_MEDIA (5,0-6,5) / BANDA_RISCO_FREQ (75-80)",
+    "valor": "5.0-6.5 / 75-80",
+    "evidencia": "Banda pedagógica fixa de fronteira para a classe 'Em Risco' (projeção anual próxima dos limiares da LDB); proporções de classe emergentes, não calibradas",
+    "fonte": "Definição metodológica do estudo",
+    "nivel": "decisão de modelagem"
+  },
+  {
+    "parametro": "MEDIA_ATIVIDADES / TAXA_ENTREGA_ATIVIDADES",
+    "valor": "derivadas (0-10 normalizada / %)",
+    "evidencia": "Sinais de engajamento contínuo do 1º semestre: notas de atividades normalizadas para 0-10 e proporção de atividades entregues; correlacionadas a nota/frequência com ruído próprio",
+    "fonte": "Decisão de modelagem ancorada na literatura de engajamento escolar (EDM)",
+    "nivel": "decisão de modelagem"
+  },
+  {
+    "parametro": "NOISE_LEVEL",
+    "valor": "3.0",
+    "evidencia": "Variância idiossincrática da deriva do 2º semestre (fatores não observáveis: saúde, eventos familiares, motivação); sigma = NOISE_LEVEL/10 pontos de média e NOISE_LEVEL*0,8 p.p. de frequência",
+    "fonte": "Definição metodológica do estudo",
+    "nivel": "decisão de modelagem"
+  }
+]

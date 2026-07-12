@@ -1,0 +1,77 @@
+name: Build LaTeX Document
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "documento/**"
+      - ".github/workflows/build-latex.yml"
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "documento/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: documento
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Create Puppeteer Config for Mermaid CLI
+        run: |
+          echo '{"executablePath": "/usr/bin/chromium-browser", "args": ["--no-sandbox", "--disable-setuid-sandbox"]}' > puppeteer-config.json
+
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: documento.tex
+          working_directory: documento
+          latexmk_use_xelatex: false
+          extra_system_packages: nodejs npm chromium
+          pre_compile: npm install -g @mermaid-js/mermaid-cli
+          args: -pdf -lualatex -shell-escape -interaction=nonstopmode -file-line-error
+
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
+      - name: Generate DOCX
+        run: |
+          mkdir -p output
+          pandoc documento.tex -o output/documento.docx \
+            --bibliography=bibliografia.bib \
+            --citeproc \
+            --resource-path=. \
+            || echo "AVISO: Falha ao gerar DOCX"
+
+      - name: Prepare output artifacts
+        run: |
+          mkdir -p output
+          cp documento.pdf output/documento.pdf || true
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcc-pdf
+          path: documento/output/documento.pdf
+          if-no-files-found: error
+
+      - name: Upload DOCX artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tcc-docx
+          path: documento/output/documento.docx
+          if-no-files-found: warn

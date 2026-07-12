@@ -1,0 +1,44 @@
+{
+  "latex-workshop.latex.rootFile": "documento/documento.tex",
+  "latex-workshop.intellisense.citation.backend": "bibtex",
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "make all (pdf + docx)",
+      "tools": ["make-all"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "make-all",
+      "command": "make",
+      "args": ["all"],
+      "env": {
+        "PATH": "/Library/TeX/texbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    }
+  ],
+  "latex-workshop.latex.outDir": ".",
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "latex-workshop.latex.clean.method": "glob",
+  "latex-workshop.latex.clean.fileTypes": [
+    "documento/*.aux",
+    "documento/*.bbl",
+    "documento/*.blg",
+    "documento/*.idx",
+    "documento/*.ind",
+    "documento/*.lof",
+    "documento/*.lot",
+    "documento/*.out",
+    "documento/*.toc",
+    "documento/*.log",
+    "documento/*.fls",
+    "documento/*.fdb_latexmk",
+    "documento/*.synctex.gz",
+    "documento/*.nlo",
+    "documento/*.nls",
+    "documento/*.ilg",
+    "documento/*.lop",
+    "documento/mermaid/**"
+  ]
+}

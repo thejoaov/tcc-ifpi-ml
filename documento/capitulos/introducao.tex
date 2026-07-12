@@ -1,0 +1,59 @@
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+\chapter{Introdução}
+
+O cenário atual da educação básica brasileira enfrenta desafios significativos relacionados à melhoria da qualidade do ensino e à redução dos índices de evasão, abandono e retenção \cite{dabreu2010, campos2024}. No ensino médio público, etapa final e mais crítica da educação básica, esses desafios assumem contornos estruturais: estima-se que apenas 74,3\% dos jovens brasileiros concluem o ensino médio até os 19 anos de idade, patamar que cai para 69,5\% entre jovens pretos, pardos e indígenas e para 70,5\% nos domicílios de menor renda \cite{todospelaeducacao2023}. Nesse contexto, a análise e a compreensão dos fatores que condicionam o sucesso ou o insucesso acadêmico dos estudantes tornam-se imprescindíveis para a implementação de estratégias pedagógicas e de políticas públicas eficazes.
+
+A predição de desempenho acadêmico constitui um campo emergente na intersecção entre as ciências da educação e da computação, consolidado na literatura como Mineração de Dados Educacionais (EDM) \cite{baker2011, romero2010}. A possibilidade de identificar precocemente estudantes em trajetória de risco, a partir de dados demográficos, socioeconômicos e acadêmicos, representa uma oportunidade concreta para a gestão educacional baseada em evidências. A literatura sociológica, contudo, adverte que o desempenho escolar é um fenômeno multifatorial, fortemente condicionado pela origem social dos estudantes \cite{berlato2020, marturano2015}, o que exige que os modelos preditivos incorporem explicitamente os condicionantes sociológicos do rendimento (renda, trabalho juvenil, exclusão digital, distorção idade-série e políticas de permanência) sem, entretanto, reproduzir um determinismo social fatalista.
+
+A dimensão dessas desigualdades é bem documentada pelas estatísticas oficiais, e assume contornos particularmente agudos no Piauí, objeto desta investigação. No estado, 45,3\% da população geral encontrava-se em situação de pobreza em 2023 \cite{ibgesis2024}, e a literatura demonstra que a pobreza entre crianças e adolescentes é sistematicamente superior à da população geral: cerca de 60\% dos estudantes brasileiros de 15 a 17 anos da rede pública vivem em domicílios com renda per capita de até meio salário mínimo \cite{fadc2023}. A exclusão digital piauiense é acentuada: embora 92,5\% dos domicílios do estado disponham de acesso à internet, apenas 25,5\% possuem microcomputador ou \textit{tablet} (pouco mais da metade da média nacional de 40,9\%) \cite{ibgesidra2025tic, ibge2024tic}. A distorção idade-série (proporção de alunos com dois ou mais anos de atraso escolar) atingia 21,7\% na rede pública estadual do Piauí, após patamar histórico de 33,2\% \cite{inep2025, todospelaeducacaopiaui}; no mesmo período de consolidação das políticas de permanência, a taxa de abandono da rede recuou de 8,6\% para 0,5\% \cite{minutomt2026, santos2026}. A Tabela~\ref{tab:indicadores_em} consolida esses indicadores, que fundamentam quantitativamente a relevância do problema investigado.
+
+\begin{table}[htb]
+\centering
+\caption{Indicadores educacionais e socioeconômicos que fundamentam o estudo.}
+\label{tab:indicadores_em}
+\begin{tabular}{p{6.2cm}cp{1.6cm}p{4.2cm}}
+\toprule
+\textbf{Indicador} & \textbf{Valor} & \textbf{Nível} & \textbf{Fonte} \\
+\midrule
+Conclusão do ensino médio até os 19 anos & 74,3\% & Brasil & \citeonline{todospelaeducacao2023} \\
+Matrículas do ensino médio na rede pública & 82,0\% & Brasil & \citeonline{inep2025} \\
+Estudantes de 15--17 anos da rede pública em situação de pobreza (renda per capita $\le$ 0,5 SM) & $\sim$60\% & Brasil & \citeonline{fadc2023} \\
+População em situação de pobreza (2023) & 45,3\% & Piauí & \citeonline{ibgesis2024} \\
+Domicílios com acesso à internet & 92,5\% & Piauí & \citeonline{ibgesidra2025tic} \\
+Domicílios com microcomputador ou \textit{tablet} & 25,5\% & Piauí & \citeonline{ibgesidra2025tic} \\
+Distorção idade-série (rede pública estadual) & 21,7\% & Piauí & \citeonline{inep2025, todospelaeducacaopiaui} \\
+Abandono no ensino médio (2022 $\rightarrow$ 2025) & 8,6\% $\rightarrow$ 0,5\% & Piauí & \citeonline{minutomt2026} \\
+Estudantes do ensino médio de baixa renda que trabalham & 26,3\% & Brasil & \citeonline{berlato2020} \\
+\bottomrule
+\end{tabular}
+\source{Elaborado pelo autor (2026).}
+\end{table}
+
+Delimitando-se o escopo desta investigação, o estudo concentra-se na elaboração de um modelo preditivo de \textbf{tendência de desempenho acadêmico} para estudantes do \textbf{ensino médio da rede pública estadual do Piauí}, fundamentado em fatores sociológicos. Em virtude das restrições de acesso a microdados individuais reais de estudantes (protegidos pela Lei Geral de Proteção de Dados e condicionados a autorizações institucionais e éticas cujos prazos de tramitação excedem o cronograma desta etapa da pesquisa), adotou-se uma estratégia metodologicamente validada pela literatura: a construção de uma \textbf{população sintética representativa do perfil de uma turma média} dessa rede, na qual cada distribuição é ancorada em estatísticas oficiais desagregadas para o Piauí sempre que disponíveis (IBGE, INEP, PNAD Contínua) e em estudos acadêmicos sobre os condicionantes sociais do desempenho escolar. Estudos recentes em EDM sustentam a validade preditiva de bases sintéticas de qualidade para o desenvolvimento e a validação de modelos de classificação \cite{kostopoulos2026, shabnam2025}, ressalvadas as diferenças entre técnicas de geração (discutidas no Referencial Teórico e retomadas nas limitações deste trabalho).
+
+A problemática que orienta esta pesquisa emerge da constatação de que, apesar da crescente disponibilidade de dados educacionais e da consolidação das técnicas de aprendizado de máquina, há uma lacuna na construção de modelos preditivos que incorporem explicitamente, e com fundamentação estatística rastreável, os fatores sociológicos que condicionam o desempenho no ensino médio público. Questiona-se, assim: \textit{como construir um modelo de previsão de tendência de desempenho acadêmico para o ensino médio da rede pública estadual do Piauí, fundamentado em fatores sociológicos documentados pela literatura, e quais desses fatores se mostram mais determinantes na classificação dos estudantes?}
+
+Dessa questão derivam quatro hipóteses de pesquisa, retomadas individualmente nas Considerações Finais:
+
+\begin{description}
+    \item[H1.] Classificadores de \textit{ensemble} (Floresta Aleatória e XGBoost) superam a árvore de decisão única e os \textit{baselines} de referência (classificador majoritário e Regressão Logística) na predição da tendência de desempenho.
+    \item[H2.] Os fatores sociológicos parametrizados no fenômeno gerador são recuperáveis pelos modelos como atributos de importância não redundante, mesmo na presença de indicadores acadêmicos diretos.
+    \item[H3.] Sinais acadêmicos parciais do primeiro semestre são suficientes para prever a tendência do desfecho anual com desempenho substancialmente superior ao \textit{baseline} majoritário.
+    \item[H4.] A regra legal de elegibilidade da assistência financeira estudantil produz, por si só, proporções coerentes de beneficiários entre cenários socioeconômicos contrastantes, sem parâmetro dedicado de calibração.
+\end{description}
+
+O presente trabalho propõe, portanto, a construção de um conjunto de dados sintéticos sociologicamente fundamentado e o desenvolvimento comparativo de modelos de classificação (Árvore de Decisão, Floresta Aleatória e XGBoost) para prever a tendência de desempenho ao final do ano letivo (Aprovado, Em Risco ou Reprovado), a partir de sinais acadêmicos parciais do primeiro semestre e do contexto socioeconômico, identificando as variáveis mais determinantes e fornecendo subsídios para intervenções pedagógicas preventivas.
+
+\section{Objetivo Geral}
+
+Desenvolver um modelo preditivo de tendência de desempenho acadêmico para estudantes do ensino médio da rede pública estadual do Piauí, com base em fatores sociológicos, utilizando um conjunto de dados sintéticos fundamentado em estatísticas oficiais e na literatura acadêmica.
+
+\section{Objetivos Específicos}
+
+\begin{enumerate}
+    \item Construir e parametrizar um gerador de dados sintéticos que reproduza o perfil demográfico, socioeconômico e acadêmico de uma turma média do ensino médio da rede pública estadual do Piauí, com rastreabilidade documentada entre cada parâmetro de distribuição e sua fonte estatística ou acadêmica, incluindo o nível de desagregação de cada fonte.
+    \item Testar e avaliar comparativamente algoritmos de aprendizado de máquina (Árvore de Decisão, Floresta Aleatória e XGBoost) frente a \textit{baselines} de referência, para identificar aquele com melhor desempenho na predição da tendência de rendimento acadêmico, sob tratamento adequado de desbalanceamento de classes, prevenção de vazamento de dados e teste estatístico pareado entre os modelos.
+    \item Analisar e interpretar os resultados obtidos, verificando se os fatores sociológicos parametrizados no fenômeno gerador são recuperados pelos classificadores como atributos determinantes e discutindo suas implicações para intervenções pedagógicas e políticas de permanência, com salvaguardas explícitas contra vieses discriminatórios.
+\end{enumerate}

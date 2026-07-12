@@ -1,0 +1,97 @@
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+%% Elementos Pré Textuais
+%% ----------------------
+%% 
+%% Segundo o manual do IFPI, eles devem ser os seguintes (nessa ordem):
+%%  1. Capa (obrigatório)
+%%  2. Folha de rosto (obrigatório)
+%%  3. Errata (opcional)
+%%  4. Folha de aprovação (obrigatório)
+%%  5. Dedicatória (opcional)
+%%  6. Epígrafe (opcional)
+%%  7. Resumo (obrigatório)
+%%  8. Abstract/Resumo em outra língua (obrigatório)
+%% 9. Lista de Ilustrações (opcional)
+%% 10. Lista de Tabelas (opcional)
+%% 11. Lista de Abreviaturas e Siglas (opcional)
+%% 12. Lista de Símbolos (opcional)
+%% 13. Sumário (obrigatório)
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%
+
+%% 01: Capa
+\imprimircapa
+
+
+
+%% 02: Folha de Rosto
+%% OBS: O asterisco indica que haverá ficha bibliográfica (só funciona para impressão frente-e-verso)
+\imprimirfolhaderosto*
+
+
+
+%% Ficha Catalográfica (acho que é melhor adicionar via \includepdf depois)
+%\includepdf{pre-textual/ficha-catalografica}
+
+
+%% 03: Errata
+%\input{pre-textual/errata}
+
+
+
+%% 04: Folha de Aprovação
+%\imprimirfolhadeaprovacao
+\include{abntex-ifpi/folhaaprovacao}
+%% Use esta se forem 4 membros na banca:
+%\imprimirfolhadeaprovacaoduascolunas
+
+
+
+%% 05: Dedicatória
+%\include{pre-textual/dedicatoria}
+
+
+%% 06: Epígrafe
+%\input{pre-textual/epigrafe}
+
+%% Título do Trabalho
+\begin{center}{\ABNTEXchapterfont\bfseries\MakeUppercase{\imprimirtitulo}}
+\end{center}
+
+
+\flushright 
+      
+      \autornomecompleto\footnote{Graduando do Curso de Licenciatura em Computação. Instituto Federal de Educação, Ciência e Tecnologia do Piauí (IFPI), Campus Teresina Zona Sul.} \\
+      \profnomecompleto \footnote{Professor orientador. Instituto Federal de Educação, Ciência e Tecnologia do Piauí (IFPI), Campus Teresina Zona Sul.}
+      
+
+\justifying 
+%% 08: Resumo
+\input{pre-textual/resumo}
+
+%% 09: Abstract/Resumo em língua estrangeira
+\input{pre-textual/resumo-lingua-estrangeira}
+
+
+\hfill \break
+Data de Aprovação: \dataapresentacao (Data de Apresentação do Artigo)
+\hfill \break
+
+%% 10: Lista de Ilustrações
+\cleardoublepage
+\input{pre-textual/lista-de-ilustracoes}
+
+%% 11: Lista de Tabelas
+\cleardoublepage
+\input{pre-textual/lista-de-tabelas}
+
+%% 12: Lista de Abreviaturas e Siglas
+%\input{pre-textual/siglas}
+
+%% 13: Lista de Símbolos
+%\input{pre-textual/simbolos}
+
+%% 14: Sumário (o asterisco retira o próprio sumário do sumário)
+%\pdfbookmark[0]{\contentsname}{toc}
+%\tableofcontents*
+%\cleardoublepage
+

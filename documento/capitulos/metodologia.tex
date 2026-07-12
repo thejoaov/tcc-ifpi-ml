@@ -1,0 +1,179 @@
+% ----------------------------------------------------------
+% Metodologia
+% ----------------------------------------------------------
+\chapter{Metodologia}
+
+A metodologia deste trabalho fundamenta-se no processo de Descoberta de Conhecimento em Bancos de Dados (KDD), estruturado para desenvolver um modelo preditivo de tendência de desempenho acadêmico de estudantes do ensino médio da rede pública estadual do Piauí, com base em fatores sociológicos. Como o acesso a microdados individuais reais é vedado por restrições legais e institucionais, a fonte de dados do estudo é um conjunto sintético construído pelo próprio trabalho (uma população representativa do perfil de uma turma média dessa rede), no qual cada distribuição é parametrizada a partir de estatísticas oficiais desagregadas para o Piauí sempre que disponíveis (IBGE, INEP, PNAD Contínua) e da literatura acadêmica apresentada no Referencial Teórico. Trata-se de simulação baseada em regras, nos termos da distinção estabelecida no Referencial: a validade da base depende da qualidade da parametrização e da auditabilidade das fontes, requisitos operacionalizados pela matriz de rastreabilidade apresentada adiante.
+
+\section{Classificação da Pesquisa}
+
+Seguindo os referenciais metodológicos de \citeonline{gil2017}, esta pesquisa classifica-se, quanto à natureza, como aplicada; quanto à abordagem, como quantitativa; e, quanto aos objetivos, como exploratória e descritiva. Quanto aos procedimentos técnicos, combina o levantamento documental (utilizado na fundamentação estatística dos parâmetros de geração, a partir de relatórios oficiais e estudos acadêmicos publicados) com a pesquisa experimental, materializada na variação controlada de parâmetros do gerador de dados e na comparação sistemática de algoritmos de classificação sob condições idênticas de treinamento e avaliação.
+
+\section{Procedimentos Técnicos}
+
+Os procedimentos técnicos organizam-se em etapas sequenciais e reprodutíveis, executadas sob semente aleatória fixa e parâmetros documentados: geração dos dados sintéticos (com exportação da matriz de rastreabilidade parâmetro--fonte), pré-processamento, treinamento e otimização dos três classificadores e dos \textit{baselines} de referência, avaliação por \textit{holdout} e validação cruzada com teste estatístico pareado, e análise dos resultados. A Figura~\ref{fig:pipeline} apresenta a visão geral das etapas.
+
+\begin{figure}[htb]
+\centering
+\caption{Etapas metodológicas do estudo.}
+\label{fig:pipeline}
+\begin{mermaid}[height=0.55\textheight,keepaspectratio]
+flowchart LR
+  subgraph S1[" "]
+    direction TB
+    A["Fundamentacao estatistica e academica<br/>(IBGE, INEP, PNAD, literatura)"] --> B["Geracao de dados sinteticos<br/>+ matriz de rastreabilidade"]
+    B --> C["Pre-processamento<br/>e feature engineering"]
+    C --> D["Divisao treino/teste<br/>(70/30) estratificada"]
+  end
+  subgraph S2[" "]
+    direction TB
+    E["SMOTE dentro<br/>de cada fold"] --> F["GridSearchCV (k=5):<br/>Arvore de Decisao, RF, XGBoost<br/>+ baselines de referencia"]
+    F --> G["Avaliacao: holdout + CV k=10<br/>(Acuracia, F1, Precisao, AUC-ROC)<br/>+ teste pareado de Wilcoxon"]
+    G --> H["Analise dos resultados:<br/>importancias, matrizes de confusao,<br/>curvas ROC"]
+  end
+  S1 --> S2
+  style S1 fill:none,stroke:#999,stroke-dasharray:4
+  style S2 fill:none,stroke:#999,stroke-dasharray:4
+\end{mermaid}
+\source{Elaborado pelo autor (2026).}
+\end{figure}
+
+\section{Construção e Parametrização dos Dados Sintéticos}
+
+\begin{sloppypar}
+A primeira etapa da pesquisa consiste na construção do conjunto de dados. O gerador sintético produz 3.000 registros de estudantes do ensino médio da rede pública estadual do Piauí, cada um descrito por atributos demográficos (\texttt{idade}, \texttt{genero}, \texttt{cor\_raca}, \texttt{estado\_civil}), socioeconômicos (\texttt{renda\_per\_capita}, \texttt{trabalha}, \texttt{acesso\_internet}, \texttt{possui\_computador}), institucionais (\texttt{serie}, \texttt{tipo\_escola\_origem}, \texttt{distorcao\_idade\_serie}, \texttt{assistencia\_pe\_de\_meia}) e acadêmicos (\texttt{nota\_media}, \texttt{frequencia}, \texttt{media\_atividades}, \texttt{taxa\_entrega\_atividades}, \texttt{reprovacoes}), além da variável-alvo \texttt{situacao}. O dicionário completo dos atributos, com tipos e descrições, é apresentado na Tabela~\ref{tab:dicionario_atributos} do Apêndice~\ref{ap:dicionario}.
+\end{sloppypar}
+
+\subsection{Semântica Temporal dos Atributos}
+\label{sec:temporalidade}
+
+Os atributos acadêmicos observáveis representam \textbf{parciais do primeiro semestre letivo}: \texttt{nota\_media} e \texttt{frequencia} correspondem ao acumulado até o fechamento do semestre, e as variáveis de engajamento \texttt{media\_atividades} (média das notas de atividades, normalizada para a escala 0--10) e \texttt{taxa\_entrega\_atividades} (proporção de atividades entregues) capturam a regularidade do engajamento contínuo (uma decisão de modelagem fundamentada na literatura de EDM sobre sinais de engajamento discutida no Referencial Teórico \cite{costa2012, fredricks2004}). A variável-alvo, por sua vez, refere-se à \textbf{situação projetada ao final do ano letivo}. Essa separação temporal entre preditores (primeiro semestre) e desfecho (fim do ano) confere sentido prático ao modelo: a predição ocorre em momento no qual a intervenção pedagógica preventiva ainda é possível.
+
+\subsection{Rastreabilidade Parâmetro--Fonte}
+
+Cada parâmetro de distribuição do gerador é ancorado em uma estatística oficial ou em um achado da literatura, e o gerador exporta automaticamente, junto ao arquivo de dados, uma matriz de rastreabilidade em formato legível e processável, registrando também o \textbf{nível de desagregação} de cada fonte (estadual, nacional, normativo ou decisão de modelagem). Quando o valor piauiense não existe para o conceito exato do parâmetro, adota-se um \textit{proxy} (valor de conceito adjacente ou de agregação diferente) com nota explícita. A Tabela~\ref{tab:rastreabilidade} consolida essa matriz.
+
+\begin{small}
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{p{3.1cm}cp{4.3cm}p{2.7cm}p{2.3cm}}
+\caption{Matriz de rastreabilidade entre parâmetros do gerador sintético e suas fontes.}
+\label{tab:rastreabilidade}\\
+\toprule
+\textbf{Parâmetro} & \textbf{Valor} & \textbf{Evidência} & \textbf{Fonte} & \textbf{Desagregação} \\
+\midrule
+\endfirsthead
+\caption[]{Matriz de rastreabilidade entre parâmetros do gerador sintético e suas fontes. (continuação)}\\
+\toprule
+\textbf{Parâmetro} & \textbf{Valor} & \textbf{Evidência} & \textbf{Fonte} & \textbf{Desagregação} \\
+\midrule
+\endhead
+\bottomrule
+\multicolumn{5}{r}{\footnotesize (continua na próxima página)}\\
+\endfoot
+\bottomrule
+\multicolumn{5}{c}{\footnotesize Fonte: Elaborado pelo autor (2026).}\\
+\endlastfoot
+Origem em escola pública & 85\% & PI: 715.748 estudantes na rede pública (2025); BR: 82,0\% das matrículas do EM & \citeonline{inep2025, todospelaeducacaopiaui} & Estadual (PI) \\
+Renda per capita até 0,5 SM & 60\% & PI: 45,3\% da população geral em pobreza (2023); pobreza de 15--17 anos é superior à geral ($\sim$60\% no BR) & \citeonline{ibgesis2024, fadc2023} & Estadual (PI) (\textit{proxy}: população geral) \\
+Gênero / pretos e pardos & 51\% / 77\% & PI (Censo 2022): 64,8\% pardos, 12,3\% pretos; razão de sexo 95,81 homens por 100 mulheres & \citeonline{ibgecenso2022} & Estadual (PI) \\
+Estudantes trabalhadores & 26,3\% & Alunos de EM de baixa renda que conciliam trabalho e estudo; PI 5--17 anos: 6,8--8,6\% em trabalho infantil (conceito adjacente) & \citeonline{berlato2020, mte2024trabalho} & Decisão de modelagem (\textit{proxy}) \\
+Acesso doméstico à internet & 92,5\% & PI: domicílios com utilização de internet (2025) & \citeonline{ibgesidra2025tic} & Estadual (PI) \\
+Posse de computador & 25,5\% & PI: domicílios com microcomputador ou \textit{tablet} (2025); BR: 40,9\% & \citeonline{ibgesidra2025tic, ibge2024tic} & Estadual (PI) \\
+Distorção idade-série & 21,7\% & Rede estadual do PI (histórico: 33,2\%); cauda etária até 24 anos & \citeonline{inep2025, todospelaeducacaopiaui} & Estadual (PI) \\
+Pé-de-Meia (regra) & - & Elegibilidade: 14--24 anos, renda per capita $\le$ 0,5 SM, frequência $\ge$ 80\%; 187.620 atendidos no PI & \citeonline{brasil2024lei14818, mds2024cadunico, minutomt2026} & Normativo (nacional), efeito documentado no PI \\
+Limiares de aprovação & 6,0 / 75\% & Média final mínima e frequência mínima de 75\% da carga horária & \citeonline{brasil1996ldb} & Normativo (nacional) \\
+Outliers de resiliência & 3\% & Perfis vulneráveis de alto desempenho (ex.: Cocal dos Alves--PI) & \citeonline{seducpi} & Decisão de modelagem, com âncora estadual \\
+\end{longtable}
+\end{small}
+
+Parâmetros sem estatística oficial correspondente em qualquer nível de desagregação (como a variância idiossincrática do segundo semestre, as bandas de fronteira da classe intermediária e as variáveis de engajamento) são registrados na matriz como \textbf{decisões de modelagem}, com a justificativa correspondente, e discutidos nas subseções seguintes.
+
+\subsection{Regras de Geração Não Lineares}
+
+Em atenção à diretriz anti-determinista discutida no Referencial Teórico, três mecanismos afastam o gerador de uma soma linear de vulnerabilidades:
+
+\begin{enumerate}
+    \item \textbf{Assistência financeira como regra de elegibilidade}: o benefício do Pé-de-Meia não é sorteado, mas derivado das regras da Lei nº 14.818 (idade entre 14 e 24 anos e renda per capita de até meio salário mínimo, atuando como proxy do Cadastro Único), com taxa de adesão de 85\% entre os elegíveis. O incentivo eleva a frequência dos aderentes em direção à exigência mínima de 80\% mensais (efeito de retenção), e o beneficiário efetivo é aquele que mantém a frequência exigida. Beneficiários recebem bônus no escore latente, revertendo a tendência de queda do perfil vulnerável \cite{santos2026}.
+    \item \textbf{Interações entre fatores}: o estudante-trabalhador em distorção idade-série sofre penalidade adicional (dupla vulnerabilidade), enquanto variáveis de conectividade são geradas condicionalmente à faixa de renda, preservando o gradiente observado na PNAD Contínua.
+    \item \textbf{Outliers de resiliência acadêmica}: 3\% dos perfis de alta vulnerabilidade (renda mínima e sem computador) recebem desempenho acadêmico elevado (nota 8,5--9,7; frequência 90--100\%), inspirados em casos reais como o da U.E. Augustinho Brandão \cite{seducpi}, impedindo que os classificadores aprendam um determinismo social absoluto.
+\end{enumerate}
+
+Adicionalmente, gênero e cor/raça são gerados apenas para caracterização demográfica da turma, com \textbf{peso zero} no fenômeno gerador, uma decisão de salvaguarda contra vieses discriminatórios, complementada pela exclusão desses atributos do treinamento dos modelos.
+
+\subsection{Definição da Variável-Alvo}
+\label{sec:variavel_alvo}
+
+A variável-alvo \texttt{situacao} representa a \textbf{tendência de desempenho acadêmico} do estudante ao final do ano letivo, em três classes ordinais: \textit{Aprovado} (trajetória consolidada), \textit{Em Risco} (zona de atenção pedagógica) e \textit{Reprovado} (vulnerabilidade acadêmica severa). A unidade de análise é o estudante individual de uma turma do ensino médio da rede pública estadual do Piauí, e o horizonte de predição é o fechamento do ano letivo, a partir dos sinais parciais do primeiro semestre (Seção~\ref{sec:temporalidade}).
+
+A rotulagem opera em duas etapas. Na primeira, projeta-se o \textbf{desfecho anual} de cada estudante: à média e à frequência parciais do primeiro semestre aplica-se uma deriva de segundo semestre, composta por um componente sistemático (função do contexto socioeconômico (renda, conectividade, trabalho, distorção idade-série), do efeito de retenção do Pé-de-Meia e das interações não lineares entre vulnerabilidades) e por um componente idiossincrático: um ruído gaussiano de média zero cujo desvio-padrão é controlado pelo parâmetro \texttt{NOISE\_LEVEL}. Esse componente representa, fenomenologicamente, os fatores não observáveis que alteram trajetórias escolares entre semestres (saúde, eventos familiares, motivação), e sua magnitude é uma decisão de modelagem registrada na matriz de rastreabilidade (o capítulo de Resultados apresenta a análise de sensibilidade que caracteriza o impacto dessa escolha).
+
+Na segunda etapa, a projeção anual é discretizada pelos \textbf{critérios reais de aprovação do ensino médio brasileiro}: média final mínima de 6,0 (padrão das redes estaduais) e frequência mínima de 75\% da carga horária, exigência do art. 24 da Lei de Diretrizes e Bases da Educação Nacional \cite{brasil1996ldb}. O estudante cuja projeção atende a ambos os critérios com folga é rotulado \textit{Aprovado}; aquele que descumpre algum critério de forma clara, \textit{Reprovado}; e a classe \textit{Em Risco} é atribuída à banda pedagógica de fronteira (projeção de média entre 5,0 e 6,5 ou frequência entre 75\% e 80\%), uma decisão de modelagem que operacionaliza a zona de atenção na qual a intervenção preventiva é mais efetiva. As proporções das três classes \textbf{emergem} dessa regra, não sendo calibradas por limiares arbitrários de distribuição.
+
+Ressalta-se que os modelos de classificação \textbf{não têm acesso à projeção anual nem à deriva}: aprendem exclusivamente a partir dos atributos observáveis do primeiro semestre (Tabela~\ref{tab:dicionario_atributos}), de modo que o componente idiossincrático estabelece um teto teórico de acurácia (erro de Bayes controlado) que impede a memorização da regra geradora.
+
+\subsection{Cenários de Contraste}
+
+Para avaliar a robustez do gerador e dos modelos frente a diferentes realidades socioeconômicas, foram configurados, além do cenário base (rede pública estadual do Piauí), três perfis contrastantes em arquivos de configuração próprios: \textbf{média nacional} (parâmetros agregados do ensino médio público brasileiro), \textbf{alta vulnerabilidade} (75\% dos estudantes com renda per capita de até 0,5 SM, distorção idade-série de 33,2\%, conectividade reduzida) e \textbf{rede privada de renda alta} (65\% acima de 1 SM per capita, distorção de 5\%, acesso pleno à internet). Nos cenários de contraste, a proporção de beneficiários do Pé-de-Meia decorre exclusivamente da regra de elegibilidade (no perfil de renda alta, apenas $\sim$6,5\% dos estudantes tornam-se beneficiários, sem qualquer parâmetro dedicado, o que evidencia a coerência interna da regra, em linha com a hipótese H4).
+
+\section{Pré-processamento dos Dados}
+
+O pré-processamento visa garantir a qualidade e a adequação dos dados aos algoritmos. A estratégia distingue variáveis nominais de binárias:
+
+\begin{enumerate}
+    \sloppy
+    \item Codificação de variáveis categóricas: \textit{One-Hot Encoding} para nominais (\texttt{estado\_civil}, \texttt{renda\_per\_capita}, \texttt{cor\_raca}) e \textit{Label Encoding} para binárias (Sim/Não $\rightarrow$ 1/0)
+    \item Remoção de atributos protegidos e de baixa importância: \texttt{genero}, \texttt{cor\_raca} e \texttt{tipo\_escola\_origem} são excluídos do treinamento (os dois primeiros como salvaguarda contra vieses discriminatórios, o terceiro por baixa contribuição preditiva observada)
+    \item Verificação de valores ausentes e \textit{outliers} (por construção, o gerador não produz valores ausentes; os \textit{outliers} de resiliência são preservados intencionalmente)
+\end{enumerate}
+
+\section{Transformação dos Dados (\textit{Feature Engineering})}
+
+Criação de variáveis derivadas que capturam relações não lineares entre os atributos originais:
+
+\begin{enumerate}
+    \item Interação nota-frequência (\texttt{nota\_x\_frequencia}): produto entre nota média e frequência parciais
+    \item Reprovações por série (\texttt{reprov\_por\_serie}): razão entre reprovações acumuladas e série atual
+\end{enumerate}
+
+A seleção do conjunto final de variáveis derivadas foi validada por um \textbf{estudo de ablação}, no qual o desempenho dos modelos é medido com e sem cada variável candidata. Uma terceira variável derivada (um escore acadêmico composto ponderando nota, frequência e reprovações) foi avaliada e descartada, por não agregar desempenho ao conjunto final; o experimento e sua discussão são apresentados no capítulo de Resultados.
+
+\section{Balanceamento do Conjunto de Dados}
+
+A técnica SMOTE (\textit{Synthetic Minority Over-sampling Technique}) é aplicada para equilibrar a representação das classes minoritárias. O SMOTE é aplicado exclusivamente dentro de cada \textit{fold} de treino (via \texttt{imblearn.Pipeline}), garantindo a prevenção de \textit{data leakage}.
+
+\section{Aplicação dos Algoritmos de Classificação}
+
+São implementados e comparados três algoritmos:
+
+\begin{enumerate}
+    \item \textbf{Árvore de Decisão} (\texttt{DecisionTreeClassifier}): modelo interpretável baseado em regras de divisão hierárquica
+    \item \textbf{Floresta Aleatória} (\texttt{RandomForestClassifier}): \textit{ensemble} de múltiplas árvores com \textit{bagging}
+    \item \textbf{Gradient Boosting} (\texttt{XGBClassifier}): \textit{ensemble} sequencial com \textit{boosting}
+\end{enumerate}
+
+Os algoritmos são implementados com \textit{scikit-learn} e \textit{XGBoost} em Python. O ajuste de hiperparâmetros é realizado via \textbf{GridSearchCV} com validação cruzada estratificada de 5 \textit{folds}, utilizando F1-Score ponderado como métrica de otimização.
+
+Complementarmente, conforme a fundamentação apresentada no Referencial Teórico, dois \textbf{\textit{baselines} de referência} são avaliados sob o mesmo protocolo: um classificador trivial de classe majoritária (\texttt{DummyClassifier}), que estabelece o piso de desempenho do problema, e uma \textbf{Regressão Logística} multinomial, que quantifica a parcela do fenômeno explicável por relações lineares.
+
+\section{Validação e Avaliação dos Modelos}
+
+A avaliação considera múltiplas métricas:
+
+\begin{enumerate}
+    \item Acurácia: proporção de previsões corretas
+    \item Precisão, \textit{Recall} e F1-Score ponderados: métricas por classe agregadas
+    \item Área sob a curva ROC (AUC-ROC) multiclasse \textit{One-vs-Rest}
+    \item Matriz de confusão
+\end{enumerate}
+
+Além do conjunto de teste isolado (\textit{holdout}, 30\% dos dados com estratificação), utiliza-se validação cruzada \textit{k-fold} estratificada (\textit{k}=10) para garantir robustez estatística. As diferenças de desempenho entre pares de modelos são submetidas ao \textbf{teste pareado de postos sinalizados de Wilcoxon} sobre os F1-Scores das mesmas partições da validação cruzada, ao nível de significância de 5\%, conforme a recomendação de \citeonline{demsar2006}: diferenças cujo valor-$p$ exceda esse nível são tratadas como estatisticamente não distinguíveis da flutuação amostral.
+
+Complementarmente, realiza-se uma \textbf{análise de sensibilidade ao ruído idiossincrático}: o parâmetro \texttt{NOISE\_LEVEL} do gerador é variado em uma grade de valores e, para cada valor, o desempenho de um classificador de referência é medido, permitindo caracterizar como a previsibilidade do desfecho anual degrada conforme cresce a variância não observável do fenômeno (análise apresentada no capítulo de Resultados). Ressalta-se que a varredura não busca uma acurácia-alvo: ela caracteriza o problema, e o valor adotado no estudo é uma decisão fenomenológica registrada na matriz de rastreabilidade.
+
+\section{Análise e Interpretação dos Resultados}
+
+A interpretação dos resultados é conduzida pelo pesquisador em quatro frentes complementares: (i) comparação das métricas agregadas (acurácia, F1-Score, precisão, \textit{recall} e AUC-ROC) entre os classificadores e os \textit{baselines}, nos ambientes de \textit{holdout} e validação cruzada, com verificação estatística das diferenças; (ii) análise do desempenho por classe, por meio das curvas ROC \textit{One-vs-Rest} e das matrizes de confusão, com atenção à classe crítica \textit{Reprovado} e à estrutura ordinal dos erros; (iii) análise da importância dos atributos em cada modelo, confrontando os pesos recuperados pelos classificadores com os fatores sociológicos parametrizados no fenômeno gerador; e (iv) verificação da coerência do gerador nos cenários de contraste. Todos os artefatos quantitativos da análise (tabelas de métricas, figuras comparativas e matriz de rastreabilidade) são produzidos de forma automatizada e reprodutível, com semente aleatória fixa.
+
+\section{Aspectos Éticos}
+
+Esta pesquisa não envolve seres humanos nem dados pessoais: todos os registros são sintéticos, gerados por simulação parametrizada a partir de estatísticas agregadas públicas, o que dispensa a submissão a Comitê de Ética em Pesquisa e afasta a incidência da Lei Geral de Proteção de Dados. Ainda assim, o desenho experimental adota salvaguardas de equidade algorítmica: gênero e cor/raça são gerados apenas para caracterização demográfica, com peso zero no fenômeno gerador, e excluídos do treinamento dos modelos. Ressalta-se, por fim, a diretriz de uso responsável: em eventual aplicação real, atributos socioeconômicos sensíveis devem operar como critérios de \textbf{priorização de apoio} ao estudante, jamais como instrumentos de exclusão, rotulação ou penalização.

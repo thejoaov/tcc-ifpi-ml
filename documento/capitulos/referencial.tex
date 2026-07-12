@@ -1,0 +1,194 @@
+% ----------------------------------------------------------
+% Referencial Teórico
+% ----------------------------------------------------------
+\chapter{Referencial Teórico}
+
+O referencial teórico está organizado de maneira a facilitar a compreensão dos conceitos que fundamentam a pesquisa. Inicialmente, apresenta-se a seção de trabalhos correlatos, situando as discussões acadêmicas em EDM. Em seguida, discutem-se os fatores sociológicos que condicionam o desempenho escolar no ensino médio público brasileiro (fundamento da parametrização do conjunto de dados deste estudo) e o uso de dados sintéticos em Mineração de Dados Educacionais. Na sequência, apresenta-se a abordagem de descoberta de conhecimento em bancos de dados (KDD), seguida da aplicação da mineração de dados educacionais para a análise do desempenho acadêmico. Por fim, são detalhadas as técnicas de seleção de atributos, os métodos de validação de modelos, essenciais para a construção e a avaliação dos modelos preditivos, e os principais classificadores.
+
+O desempenho acadêmico é um fenômeno multifatorial, influenciado por dimensões sociais, psicológicas, pedagógicas e individuais. Estudos como os apresentados por \citeonline{marturano2015} destacam que variáveis socioeconômicas, como renda familiar, acesso a recursos educacionais e contexto geográfico, desempenham papel crítico na determinação do sucesso discente.
+
+No âmbito psicológico, fatores como motivação, autoeficácia e saúde mental têm sido amplamente discutidos. Segundo \citeonline{dabreu2010}, evidencia-se que a co-ocorrência de baixo desempenho escolar e problemas externalizantes sugere a influência de variáveis antecedentes, como condições adversas na família e baixo nível socioeconômico, corroborando a hipótese de que aspectos subjetivos devem ser considerados em análises preditivas. Além disso, características acadêmicas prévias são apontadas como preditores relevantes em modelos de inteligência artificial, conforme demonstrado em pesquisas com base em dados institucionais \cite{curi2006}.
+
+A aplicação de técnicas de mineração de dados e \textit{machine learning} na educação tem ganhado destaque na literatura internacional e nacional. Algoritmos como árvores de decisão, redes neurais e regressão logística são frequentemente utilizados para identificar padrões em grandes conjuntos de dados educacionais \cite{baker2011}. Esses modelos permitem não apenas prever resultados acadêmicos, mas também mapear grupos de risco, facilitando intervenções personalizadas.
+
+\section{Trabalhos Correlatos}
+
+A previsão do desempenho escolar e o combate à evasão utilizando algoritmos de aprendizado de máquina têm sido amplamente investigados na literatura nacional. Para contextualizar a presente proposta e identificar o estado da arte na área de Mineração de Dados Educacionais (EDM), foram selecionados trabalhos de referência cujas características estruturais de modelagem tangenciam as abordagens deste estudo.
+
+\citeonline{silva2019} avaliaram o desempenho de estudantes universitários utilizando regressão logística e árvores de decisão. Os autores destacaram que variáveis socioeconômicas (como renda e nível de escolaridade dos pais) operaram como fortes determinantes de retenção nos períodos acadêmicos iniciais.
+
+Por sua vez, \citeonline{costa2012} propuseram um sistema preditivo voltado à detecção de alunos em risco de reprovação em disciplinas introdutórias de programação por meio de algoritmos de classificação Bayesiana e árvores de decisão. Constatou-se que o uso de dados demográficos no início do semestre combinado a dados de engajamento pedagógico provê predições com acurácia superior a 80\%.
+
+Nessa linha de análise, \citeonline{baker2011} e \citeonline{romero2010} discutiram a importância da integração de múltiplas fontes de dados (registros acadêmicos e bases contextuais) e o emprego de técnicas para contornar problemas de desbalanceamento de classes, como o SMOTE. Argumenta-se que a correção do desbalanceamento propicia uma sensibilidade substancialmente maior no mapeamento de alunos em risco de evasão.
+
+A Tabela~\ref{tab:trabalhos_correlatos} resume as similaridades e contrastes metodológicos entre as principais iniciativas da literatura e a presente pesquisa.
+
+\begin{table}[htb]
+\centering
+\caption{Comparação metodológica entre trabalhos correlatos da literatura e o presente estudo.}
+\label{tab:trabalhos_correlatos}
+\begin{tabular}{p{3.5cm}p{3.2cm}p{4.2cm}p{4cm}}
+\toprule
+\textbf{Trabalho / Autor} & \textbf{Algoritmos Usados} & \textbf{Principais Atributos} & \textbf{Relação com este Trabalho} \\
+\midrule
+\citeonline{silva2019} & Regressão Logística, Árvore de Decisão & Sociodemográficos (renda, escolaridade familiar, cota) & Compartilha o eixo socioeconômico, aqui expandido com conectividade, trabalho e assistência financeira. \\
+\citeonline{costa2012} & Naive Bayes, Árvore de Decisão & Notas de avaliações contínuas, frequência, dados demográficos & Adota a formulação de métricas de engajamento e a classificação multiclasse do rendimento discente. \\
+\citeonline{pena2014} & Redes Neurais Alternativas, SVM, Random Forest & Histórico escolar prévio, taxas de evasão municipais & Utiliza Random Forest como referencial robusto, integrando-a com técnicas avançadas de SMOTE. \\
+\textbf{Este Estudo (rede pública estadual do PI)} & \textbf{Árvore de Decisão, Random Forest, XGBoost + \textit{baselines}} & \textbf{Fatores sociológicos (renda per capita, trabalho, exclusão digital, distorção idade-série, Pé-de-Meia) + sinais acadêmicos parciais do 1º semestre (nota, frequência, atividades)} & \textbf{Constrói o próprio conjunto de dados sintéticos com rastreabilidade parâmetro--fonte; SMOTE dentro do CV k=10; alvo de tendência de desempenho anual (critérios da LDB), não evasão.} \\
+\bottomrule
+\end{tabular}
+\source{Elaborado pelo autor (2026).}
+\end{table}
+
+Diferentemente dos trabalhos correlatos apresentados (majoritariamente voltados à predição de evasão ou reprovação em disciplinas do ensino superior, a partir de bases institucionais preexistentes), o presente estudo une, em uma única investigação, a \textbf{construção do conjunto de dados} e a \textbf{modelagem preditiva}: o conjunto de dados sintéticos é gerado com parametrização sociologicamente fundamentada e rastreável às fontes oficiais, e a variável-alvo é a \textbf{tendência de desempenho acadêmico} (e não a evasão) de estudantes do ensino médio da rede pública estadual do Piauí. Essa combinação permite avaliar de forma controlada o peso relativo dos fatores sociológicos na classificação, algo inviável em bases institucionais nas quais tais variáveis são incompletas ou inacessíveis.
+
+\section{Fatores Sociológicos do Desempenho Escolar no Ensino Médio Público}
+
+A sociologia da educação demonstra, desde os estudos de reprodução social de Pierre Bourdieu, que o sistema escolar tende a reproduzir as condições sociais de origem dos estudantes, mais do que a transformá-las. Em investigação quantitativa com 3.287 estudantes do ensino médio público brasileiro, \citeonline{berlato2020} constataram que as diferenças entre agrupamentos de jovens estavam mais vinculadas às reproduções familiares e de classe social do que ao papel exercido pela escola, e que 26,3\% dos alunos de baixa renda precisavam conciliar trabalho e estudo. As desigualdades educacionais brasileiras, documentadas por \citeonline{wenczenovicz2023} e \citeonline{palominio2025}, expressam-se em barreiras estruturais de acesso, permanência e êxito escolar que incidem de forma desproporcional sobre estudantes pobres, pretos, pardos e residentes nas regiões Norte e Nordeste.
+
+Entre os condicionantes mensuráveis do desempenho, destacam-se quatro eixos documentados pelas estatísticas oficiais e pela literatura. O primeiro é a \textbf{pobreza}: cerca de 60\% dos estudantes de 15 a 17 anos da rede pública brasileira vivem em domicílios com renda per capita de até meio salário mínimo \cite{fadc2023}; no Piauí, 45,3\% da população geral encontrava-se em situação de pobreza em 2023 \cite{ibgesis2024}, sendo que a pobreza infanto-juvenil é sistematicamente superior à da população geral \cite{fadc2023}. O segundo é a \textbf{exclusão digital}, que no Piauí assume caráter qualitativo: 92,5\% dos domicílios dispõem de acesso à internet, mas apenas 25,5\% possuem microcomputador ou \textit{tablet} (contra 40,9\% na média nacional), de modo que os acessos dependem majoritariamente de aparelhos celulares, comprometendo atividades que exigem proficiência digital \cite{ibgesidra2025tic, ibge2024tic}. O terceiro é a \textbf{distorção idade-série}, percentual de alunos com dois ou mais anos de atraso em relação à idade recomendada: associada ao gênero masculino, à matrícula em áreas de pobreza e à necessidade de geração de renda \cite{lima2013, chiapinoto2024}, a distorção desloca a distribuição etária das turmas para a direita, com cauda longa que se estende até os 24 anos. No Piauí, o indicador recuou de 33,2\% para 21,7\% na rede estadual \cite{inep2025, todospelaeducacaopiaui}. O quarto é o \textbf{trabalho juvenil}, que subtrai tempo de estudo e está diretamente associado ao abandono temporário e à retenção \cite{berlato2020, campos2024}; no Piauí, a taxa de trabalho infantil (5 a 17 anos) situava-se entre 6,8\% e 8,6\% no biênio 2023--2024 \cite{mte2024trabalho} (conceito adjacente, porém distinto, do estudante de ensino médio que trabalha).
+
+Em contraposição a esses fatores de risco, as \textbf{políticas públicas de permanência} operam como mecanismo de reversão de tendência. O programa Pé-de-Meia, instituído pela Lei nº 14.818, de 2024, constitui incentivo financeiro-educacional na modalidade de poupança destinado a estudantes do ensino médio público de 14 a 24 anos, inscritos em famílias do Cadastro Único com renda per capita de até meio salário mínimo, condicionado à frequência mínima de 80\% das aulas \cite{brasil2024lei14818, mds2024cadunico}. Análises iniciais do programa indicam forte efeito de retenção sobre estudantes em vulnerabilidade \cite{santos2026}: no Piauí, onde o programa atende 187.620 estudantes, a taxa de abandono da rede estadual recuou de 8,6\% para 0,5\% no período de consolidação das políticas de permanência \cite{todospelaeducacaopiaui, inep2025, minutomt2026}. Programas estaduais anteriores, como o Poupança Jovem Piauí, exibiram efeito análogo \cite{palominio2025}.
+
+A literatura adverte, contudo, contra o \textbf{determinismo social} em modelos preditivos educacionais: vulnerabilidade severa não implica insucesso inevitável. O caso da Unidade Escolar Augustinho Brandão, em Cocal dos Alves (PI) (escola pública que atende comunidade de baixa renda e superou milhares de escolas públicas e privadas no Exame Nacional do Ensino Médio), ilustra que a sinergia entre engajamento discente e infraestrutura pedagógica pode romper as barreiras da origem social \cite{seducpi}. Modelos preditivos responsáveis devem, portanto, capturar interações não lineares (como o efeito de reversão da assistência financeira) e tolerar perfis de resiliência acadêmica, sem penalizar fatalisticamente os estudantes vulneráveis, uma diretriz incorporada à construção do conjunto de dados deste estudo.
+
+\section{Dados Sintéticos em Mineração de Dados Educacionais}
+
+O acesso a microdados educacionais individuais é crescentemente restringido por legislações de proteção de dados pessoais e por trâmites institucionais e éticos. Nesse cenário, a geração de dados sintéticos (registros artificiais que preservam as distribuições estatísticas e as relações entre variáveis da população de interesse) consolidou-se como alternativa metodológica válida em EDM \cite{kostopoulos2026}. Em avaliação comparativa (\textit{benchmarking}) de modelos generativos estatísticos e profundos aplicados a dados estudantis, \citeonline{kostopoulos2026} demonstram que bases sintéticas de qualidade preservam a utilidade preditiva dos dados originais, com a vantagem de eliminar riscos de reidentificação de estudantes.
+
+Resultados convergentes são reportados por \citeonline{shabnam2025}, que compararam dados reais, sintéticos e híbridos na predição de desempenho de estudantes com algoritmos de regressão e \textit{ensemble}: os dados sintéticos igualaram os reais em capacidade preditiva, e conjuntos híbridos alcançaram acurácia de até 87,76\%. Técnicas baseadas em redes adversárias generativas condicionais e transformadores tabulares atingem entre 96\% e 98\% de equivalência preditiva em relação aos dados autênticos \cite{kostopoulos2026, shabnam2025}, sustentando o uso de bases sintéticas para o desenvolvimento e a validação de modelos de classificação quando o acesso primário é vedado.
+
+É necessário, contudo, distinguir duas famílias de dados sintéticos com estatutos epistemológicos diferentes. Os estudos de equivalência preditiva citados referem-se a dados sintéticos \textbf{derivados de microdados reais}: modelos generativos (estatísticos ou profundos, como redes adversárias condicionais e transformadores tabulares) são ajustados sobre uma base autêntica e produzem réplicas que preservam suas distribuições conjuntas \cite{kostopoulos2026, shabnam2025}. Este trabalho, por indisponibilidade de microdados, situa-se na segunda família: a \textbf{simulação baseada em regras}, na qual as distribuições marginais são parametrizadas a partir de estatísticas agregadas oficiais e as relações entre variáveis são especificadas pelo pesquisador com fundamento na literatura. Nessa família, a validade da base não é herdada de dados reais, mas depende integralmente da qualidade da parametrização e da auditabilidade das fontes, e as métricas obtidas medem a capacidade dos classificadores de recuperar um fenômeno cuja estrutura é, em parte, conhecida por construção.
+
+Dessa distinção decorrem os dois requisitos que orientam a metodologia deste trabalho: (i) a \textbf{rastreabilidade} entre cada parâmetro de geração e sua fonte estatística ou acadêmica (incluindo o nível de desagregação da fonte), de modo que as distribuições simuladas sejam auditáveis; e (ii) a \textbf{não trivialidade} do problema resultante, garantida pela injeção de variância estocástica e de casos-limite que impeçam os classificadores de memorizar a regra geradora.
+
+\section{Descoberta de Conhecimento em Bancos de Dados (KDD)}
+
+Para lidar com o desafio da crescente quantidade e volume de dados disponíveis, \citeonline{fayyad1996} propuseram o processo de Descoberta de Conhecimento em Banco de Dados (KDD (\textit{Knowledge Discovery in Databases})). Esse processo visa identificar padrões explicáveis nos dados, permitindo interpretações e previsões para auxiliar na tomada de decisões \cite{baker2011}.
+
+O processo de KDD é dinâmico e iterativo, podendo exigir retornos a etapas anteriores conforme novas descobertas são feitas \cite{fayyad1996}. A Figura~\ref{fig:kdd} apresenta a visão geral de suas etapas.
+
+\begin{figure}[htb]
+\centering
+\caption{Visão geral das etapas que compõem o processo de KDD.}
+\label{fig:kdd}
+\begin{mermaid}[width=0.95\textwidth,keepaspectratio]
+flowchart LR
+  A[("Base de<br/>dados")] --> B["Selecao<br/>de dados"]
+  B --> C["Pre-<br/>processamento"]
+  C --> D["Transformacao<br/>dos dados"]
+  D --> E["Mineracao<br/>de dados"]
+  E --> F["Interpretacao<br/>dos resultados"]
+  F --> G[("Conhecimento")]
+  F -. iteracao .-> B
+\end{mermaid}
+\source{Adaptado de \citeonline{fayyad1996}.}
+\end{figure}
+
+Ele é composto pelas seguintes etapas:
+
+\begin{enumerate}
+    \item \textbf{Seleção de Dados:} Define-se a origem das informações e selecionam-se as características relevantes para a mineração de dados.
+    \item \textbf{Pré-processamento:} Garante a qualidade dos dados, identificando e corrigindo inconsistências, como valores ausentes, \textit{outliers} e erros.
+    \item \textbf{Transformação dos Dados:} Converte os dados para formatos mais adequados à análise, incluindo discretização de variáveis contínuas e criação de novas variáveis.
+    \item \textbf{Mineração de Dados:} Utiliza algoritmos e técnicas estatísticas para identificar padrões e relações nos dados, sendo a etapa central do processo.
+    \item \textbf{Interpretação dos Resultados:} Analisa as descobertas para apoiar a tomada de decisões.
+\end{enumerate}
+
+O KDD inicia-se com uma base de dados relacionada ao objetivo da análise e gera conhecimento aplicável à tomada de decisão. Sendo um processo cíclico, ele pode ser aprimorado continuamente com novas iterações \cite{maimon2010}.
+
+\section{Mineração de Dados Educacionais}
+
+A Mineração de Dados (\textit{Data Mining}, DM) emerge como resposta fundamental às limitações da análise manual frente ao crescimento do volume de dados. Esta abordagem transcende as fronteiras de diversas áreas, incluindo estatística, aprendizado de máquina e visualização de dados, constituindo elemento essencial do processo de KDD \cite{castro2016}.
+
+No contexto educacional, a aplicação específica denomina-se Mineração de Dados Educacionais (\textit{Educational Data Mining}, EDM). Esta vertente especializada explora informações sobre comportamentos, avaliações e conquistas dos alunos \cite{costa2012}. A EDM estrutura-se conforme as necessidades do usuário final, seja ele aluno, educador, administrador ou pesquisador \cite{romero2010}.
+
+\citeonline{pena2014} identificou diversos objetivos gerais associados ao processo de EDM, incluindo a modelagem de aluno, a análise do comportamento discente e a previsão do desempenho acadêmico, que visa antecipar notas finais e outros resultados de aprendizagem com base nos dados das atividades realizadas durante o curso.
+
+Nessa linha, a literatura de EDM destaca o valor preditivo dos \textbf{sinais de engajamento contínuo}: além das notas de provas e da frequência, o desempenho e a regularidade nas atividades avaliativas ao longo do período capturam a dimensão comportamental do engajamento escolar (um construto multidimensional que antecede o desfecho acadêmico) \cite{fredricks2004}. \citeonline{costa2012} demonstram que a combinação de dados demográficos coletados no início do período com métricas de engajamento pedagógico (notas de avaliações contínuas e frequência) provê predições com acurácia superior a 80\% ainda em estágio inicial do curso (fundamento da inclusão, neste trabalho, de variáveis de desempenho e de entrega de atividades como sinais parciais do primeiro semestre).
+
+\section{Técnicas de Seleção de Atributos}
+
+A seleção de características desempenha papel fundamental na otimização de modelos preditivos. Conforme \citeonline{liu2007}, existem três categorias principais de técnicas: \textit{Filter}, \textit{Wrapper} e \textit{Embedded}. Cada abordagem apresenta equilíbrio distinto entre eficiência computacional e qualidade dos resultados.
+
+A abordagem \textit{Embedded} integra a seleção de características ao processo de treinamento do modelo, constituindo parte fundamental de algoritmos como Árvore de Decisão e Floresta Aleatória. A técnica \textit{Filter} remove características sem utilidade, apresentando baixo custo computacional. A abordagem \textit{Wrapper} permite experimentar subconjuntos de características em conjunto com o algoritmo específico, embora demande maior processamento.
+
+\section{Métodos de Validação de Modelos}
+
+A validação cruzada (\textit{Cross-Validation}) representa uma abordagem robusta para avaliação da capacidade de generalização de modelos preditivos. Esta técnica divide os dados em \textit{k} subconjuntos, utilizando cada um como conjunto de teste enquanto os demais funcionam como treinamento. A configuração \textit{k=10} é frequentemente adotada \cite{geron2019}.
+
+Uma abordagem alternativa é o método \textit{Holdout}, que consiste na divisão dos dados em conjuntos distintos de treinamento e teste, fornecendo uma estimativa do erro em relação a dados desconhecidos \cite{geron2019}.
+
+\section{Desbalanceamento de Dados e Estratégias de Correção}
+
+O desbalanceamento de dados ocorre quando um conjunto apresenta quantidade significativamente maior de instâncias em uma classe comparativamente a outra. Para superar este desafio, técnicas de balanceamento são empregadas, destacando-se a subamostragem e a sobreamostragem \cite{he2009}.
+
+A sobreamostragem via SMOTE (\textit{Synthetic Minority Oversampling Technique}) emprega abordagens estatísticas para gerar instâncias minoritárias sintéticas, enriquecendo a diversidade dos dados sem mera replicação \cite{chawla2002}. Contudo, a aplicação incorreta do SMOTE constitui uma das fontes mais recorrentes de vazamento de dados (\textit{data leakage}) em estudos de aprendizado de máquina \cite{madugula2026}. O vazamento ocorre quando a sobreamostragem é aplicada sobre o conjunto de dados completo antes da divisão entre treino e teste, fazendo com que informações sintéticas geradas a partir de instâncias de teste contaminem o conjunto de treinamento. Para mitigar esse problema, a técnica deve ser confinada estritamente ao conjunto de treinamento dentro de cada partição da validação cruzada, utilizando-se pipelines que encapsulam o SMOTE como etapa interna ao \textit{fold}, uma abordagem adotada neste trabalho por meio do \texttt{imblearn.Pipeline} \cite{madugula2026}.
+
+\section{Árvores de Decisão}
+
+Árvores de decisão (\textit{Decision Trees}) constituem classificadores que, a partir de um vetor de atributos, definem por meio de trajetórias decisórias um resultado final \cite{russel2013}. Na aplicação voltada ao desempenho acadêmico, este modelo revela os fatores subjacentes que influenciam as previsões, permitindo interpretação clara dos processos decisórios \cite{grus2016}. A Figura~\ref{fig:arvore_decisao} ilustra a estrutura genérica do classificador.
+
+\begin{figure}[htb]
+\centering
+\caption{Estrutura genérica de uma árvore de decisão.}
+\label{fig:arvore_decisao}
+\begin{mermaid}[width=0.75\textwidth,keepaspectratio]
+flowchart TD
+  A{"No raiz:<br/>atributo X1"} -->|"condicao a"| B{"No interno:<br/>atributo X2"}
+  A -->|"condicao b"| C{"No interno:<br/>atributo X3"}
+  B -->|"sim"| D["Folha:<br/>Classe 1"]
+  B -->|"nao"| E["Folha:<br/>Classe 2"]
+  C -->|"sim"| F["Folha:<br/>Classe 2"]
+  C -->|"nao"| G["Folha:<br/>Classe 3"]
+\end{mermaid}
+\source{Elaborado pelo autor (2026), com base em \citeonline{russel2013}.}
+\end{figure}
+
+\section{Floresta Aleatória}
+
+A Floresta Aleatória (\textit{Random Forest}) é uma abordagem robusta que agrega diversas árvores de decisão para tarefas de classificação e regressão. Cada árvore é construída independentemente a partir de uma amostra aleatória do conjunto de dados \cite{artero2009}.
+
+No processo de treinamento, utiliza-se a técnica de \textit{bagging} (\textit{bootstrap aggregating}), que gera múltiplas amostras por meio de reamostragem com reposição. Em cada divisão de nó, seleciona-se aleatoriamente um subconjunto de atributos para avaliação, contribuindo para diminuir tanto o viés quanto a variância do modelo \cite{geron2019}. A diversidade induzida pela aleatoriedade dupla (amostras \textit{bootstrap} e subconjuntos de características) é o mecanismo central que confere à Floresta Aleatória resistência ao sobreajuste (\textit{overfitting}) e capacidade de capturar interações complexas entre variáveis \cite{denisko2018}. A Figura~\ref{fig:random_forest} ilustra a estrutura do \textit{ensemble}.
+
+\begin{figure}[htb]
+\centering
+\caption{Estrutura genérica de uma Floresta Aleatória.}
+\label{fig:random_forest}
+\begin{mermaid}[width=0.85\textwidth,keepaspectratio]
+flowchart TD
+  A[("Conjunto de<br/>treinamento")] --> B1["Amostra<br/>bootstrap 1"]
+  A --> B2["Amostra<br/>bootstrap 2"]
+  A --> B3["Amostra<br/>bootstrap n"]
+  B1 --> C1{{"Arvore 1"}}
+  B2 --> C2{{"Arvore 2"}}
+  B3 --> C3{{"Arvore n"}}
+  C1 --> D["Votacao<br/>majoritaria"]
+  C2 --> D
+  C3 --> D
+  D --> E["Predicao<br/>final"]
+\end{mermaid}
+\source{Elaborado pelo autor (2026), com base em \citeonline{geron2019}.}
+\end{figure}
+
+\section{Gradient Boosting e XGBoost}
+
+Enquanto a Floresta Aleatória baseia-se no paradigma de \textit{bagging} (construindo árvores independentes em paralelo e combinando-as por votação), o \textit{Gradient Boosting} adota uma estratégia sequencial, na qual cada nova árvore é treinada para corrigir os erros residuais das anteriores. Essa abordagem foi formalizada matematicamente por \citeonline{friedman2001}, que demonstrou que o \textit{boosting} pode ser interpretado como um algoritmo de otimização numérica no espaço de funções, utilizando o gradiente descendente para minimizar uma função de perda arbitrária.
+
+O XGBoost (\textit{eXtreme Gradient Boosting}) constitui uma implementação otimizada e regularizada do \textit{Gradient Boosting}, proposta por \citeonline{chen2016}. O algoritmo incorpora dois avanços fundamentais em relação à formulação original de Friedman. Primeiro, emprega uma aproximação de Taylor de segunda ordem da função de perda, permitindo capturar a curvatura do erro e direcionar a otimização com maior precisão: enquanto o \textit{Gradient Boosting} clássico utiliza apenas a informação do gradiente de primeira ordem, o XGBoost adiciona o Hessiano (segunda derivada). Segundo, introduz um termo de regularização explícito que penaliza a complexidade das árvores, controlando simultaneamente o número de folhas e a magnitude dos pesos, o que reduz o sobreajuste de forma mais eficaz que a mera limitação de profundidade \cite{chen2016}.
+
+Adicionalmente, o XGBoost apresenta otimizações algorítmicas que o tornam particularmente eficiente em cenários com dados esparsos e valores ausentes, incluindo um algoritmo de divisão ponderada por quantis e tratamento nativo de registros incompletos (características relevantes para domínios educacionais, nos quais lacunas de informação são frequentes) \cite{chen2016}.
+
+\section{Métricas de Avaliação para Classificação Multiclasse}
+
+A avaliação do desempenho de modelos preditivos em cenários com classes desbalanceadas exige métricas que vão além da acurácia simples. Em problemas nos quais uma ou mais classes são sub-representadas (como é o caso da classe de alunos \textit{Reprovados} frente aos \textit{Aprovados}), a acurácia tende a favorecer a classe majoritária, mascarando deficiências críticas na identificação dos grupos minoritários \cite{he2009}.
+
+Diante desse desafio, emprega-se o F1-Score, métrica que combina precisão e \textit{recall} por meio da média harmônica, penalizando modelos que sacrificam uma das dimensões em detrimento da outra. Para cenários multiclasse, adota-se a variante ponderada (\textit{weighted F1-Score}), que calcula o F1 de cada classe individualmente e agrega os resultados ponderando-os pela proporção de instâncias reais de cada classe no conjunto de dados. Essa variante é particularmente adequada quando as frequências das classes refletem a distribuição natural do fenômeno estudado (como ocorre com o desempenho acadêmico), pois atribui maior peso às classes mais populosas sem ignorar o desempenho nas minoritárias.
+
+Complementarmente, a análise por meio da Curva ROC (\textit{Receiver Operating Characteristic}) e da Área sob a Curva (AUC) constitui uma abordagem consolidada para avaliação de classificadores \cite{fawcett2006}. Em problemas binários, a curva ROC plota a taxa de verdadeiros positivos em função da taxa de falsos positivos para diferentes limiares de decisão, e a AUC sintetiza essa informação em um escalar no intervalo $[0, 1]$. Para o contexto multiclasse, \citeonline{hand2001} propuseram uma generalização do AUC por meio da estratégia \textit{One-vs-Rest} (OvR), na qual cada classe é tratada como positiva contra a união das demais, produzindo uma curva ROC por classe. A média ponderada das AUCs individuais fornece uma medida global da capacidade discriminativa do modelo, mantendo a interpretabilidade do caso binário \cite{hand2001}.
+
+\section{Baselines de Referência e Comparação Estatística de Classificadores}
+
+A magnitude de uma métrica, isoladamente, não informa se um modelo é bom: um classificador com 80\% de acurácia pode ser trivial se a classe majoritária representar 80\% das instâncias. Por isso, boas práticas de avaliação recomendam a inclusão de \textbf{\textit{baselines} de referência}: um classificador trivial que sempre prediz a classe majoritária, estabelecendo o piso de desempenho do problema, e um modelo linear simples (como a Regressão Logística), que quantifica a parcela do fenômeno explicável por relações lineares. A diferença entre os modelos de interesse e esses \textit{baselines} mede a contribuição efetiva da capacidade não linear dos algoritmos \cite{geron2019}.
+
+Adicionalmente, diferenças numéricas entre classificadores podem decorrer da variabilidade amostral das partições de avaliação. Para verificar se a diferença observada entre dois modelos é estatisticamente significativa, \citeonline{demsar2006} recomenda o \textbf{teste pareado de postos sinalizados de Wilcoxon} sobre os resultados das mesmas partições de validação cruzada: por ser não paramétrico, o teste não pressupõe normalidade das diferenças, sendo mais robusto que o teste $t$ pareado para comparação de classificadores. Quando o valor-$p$ excede o nível de significância adotado, a diferença entre os modelos não pode ser distinguida da flutuação amostral, e conclusões de superioridade devem ser evitadas ou moderadas.

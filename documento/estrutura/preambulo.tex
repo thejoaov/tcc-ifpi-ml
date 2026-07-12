@@ -1,0 +1,62 @@
+%% Preambulo LaTeX 
+%% Definições do documento
+
+%% Tipografia
+%% Abra este arquivo e selecione uma das opções de fonte nele. A padrão é Times.
+\input{configuracoes/tipografia}
+
+\usepackage[T1]{fontenc}				% Seleção de códigos de fonte.
+\usepackage[utf8]{inputenc}				% Codificação do documento (conversão automática dos acentos)
+\usepackage{indentfirst}				% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 					% Usado pela Lista de símbolos
+\usepackage{color}						% Controle das cores
+\usepackage{graphicx}					% Inclusão de gráficos
+\usepackage{float}						% Melhorias para posicionamento de gráficos e tabelas
+\usepackage{microtype} 					% Melhorias na justificação
+\usepackage{lastpage}   		        % Dá acesso ao número da última página do documento
+\usepackage{booktabs}					% Comandos para tabelas
+\usepackage{multirow, array}			% Múltiplas linhas e colunas em tabelas
+\usepackage{longtable}					% Tabelas que quebram entre páginas
+
+\usepackage[table,xcdraw, dvipsnames]{xcolor}       % Cores para tabelas e elementos textuais
+\usepackage[brazilian,hyperpageref]{backref}	 % Inclui nas Referências as páginas onde há as citações
+\usepackage{simplecd}                   % Pacote para gerar capa do CD
+\usepackage[final]{pdfpages}            % Pacote para incluir um PDF dentro de outro (ficha catalográfica)
+
+\usepackage{ragged2e}                   % Pacote para alinhamento de textos
+\usepackage[Renderer={npx -y @mermaid-js/mermaid-cli}]{ltmermaid} % Mermaid via LuaLaTeX + Mermaid CLI
+
+%% Adiciona as alterações do ABNTeX-IFPI
+\usepackage{abntex-ifpi/abntex-ifpi}
+
+\usepackage{trivfloat}
+\trivfloat{quadro}
+% configurações para atender às regras da ABNT
+\setfloatadjustment{quadro}{\centering}
+
+% Configuração de posicionamento padrão:
+\setfloatlocations{quadro}{hbtp}
+\floatstyle{plaintop}  %%% tipos: plaintop, plain, boxed, ruled
+\newfloat{quadro}{tbp}{lop}{\normalfont} 
+\floatname{quadro}{\normalfont\normalsize Quadro}
+
+\usepackage{chngcntr}
+
+%% Comando \source: indicação de fonte abaixo de figuras e tabelas (padrão ABNT)
+\providecommand{\source}[1]{\par\vspace{2pt}{\centering\footnotesize Fonte: #1\par}}
+
+%% Metadados
+\input{configuracoes/pdf}
+
+%% Metadados
+\input{configuracoes/metadados}
+
+
+%% Configuração do "Citado nas páginas"
+\input{configuracoes/citacoes}
+
+%% Cores
+\input{configuracoes/cores}
+
+%% Espaçamentos
+\input{configuracoes/espacamentos}

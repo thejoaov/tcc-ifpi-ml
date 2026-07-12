@@ -1,0 +1,42 @@
+%% Apêndices
+
+\begin{apendicesenv}
+
+\chapter{Dicionário de Atributos do Conjunto de Dados Sintéticos}
+\label{ap:dicionario}
+
+A Tabela~\ref{tab:dicionario_atributos} apresenta o dicionário completo dos atributos gerados pelo gerador de dados sintéticos, referenciado no capítulo de Metodologia.
+
+\begin{table}[htb]
+\centering
+\caption{Dicionário descritivo dos atributos do conjunto de dados sintéticos.}
+\label{tab:dicionario_atributos}
+\small
+\begin{tabular}{llp{6.4cm}}
+\toprule
+\textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\
+\midrule
+\texttt{serie} & Numérico (1--3) & Série do ensino médio em curso. \\
+\texttt{idade} & Numérico (14--24) & Idade do estudante, com assimetria positiva decorrente da distorção idade-série. \\
+\texttt{genero} & Categórico (binário) & Gênero autodeclarado (paridade $\sim$50/50). \\
+\texttt{cor\_raca} & Categórico (nominal) & Cor/raça autodeclarada (Parda, Preta, Branca, Outra). \\
+\texttt{estado\_civil} & Categórico (nominal) & Estado civil (Solteiro, Casado/União, Outro). \\
+\texttt{renda\_per\_capita} & Categórico (nominal) & Faixa de renda familiar \textit{per capita} (até 0,5 SM; 0,5--1 SM; acima de 1 SM). \\
+\texttt{trabalha} & Categórico (binário) & Indica se o estudante concilia trabalho e estudo. \\
+\texttt{acesso\_internet} & Categórico (binário) & Acesso doméstico à internet. \\
+\texttt{possui\_computador} & Categórico (binário) & Disponibilidade de computador para os estudos (proxy da exclusão digital qualitativa). \\
+\texttt{tipo\_escola\_origem} & Categórico (binário) & Rede de origem no ensino fundamental (pública ou privada). \\
+\texttt{distorcao\_idade\_serie} & Categórico (binário) & Indica atraso escolar de dois ou mais anos. \\
+\texttt{assistencia\_pe\_de\_meia} & Categórico (binário) & Beneficiário efetivo do programa Pé-de-Meia (derivado por regra de elegibilidade). \\
+\texttt{nota\_media} & Numérico (0--10) & Média das notas parciais do 1º semestre letivo. \\
+\texttt{frequencia} & Numérico (\%) & Percentual de frequência às aulas acumulado no 1º semestre. \\
+\texttt{media\_atividades} & Numérico (0--10) & Média das notas obtidas nas atividades avaliativas do 1º semestre, normalizada para a escala 0--10 (ex.: atividade valendo 2,0 pontos com nota 1,0 equivale a 5,0). \\
+\texttt{taxa\_entrega\_atividades} & Numérico (\%) & Proporção de atividades entregues no 1º semestre (sinal de regularidade do engajamento). \\
+\texttt{reprovacoes} & Numérico (0--3) & Reprovações acumuladas no ensino médio. \\
+\texttt{situacao} & Categórico (alvo) & Tendência de desempenho projetada para o final do ano letivo, rotulada pelos critérios da LDB: Aprovado, Em Risco ou Reprovado. \\
+\bottomrule
+\end{tabular}
+\source{Elaborado pelo autor (2026).}
+\end{table}
+
+\end{apendicesenv}

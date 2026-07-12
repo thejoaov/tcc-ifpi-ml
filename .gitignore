@@ -1,0 +1,59 @@
+.venv
+.env*
+!.env.example
+# Dados gerados - exceto o produto público (dataset definitivo + rastreabilidade)
+estudo/data/*
+!estudo/data/dados_academicos.csv
+!estudo/data/parametros_fontes.md
+!estudo/data/parametros_fontes.json
+!estudo/data/auditoria_fontes.md
+!estudo/data/ablation_features.md
+!estudo/data/baselines_wilcoxon.md
+!estudo/data/varredura_ruido.md
+output
+memories
+__pycache__
+*_[0-9]*.ipynb
+.DS_Store
+output*.md
+
+# Other sources
+referencias/other
+
+# PDFs de terceiros (só locais; o .bib com URLs/datas de acesso é a referência)
+referencias/bibliografia/
+
+# Materiais do TCC-1 e rascunhos de trabalho (só locais)
+referencias/tcc-1/
+documento/texto-base.md
+
+# Extensões locais (não publicadas)
+estudo/local/
+
+# LaTeX auxiliary files
+documento/*.aux
+documento/*.bbl
+documento/*.blg
+documento/*.brf
+documento/*.log
+documento/*.out
+documento/*.toc
+documento/*.lof
+documento/*.lot
+documento/*.lop
+documento/*.nls
+documento/*.nlo
+documento/*.idx
+documento/*.ind
+documento/*.ilg
+documento/*.fls
+documento/*.fdb_latexmk
+documento/*.synctex.gz
+documento/*.bcf
+documento/*.run.xml
+documento/*.xdv
+documento/*.nav
+documento/*.snm
+documento/*.pdf
+documento/*.docx
+documento/mermaid/
