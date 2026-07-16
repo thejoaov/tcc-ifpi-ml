@@ -1,0 +1,6 @@
+%% Centraliza títulos de capítulos não numerados (usado na Lista de
+%% Abreviaturas e Siglas, para padronizar com as demais listas pré-textuais).
+%% Este arquivo é carregado via \InputIfFileExists para que o pandoc
+%% (geração do DOCX) não tente interpretar a sintaxe do titlesec.
+\titleformat{name=\chapter,numberless}
+{\normalfont\normalsize\bfseries\filcenter\MakeUppercase}{}{0pt}{\vspace{1em}}{}

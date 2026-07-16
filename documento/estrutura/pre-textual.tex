@@ -82,9 +82,9 @@
 %% 12: Lista de Abreviaturas e Siglas
 \cleardoublepage
 %% Título centralizado, padronizado com as demais listas pré-textuais
+%% (via \InputIfFileExists para não quebrar a conversão DOCX no pandoc)
 \begingroup
-\titleformat{name=\chapter,numberless}
-{\normalfont\normalsize\bfseries\filcenter\MakeUppercase}{}{0pt}{\vspace{1em}}{}
+\InputIfFileExists{configuracoes/titulo-centralizado.tex}{}{}
 \input{pre-textual/siglas}
 \endgroup
 

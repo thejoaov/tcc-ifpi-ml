@@ -57,8 +57,7 @@ jobs:
           pandoc documento.tex -o output/documento.docx \
             --bibliography=bibliografia.bib \
             --citeproc \
-            --resource-path=. \
-            || echo "AVISO: Falha ao gerar DOCX"
+            --resource-path=.
 
       - name: Prepare output artifacts
         run: |
@@ -80,14 +79,20 @@ jobs:
           path: documento/output/documento.docx
           if-no-files-found: warn
 
+      - name: Get build date
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+        id: build_date
+        run: echo "date=$(date -u +'%Y-%m-%d %H:%M UTC')" >> "$GITHUB_OUTPUT"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/'))
         with:
-          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'latest' }}
-          name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'Última Versão Compilada' }}
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('build-{0}', github.run_number) }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('Build #{0} ({1})', github.run_number, steps.build_date.outputs.date) }}
+          target_commitish: ${{ github.sha }}
           draft: false
-          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+          prerelease: false
           files: |
             documento/output/documento.pdf
             documento/output/documento.docx
