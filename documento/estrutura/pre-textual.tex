@@ -71,11 +71,6 @@
 %% 09: Abstract/Resumo em língua estrangeira
 \input{pre-textual/resumo-lingua-estrangeira}
 
-
-\hfill \break
-Data de Aprovação: \dataapresentacao (Data de Apresentação do Artigo)
-\hfill \break
-
 %% 10: Lista de Ilustrações
 \cleardoublepage
 \input{pre-textual/lista-de-ilustracoes}
@@ -86,13 +81,19 @@ Data de Aprovação: \dataapresentacao (Data de Apresentação do Artigo)
 
 %% 12: Lista de Abreviaturas e Siglas
 \cleardoublepage
+%% Título centralizado, padronizado com as demais listas pré-textuais
+\begingroup
+\titleformat{name=\chapter,numberless}
+{\normalfont\normalsize\bfseries\filcenter\MakeUppercase}{}{0pt}{\vspace{1em}}{}
 \input{pre-textual/siglas}
+\endgroup
 
 %% 13: Lista de Símbolos
 %\input{pre-textual/simbolos}
 
 %% 14: Sumário (o asterisco retira o próprio sumário do sumário)
-%\pdfbookmark[0]{\contentsname}{toc}
-%\tableofcontents*
-%\cleardoublepage
+\cleardoublepage
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
 

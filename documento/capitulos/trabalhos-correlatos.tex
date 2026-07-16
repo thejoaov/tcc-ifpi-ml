@@ -1,0 +1,35 @@
+% ----------------------------------------------------------
+% Trabalhos Correlatos
+% ----------------------------------------------------------
+\chapter{Trabalhos Correlatos}
+
+A previsão do desempenho escolar e o combate à evasão utilizando algoritmos de aprendizado de máquina têm sido amplamente investigados na literatura nacional. Para contextualizar a presente proposta e identificar o estado da arte na área de Mineração de Dados Educacionais (EDM), foram selecionados trabalhos de referência cujas características estruturais de modelagem tangenciam as abordagens deste estudo.
+
+\citeonline{silva2019} avaliaram o desempenho de estudantes universitários utilizando regressão logística e \textit{decision trees}. Os autores destacaram que variáveis socioeconômicas (como renda e nível de escolaridade dos pais) operaram como fortes determinantes de retenção nos períodos acadêmicos iniciais.
+
+Por sua vez, \citeonline{costa2012} propuseram um sistema preditivo voltado à detecção de alunos em risco de reprovação em disciplinas introdutórias de programação por meio de algoritmos de classificação Bayesiana e \textit{decision trees}. Constatou-se que o uso de dados demográficos no início do semestre combinado a dados de engajamento pedagógico provê predições com acurácia superior a 80\%.
+
+Nessa linha de análise, \citeonline{baker2011} e \citeonline{romero2010} discutiram a importância da integração de múltiplas fontes de dados (registros acadêmicos e bases contextuais) e o emprego de técnicas para contornar problemas de desbalanceamento de classes, como o SMOTE. Argumenta-se que a correção do desbalanceamento propicia uma sensibilidade substancialmente maior no mapeamento de alunos em risco de evasão.
+
+A Tabela~\ref{tab:trabalhos_correlatos} resume as similaridades e contrastes metodológicos entre as principais iniciativas da literatura e a presente pesquisa.
+
+\begin{table}[htb]
+\centering
+\caption{Comparação metodológica entre trabalhos correlatos da literatura e o presente estudo.}
+\label{tab:trabalhos_correlatos}
+\begin{tabular}{p{3.5cm}p{3.2cm}p{4.2cm}p{4cm}}
+\toprule
+\textbf{Trabalho / Autor} & \textbf{Algoritmos Usados} & \textbf{Principais Atributos} & \textbf{Relação com este Trabalho} \\
+\midrule
+\citeonline{silva2019} & Regressão Logística, \textit{Decision Tree} & Sociodemográficos (renda, escolaridade familiar, cota) & Compartilha o eixo socioeconômico, aqui expandido com conectividade, trabalho e assistência financeira. \\
+\citeonline{costa2012} & Naive Bayes, \textit{Decision Tree} & Notas de avaliações contínuas, frequência, dados demográficos & Adota a formulação de métricas de engajamento e a classificação multiclasse do rendimento discente. \\
+\citeonline{pena2014} & Redes Neurais Alternativas, SVM, \textit{Random Forest} & Histórico escolar prévio, taxas de evasão municipais & Utiliza \textit{Random Forest} como referencial robusto, integrando-a com técnicas avançadas de SMOTE. \\
+\textbf{Este Estudo (rede pública estadual do PI)} & \textbf{\textit{Decision Tree}, \textit{Random Forest}, XGBoost + \textit{baselines}} & \textbf{Fatores sociológicos (renda per capita, trabalho, exclusão digital, distorção idade-série, Pé-de-Meia) + sinais acadêmicos parciais do 1º semestre (nota, frequência, atividades)} & \textbf{Constrói o próprio conjunto de dados sintéticos com rastreabilidade parâmetro--fonte; SMOTE dentro do CV k=10; alvo de tendência de desempenho anual (critérios da LDB), não evasão.} \\
+\bottomrule
+\end{tabular}
+\source{Elaborado pelo autor (2026).}
+\end{table}
+
+A Tabela~\ref{tab:trabalhos_correlatos} evidencia que, embora os trabalhos correlatos compartilhem algoritmos e famílias de atributos com esta pesquisa, nenhum deles combina a construção fundamentada do próprio conjunto de dados com a predição de tendência de desempenho no ensino médio público estadual, lacuna que o presente estudo busca preencher.
+
+Diferentemente dos trabalhos correlatos apresentados (majoritariamente voltados à predição de evasão ou reprovação em disciplinas do ensino superior, a partir de bases institucionais preexistentes), o presente estudo une, em uma única investigação, a \textbf{construção do conjunto de dados} e a \textbf{modelagem preditiva}: o conjunto de dados sintéticos é gerado com parametrização sociologicamente fundamentada e rastreável às fontes oficiais, e a variável-alvo é a \textbf{tendência de desempenho acadêmico} (e não a evasão) de estudantes do ensino médio da rede pública estadual do Piauí. Essa combinação permite avaliar de forma controlada o peso relativo dos fatores sociológicos na classificação, algo inviável em bases institucionais nas quais tais variáveis são incompletas ou inacessíveis.

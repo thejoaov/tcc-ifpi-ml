@@ -40,5 +40,9 @@
     "documento/*.ilg",
     "documento/*.lop",
     "documento/mermaid/**"
-  ]
+  ],
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.wrappingStrategy": "advanced"
+  }
 }

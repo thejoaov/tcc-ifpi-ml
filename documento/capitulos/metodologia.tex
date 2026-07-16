@@ -38,6 +38,8 @@ flowchart LR
 \source{Elaborado pelo autor (2026).}
 \end{figure}
 
+A Figura~\ref{fig:pipeline} organiza o fluxo metodológico em dois blocos. O primeiro compreende a preparação dos dados: a fundamentação estatística e acadêmica dos parâmetros, a geração do conjunto sintético acompanhada da matriz de rastreabilidade, o pré-processamento com engenharia de atributos e a divisão estratificada entre treinamento e teste. O segundo bloco compreende a modelagem e a avaliação: o balanceamento por SMOTE confinado a cada \textit{fold}, o ajuste de hiperparâmetros dos três classificadores e dos \textit{baselines} via \textit{GridSearchCV}, a avaliação por \textit{holdout} e validação cruzada com teste pareado de Wilcoxon e, por fim, a análise dos resultados por importâncias, matrizes de confusão e curvas ROC. As seções seguintes detalham cada uma dessas etapas.
+
 \section{Construção e Parametrização dos Dados Sintéticos}
 
 \begin{sloppypar}
@@ -105,7 +107,7 @@ Adicionalmente, gênero e cor/raça são gerados apenas para caracterização de
 
 A variável-alvo \texttt{situacao} representa a \textbf{tendência de desempenho acadêmico} do estudante ao final do ano letivo, em três classes ordinais: \textit{Aprovado} (trajetória consolidada), \textit{Em Risco} (zona de atenção pedagógica) e \textit{Reprovado} (vulnerabilidade acadêmica severa). A unidade de análise é o estudante individual de uma turma do ensino médio da rede pública estadual do Piauí, e o horizonte de predição é o fechamento do ano letivo, a partir dos sinais parciais do primeiro semestre (Seção~\ref{sec:temporalidade}).
 
-A rotulagem opera em duas etapas. Na primeira, projeta-se o \textbf{desfecho anual} de cada estudante: à média e à frequência parciais do primeiro semestre aplica-se uma deriva de segundo semestre, composta por um componente sistemático (função do contexto socioeconômico (renda, conectividade, trabalho, distorção idade-série), do efeito de retenção do Pé-de-Meia e das interações não lineares entre vulnerabilidades) e por um componente idiossincrático: um ruído gaussiano de média zero cujo desvio-padrão é controlado pelo parâmetro \texttt{NOISE\_LEVEL}. Esse componente representa, fenomenologicamente, os fatores não observáveis que alteram trajetórias escolares entre semestres (saúde, eventos familiares, motivação), e sua magnitude é uma decisão de modelagem registrada na matriz de rastreabilidade (o capítulo de Resultados apresenta a análise de sensibilidade que caracteriza o impacto dessa escolha).
+A rotulagem opera em duas etapas. Na primeira, projeta-se o \textbf{desfecho anual} de cada estudante: à média e à frequência parciais do primeiro semestre aplica-se uma deriva de segundo semestre, composta por um componente sistemático (função do contexto socioeconômico (renda, conectividade, trabalho, distorção idade-série), do efeito de retenção do Pé-de-Meia e das interações não lineares entre vulnerabilidades) e por um componente idiossincrático: um ruído gaussiano de média zero cujo desvio-padrão é controlado pelo parâmetro \texttt{NOISE\_LEVEL}. Esse componente representa, fenomenologicamente, os fatores não observáveis que alteram trajetórias escolares entre semestres (saúde, eventos familiares, motivação), e sua magnitude é uma decisão de modelagem registrada na matriz de rastreabilidade (o capítulo de Experimentos e Discussão dos Resultados apresenta a análise de sensibilidade que caracteriza o impacto dessa escolha).
 
 Na segunda etapa, a projeção anual é discretizada pelos \textbf{critérios reais de aprovação do ensino médio brasileiro}: média final mínima de 6,0 (padrão das redes estaduais) e frequência mínima de 75\% da carga horária, exigência do art. 24 da Lei de Diretrizes e Bases da Educação Nacional \cite{brasil1996ldb}. O estudante cuja projeção atende a ambos os critérios com folga é rotulado \textit{Aprovado}; aquele que descumpre algum critério de forma clara, \textit{Reprovado}; e a classe \textit{Em Risco} é atribuída à banda pedagógica de fronteira (projeção de média entre 5,0 e 6,5 ou frequência entre 75\% e 80\%), uma decisão de modelagem que operacionaliza a zona de atenção na qual a intervenção preventiva é mais efetiva. As proporções das três classes \textbf{emergem} dessa regra, não sendo calibradas por limiares arbitrários de distribuição.
 
@@ -135,7 +137,7 @@ Criação de variáveis derivadas que capturam relações não lineares entre os
     \item Reprovações por série (\texttt{reprov\_por\_serie}): razão entre reprovações acumuladas e série atual
 \end{enumerate}
 
-A seleção do conjunto final de variáveis derivadas foi validada por um \textbf{estudo de ablação}, no qual o desempenho dos modelos é medido com e sem cada variável candidata. Uma terceira variável derivada (um escore acadêmico composto ponderando nota, frequência e reprovações) foi avaliada e descartada, por não agregar desempenho ao conjunto final; o experimento e sua discussão são apresentados no capítulo de Resultados.
+A seleção do conjunto final de variáveis derivadas foi validada por um \textbf{estudo de ablação}, no qual o desempenho dos modelos é medido com e sem cada variável candidata. Uma terceira variável derivada (um escore acadêmico composto ponderando nota, frequência e reprovações) foi avaliada e descartada, por não agregar desempenho ao conjunto final; o experimento e sua discussão são apresentados no capítulo de Experimentos e Discussão dos Resultados.
 
 \section{Balanceamento do Conjunto de Dados}
 
@@ -146,8 +148,8 @@ A técnica SMOTE (\textit{Synthetic Minority Over-sampling Technique}) é aplica
 São implementados e comparados três algoritmos:
 
 \begin{enumerate}
-    \item \textbf{Árvore de Decisão} (\texttt{DecisionTreeClassifier}): modelo interpretável baseado em regras de divisão hierárquica
-    \item \textbf{Floresta Aleatória} (\texttt{RandomForestClassifier}): \textit{ensemble} de múltiplas árvores com \textit{bagging}
+    \item \textbf{\textit{Decision Tree}} (\texttt{DecisionTreeClassifier}): modelo interpretável baseado em regras de divisão hierárquica
+    \item \textbf{\textit{Random Forest}} (\texttt{RandomForestClassifier}): \textit{ensemble} de múltiplas árvores com \textit{bagging}
     \item \textbf{Gradient Boosting} (\texttt{XGBClassifier}): \textit{ensemble} sequencial com \textit{boosting}
 \end{enumerate}
 
@@ -168,7 +170,7 @@ A avaliação considera múltiplas métricas:
 
 Além do conjunto de teste isolado (\textit{holdout}, 30\% dos dados com estratificação), utiliza-se validação cruzada \textit{k-fold} estratificada (\textit{k}=10) para garantir robustez estatística. As diferenças de desempenho entre pares de modelos são submetidas ao \textbf{teste pareado de postos sinalizados de Wilcoxon} sobre os F1-Scores das mesmas partições da validação cruzada, ao nível de significância de 5\%, conforme a recomendação de \citeonline{demsar2006}: diferenças cujo valor-$p$ exceda esse nível são tratadas como estatisticamente não distinguíveis da flutuação amostral.
 
-Complementarmente, realiza-se uma \textbf{análise de sensibilidade ao ruído idiossincrático}: o parâmetro \texttt{NOISE\_LEVEL} do gerador é variado em uma grade de valores e, para cada valor, o desempenho de um classificador de referência é medido, permitindo caracterizar como a previsibilidade do desfecho anual degrada conforme cresce a variância não observável do fenômeno (análise apresentada no capítulo de Resultados). Ressalta-se que a varredura não busca uma acurácia-alvo: ela caracteriza o problema, e o valor adotado no estudo é uma decisão fenomenológica registrada na matriz de rastreabilidade.
+Complementarmente, realiza-se uma \textbf{análise de sensibilidade ao ruído idiossincrático}: o parâmetro \texttt{NOISE\_LEVEL} do gerador é variado em uma grade de valores e, para cada valor, o desempenho de um classificador de referência é medido, permitindo caracterizar como a previsibilidade do desfecho anual degrada conforme cresce a variância não observável do fenômeno (análise apresentada no capítulo de Experimentos e Discussão dos Resultados). Ressalta-se que a varredura não busca uma acurácia-alvo: ela caracteriza o problema, e o valor adotado no estudo é uma decisão fenomenológica registrada na matriz de rastreabilidade.
 
 \section{Análise e Interpretação dos Resultados}
 

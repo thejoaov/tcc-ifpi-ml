@@ -3,44 +3,13 @@
 % ----------------------------------------------------------
 \chapter{Referencial Teórico}
 
-O referencial teórico está organizado de maneira a facilitar a compreensão dos conceitos que fundamentam a pesquisa. Inicialmente, apresenta-se a seção de trabalhos correlatos, situando as discussões acadêmicas em EDM. Em seguida, discutem-se os fatores sociológicos que condicionam o desempenho escolar no ensino médio público brasileiro (fundamento da parametrização do conjunto de dados deste estudo) e o uso de dados sintéticos em Mineração de Dados Educacionais. Na sequência, apresenta-se a abordagem de descoberta de conhecimento em bancos de dados (KDD), seguida da aplicação da mineração de dados educacionais para a análise do desempenho acadêmico. Por fim, são detalhadas as técnicas de seleção de atributos, os métodos de validação de modelos, essenciais para a construção e a avaliação dos modelos preditivos, e os principais classificadores.
+O referencial teórico está organizado de maneira a facilitar a compreensão dos conceitos que fundamentam a pesquisa. Inicialmente, discutem-se os fatores sociológicos que condicionam o desempenho escolar no ensino médio público brasileiro (fundamento da parametrização do conjunto de dados deste estudo) e o uso de dados sintéticos em Mineração de Dados Educacionais. Na sequência, apresenta-se a abordagem de descoberta de conhecimento em bancos de dados (KDD), seguida da aplicação da mineração de dados educacionais para a análise do desempenho acadêmico. Por fim, são detalhadas as técnicas de seleção de atributos, os métodos de validação de modelos, essenciais para a construção e a avaliação dos modelos preditivos, e os principais classificadores.
 
 O desempenho acadêmico é um fenômeno multifatorial, influenciado por dimensões sociais, psicológicas, pedagógicas e individuais. Estudos como os apresentados por \citeonline{marturano2015} destacam que variáveis socioeconômicas, como renda familiar, acesso a recursos educacionais e contexto geográfico, desempenham papel crítico na determinação do sucesso discente.
 
 No âmbito psicológico, fatores como motivação, autoeficácia e saúde mental têm sido amplamente discutidos. Segundo \citeonline{dabreu2010}, evidencia-se que a co-ocorrência de baixo desempenho escolar e problemas externalizantes sugere a influência de variáveis antecedentes, como condições adversas na família e baixo nível socioeconômico, corroborando a hipótese de que aspectos subjetivos devem ser considerados em análises preditivas. Além disso, características acadêmicas prévias são apontadas como preditores relevantes em modelos de inteligência artificial, conforme demonstrado em pesquisas com base em dados institucionais \cite{curi2006}.
 
-A aplicação de técnicas de mineração de dados e \textit{machine learning} na educação tem ganhado destaque na literatura internacional e nacional. Algoritmos como árvores de decisão, redes neurais e regressão logística são frequentemente utilizados para identificar padrões em grandes conjuntos de dados educacionais \cite{baker2011}. Esses modelos permitem não apenas prever resultados acadêmicos, mas também mapear grupos de risco, facilitando intervenções personalizadas.
-
-\section{Trabalhos Correlatos}
-
-A previsão do desempenho escolar e o combate à evasão utilizando algoritmos de aprendizado de máquina têm sido amplamente investigados na literatura nacional. Para contextualizar a presente proposta e identificar o estado da arte na área de Mineração de Dados Educacionais (EDM), foram selecionados trabalhos de referência cujas características estruturais de modelagem tangenciam as abordagens deste estudo.
-
-\citeonline{silva2019} avaliaram o desempenho de estudantes universitários utilizando regressão logística e árvores de decisão. Os autores destacaram que variáveis socioeconômicas (como renda e nível de escolaridade dos pais) operaram como fortes determinantes de retenção nos períodos acadêmicos iniciais.
-
-Por sua vez, \citeonline{costa2012} propuseram um sistema preditivo voltado à detecção de alunos em risco de reprovação em disciplinas introdutórias de programação por meio de algoritmos de classificação Bayesiana e árvores de decisão. Constatou-se que o uso de dados demográficos no início do semestre combinado a dados de engajamento pedagógico provê predições com acurácia superior a 80\%.
-
-Nessa linha de análise, \citeonline{baker2011} e \citeonline{romero2010} discutiram a importância da integração de múltiplas fontes de dados (registros acadêmicos e bases contextuais) e o emprego de técnicas para contornar problemas de desbalanceamento de classes, como o SMOTE. Argumenta-se que a correção do desbalanceamento propicia uma sensibilidade substancialmente maior no mapeamento de alunos em risco de evasão.
-
-A Tabela~\ref{tab:trabalhos_correlatos} resume as similaridades e contrastes metodológicos entre as principais iniciativas da literatura e a presente pesquisa.
-
-\begin{table}[htb]
-\centering
-\caption{Comparação metodológica entre trabalhos correlatos da literatura e o presente estudo.}
-\label{tab:trabalhos_correlatos}
-\begin{tabular}{p{3.5cm}p{3.2cm}p{4.2cm}p{4cm}}
-\toprule
-\textbf{Trabalho / Autor} & \textbf{Algoritmos Usados} & \textbf{Principais Atributos} & \textbf{Relação com este Trabalho} \\
-\midrule
-\citeonline{silva2019} & Regressão Logística, Árvore de Decisão & Sociodemográficos (renda, escolaridade familiar, cota) & Compartilha o eixo socioeconômico, aqui expandido com conectividade, trabalho e assistência financeira. \\
-\citeonline{costa2012} & Naive Bayes, Árvore de Decisão & Notas de avaliações contínuas, frequência, dados demográficos & Adota a formulação de métricas de engajamento e a classificação multiclasse do rendimento discente. \\
-\citeonline{pena2014} & Redes Neurais Alternativas, SVM, Random Forest & Histórico escolar prévio, taxas de evasão municipais & Utiliza Random Forest como referencial robusto, integrando-a com técnicas avançadas de SMOTE. \\
-\textbf{Este Estudo (rede pública estadual do PI)} & \textbf{Árvore de Decisão, Random Forest, XGBoost + \textit{baselines}} & \textbf{Fatores sociológicos (renda per capita, trabalho, exclusão digital, distorção idade-série, Pé-de-Meia) + sinais acadêmicos parciais do 1º semestre (nota, frequência, atividades)} & \textbf{Constrói o próprio conjunto de dados sintéticos com rastreabilidade parâmetro--fonte; SMOTE dentro do CV k=10; alvo de tendência de desempenho anual (critérios da LDB), não evasão.} \\
-\bottomrule
-\end{tabular}
-\source{Elaborado pelo autor (2026).}
-\end{table}
-
-Diferentemente dos trabalhos correlatos apresentados (majoritariamente voltados à predição de evasão ou reprovação em disciplinas do ensino superior, a partir de bases institucionais preexistentes), o presente estudo une, em uma única investigação, a \textbf{construção do conjunto de dados} e a \textbf{modelagem preditiva}: o conjunto de dados sintéticos é gerado com parametrização sociologicamente fundamentada e rastreável às fontes oficiais, e a variável-alvo é a \textbf{tendência de desempenho acadêmico} (e não a evasão) de estudantes do ensino médio da rede pública estadual do Piauí. Essa combinação permite avaliar de forma controlada o peso relativo dos fatores sociológicos na classificação, algo inviável em bases institucionais nas quais tais variáveis são incompletas ou inacessíveis.
+A aplicação de técnicas de mineração de dados e \textit{machine learning} na educação tem ganhado destaque na literatura internacional e nacional. Algoritmos como \textit{decision trees} (árvores de decisão), redes neurais e regressão logística são frequentemente utilizados para identificar padrões em grandes conjuntos de dados educacionais \cite{baker2011}. Esses modelos permitem não apenas prever resultados acadêmicos, mas também mapear grupos de risco, facilitando intervenções personalizadas.
 
 \section{Fatores Sociológicos do Desempenho Escolar no Ensino Médio Público}
 
@@ -72,7 +41,7 @@ O processo de KDD é dinâmico e iterativo, podendo exigir retornos a etapas ant
 \centering
 \caption{Visão geral das etapas que compõem o processo de KDD.}
 \label{fig:kdd}
-\begin{mermaid}[width=0.95\textwidth,keepaspectratio]
+\begin{mermaid}[width=0.85\textwidth,keepaspectratio]
 flowchart LR
   A[("Base de<br/>dados")] --> B["Selecao<br/>de dados"]
   B --> C["Pre-<br/>processamento"]
@@ -111,7 +80,7 @@ Nessa linha, a literatura de EDM destaca o valor preditivo dos \textbf{sinais de
 
 A seleção de características desempenha papel fundamental na otimização de modelos preditivos. Conforme \citeonline{liu2007}, existem três categorias principais de técnicas: \textit{Filter}, \textit{Wrapper} e \textit{Embedded}. Cada abordagem apresenta equilíbrio distinto entre eficiência computacional e qualidade dos resultados.
 
-A abordagem \textit{Embedded} integra a seleção de características ao processo de treinamento do modelo, constituindo parte fundamental de algoritmos como Árvore de Decisão e Floresta Aleatória. A técnica \textit{Filter} remove características sem utilidade, apresentando baixo custo computacional. A abordagem \textit{Wrapper} permite experimentar subconjuntos de características em conjunto com o algoritmo específico, embora demande maior processamento.
+A abordagem \textit{Embedded} integra a seleção de características ao processo de treinamento do modelo, constituindo parte fundamental de algoritmos como \textit{Decision Tree} e \textit{Random Forest}. A técnica \textit{Filter} remove características sem utilidade, apresentando baixo custo computacional. A abordagem \textit{Wrapper} permite experimentar subconjuntos de características em conjunto com o algoritmo específico, embora demande maior processamento.
 
 \section{Métodos de Validação de Modelos}
 
@@ -125,15 +94,15 @@ O desbalanceamento de dados ocorre quando um conjunto apresenta quantidade signi
 
 A sobreamostragem via SMOTE (\textit{Synthetic Minority Oversampling Technique}) emprega abordagens estatísticas para gerar instâncias minoritárias sintéticas, enriquecendo a diversidade dos dados sem mera replicação \cite{chawla2002}. Contudo, a aplicação incorreta do SMOTE constitui uma das fontes mais recorrentes de vazamento de dados (\textit{data leakage}) em estudos de aprendizado de máquina \cite{madugula2026}. O vazamento ocorre quando a sobreamostragem é aplicada sobre o conjunto de dados completo antes da divisão entre treino e teste, fazendo com que informações sintéticas geradas a partir de instâncias de teste contaminem o conjunto de treinamento. Para mitigar esse problema, a técnica deve ser confinada estritamente ao conjunto de treinamento dentro de cada partição da validação cruzada, utilizando-se pipelines que encapsulam o SMOTE como etapa interna ao \textit{fold}, uma abordagem adotada neste trabalho por meio do \texttt{imblearn.Pipeline} \cite{madugula2026}.
 
-\section{Árvores de Decisão}
+\section{Decision Trees}
 
-Árvores de decisão (\textit{Decision Trees}) constituem classificadores que, a partir de um vetor de atributos, definem por meio de trajetórias decisórias um resultado final \cite{russel2013}. Na aplicação voltada ao desempenho acadêmico, este modelo revela os fatores subjacentes que influenciam as previsões, permitindo interpretação clara dos processos decisórios \cite{grus2016}. A Figura~\ref{fig:arvore_decisao} ilustra a estrutura genérica do classificador.
+\textit{Decision Trees} (árvores de decisão) constituem classificadores que, a partir de um vetor de atributos, definem por meio de trajetórias decisórias um resultado final \cite{russel2013}. Na aplicação voltada ao desempenho acadêmico, este modelo revela os fatores subjacentes que influenciam as previsões, permitindo interpretação clara dos processos decisórios \cite{grus2016}. A Figura~\ref{fig:arvore_decisao} ilustra a estrutura genérica do classificador.
 
 \begin{figure}[htb]
 \centering
-\caption{Estrutura genérica de uma árvore de decisão.}
+\caption{Estrutura genérica de uma \textit{decision tree}.}
 \label{fig:arvore_decisao}
-\begin{mermaid}[width=0.75\textwidth,keepaspectratio]
+\begin{mermaid}[width=0.85\textwidth,keepaspectratio]
 flowchart TD
   A{"No raiz:<br/>atributo X1"} -->|"condicao a"| B{"No interno:<br/>atributo X2"}
   A -->|"condicao b"| C{"No interno:<br/>atributo X3"}
@@ -145,15 +114,17 @@ flowchart TD
 \source{Elaborado pelo autor (2026), com base em \citeonline{russel2013}.}
 \end{figure}
 
-\section{Floresta Aleatória}
+Como se observa na Figura~\ref{fig:arvore_decisao}, a classificação parte de um nó raiz, no qual o atributo mais discriminante é avaliado, e percorre nós internos com condições sucessivas sobre os demais atributos, até alcançar um nó folha, que atribui a classe final à instância. Essa estrutura hierárquica de decisões é o que torna o modelo diretamente interpretável: cada predição corresponde a uma trajetória legível de regras.
 
-A Floresta Aleatória (\textit{Random Forest}) é uma abordagem robusta que agrega diversas árvores de decisão para tarefas de classificação e regressão. Cada árvore é construída independentemente a partir de uma amostra aleatória do conjunto de dados \cite{artero2009}.
+\section{Random Forest}
 
-No processo de treinamento, utiliza-se a técnica de \textit{bagging} (\textit{bootstrap aggregating}), que gera múltiplas amostras por meio de reamostragem com reposição. Em cada divisão de nó, seleciona-se aleatoriamente um subconjunto de atributos para avaliação, contribuindo para diminuir tanto o viés quanto a variância do modelo \cite{geron2019}. A diversidade induzida pela aleatoriedade dupla (amostras \textit{bootstrap} e subconjuntos de características) é o mecanismo central que confere à Floresta Aleatória resistência ao sobreajuste (\textit{overfitting}) e capacidade de capturar interações complexas entre variáveis \cite{denisko2018}. A Figura~\ref{fig:random_forest} ilustra a estrutura do \textit{ensemble}.
+A \textit{Random Forest} (Floresta Aleatória) é uma abordagem robusta que agrega diversas \textit{decision trees} para tarefas de classificação e regressão. Cada árvore é construída independentemente a partir de uma amostra aleatória do conjunto de dados \cite{artero2009}.
+
+No processo de treinamento, utiliza-se a técnica de \textit{bagging} (\textit{bootstrap aggregating}), que gera múltiplas amostras por meio de reamostragem com reposição. Em cada divisão de nó, seleciona-se aleatoriamente um subconjunto de atributos para avaliação, contribuindo para diminuir tanto o viés quanto a variância do modelo \cite{geron2019}. A diversidade induzida pela aleatoriedade dupla (amostras \textit{bootstrap} e subconjuntos de características) é o mecanismo central que confere à \textit{Random Forest} resistência ao sobreajuste (\textit{overfitting}) e capacidade de capturar interações complexas entre variáveis \cite{denisko2018}. A Figura~\ref{fig:random_forest} ilustra a estrutura do \textit{ensemble}.
 
 \begin{figure}[htb]
 \centering
-\caption{Estrutura genérica de uma Floresta Aleatória.}
+\caption{Estrutura genérica de uma \textit{Random Forest}.}
 \label{fig:random_forest}
 \begin{mermaid}[width=0.85\textwidth,keepaspectratio]
 flowchart TD
@@ -171,11 +142,13 @@ flowchart TD
 \source{Elaborado pelo autor (2026), com base em \citeonline{geron2019}.}
 \end{figure}
 
+A Figura~\ref{fig:random_forest} evidencia o funcionamento do \textit{ensemble}: a partir do conjunto de treinamento, são extraídas múltiplas amostras \textit{bootstrap}, cada uma originando uma árvore treinada de forma independente; na predição, as saídas individuais das árvores são combinadas por votação majoritária, produzindo a classificação final com variância reduzida em relação a uma árvore única.
+
 \section{Gradient Boosting e XGBoost}
 
-Enquanto a Floresta Aleatória baseia-se no paradigma de \textit{bagging} (construindo árvores independentes em paralelo e combinando-as por votação), o \textit{Gradient Boosting} adota uma estratégia sequencial, na qual cada nova árvore é treinada para corrigir os erros residuais das anteriores. Essa abordagem foi formalizada matematicamente por \citeonline{friedman2001}, que demonstrou que o \textit{boosting} pode ser interpretado como um algoritmo de otimização numérica no espaço de funções, utilizando o gradiente descendente para minimizar uma função de perda arbitrária.
+Enquanto a \textit{Random Forest} baseia-se no paradigma de \textit{bagging} (construindo árvores independentes em paralelo e combinando-as por votação), o \textit{Gradient Boosting} adota uma estratégia sequencial, na qual cada nova árvore é treinada para corrigir os erros residuais das anteriores. Essa abordagem foi formalizada matematicamente por \citeonline{friedman2001}, que demonstrou que o \textit{boosting} pode ser interpretado como um algoritmo de otimização numérica no espaço de funções, utilizando o gradiente descendente para minimizar uma função de perda arbitrária.
 
-O XGBoost (\textit{eXtreme Gradient Boosting}) constitui uma implementação otimizada e regularizada do \textit{Gradient Boosting}, proposta por \citeonline{chen2016}. O algoritmo incorpora dois avanços fundamentais em relação à formulação original de Friedman. Primeiro, emprega uma aproximação de Taylor de segunda ordem da função de perda, permitindo capturar a curvatura do erro e direcionar a otimização com maior precisão: enquanto o \textit{Gradient Boosting} clássico utiliza apenas a informação do gradiente de primeira ordem, o XGBoost adiciona o Hessiano (segunda derivada). Segundo, introduz um termo de regularização explícito que penaliza a complexidade das árvores, controlando simultaneamente o número de folhas e a magnitude dos pesos, o que reduz o sobreajuste de forma mais eficaz que a mera limitação de profundidade \cite{chen2016}.
+O XGBoost (\textit{eXtreme Gradient Boosting}) constitui uma implementação otimizada e regularizada do \textit{Gradient Boosting}, proposta por \citeonline{chen2016}. O algoritmo incorpora dois avanços fundamentais em relação à formulação original de Friedman. Primeiro, emprega uma aproximação de Taylor de segunda ordem da função de perda, permitindo capturar a curvatura do erro e direcionar a otimização com maior precisão: enquanto o \textit{Gradient Boosting} clássico utiliza apenas a informação do gradiente de primeira ordem, o XGBoost incorpora também o Hessiano, isto é, a derivada de segunda ordem da função de perda em relação à predição. Segundo, introduz um termo de regularização explícito que penaliza a complexidade das árvores, controlando simultaneamente o número de folhas e a magnitude dos pesos, o que reduz o sobreajuste de forma mais eficaz que a mera limitação de profundidade \cite{chen2016}.
 
 Adicionalmente, o XGBoost apresenta otimizações algorítmicas que o tornam particularmente eficiente em cenários com dados esparsos e valores ausentes, incluindo um algoritmo de divisão ponderada por quantis e tratamento nativo de registros incompletos (características relevantes para domínios educacionais, nos quais lacunas de informação são frequentes) \cite{chen2016}.
 

@@ -38,13 +38,13 @@ A problemática que orienta esta pesquisa emerge da constatação de que, apesar
 Dessa questão derivam quatro hipóteses de pesquisa, retomadas individualmente nas Considerações Finais:
 
 \begin{description}
-    \item[H1.] Classificadores de \textit{ensemble} (Floresta Aleatória e XGBoost) superam a árvore de decisão única e os \textit{baselines} de referência (classificador majoritário e Regressão Logística) na predição da tendência de desempenho.
+    \item[H1.] Classificadores de \textit{ensemble} (\textit{Random Forest} e XGBoost) superam a \textit{decision tree} única e os \textit{baselines} de referência (classificador majoritário e Regressão Logística) na predição da tendência de desempenho.
     \item[H2.] Os fatores sociológicos parametrizados no fenômeno gerador são recuperáveis pelos modelos como atributos de importância não redundante, mesmo na presença de indicadores acadêmicos diretos.
     \item[H3.] Sinais acadêmicos parciais do primeiro semestre são suficientes para prever a tendência do desfecho anual com desempenho substancialmente superior ao \textit{baseline} majoritário.
     \item[H4.] A regra legal de elegibilidade da assistência financeira estudantil produz, por si só, proporções coerentes de beneficiários entre cenários socioeconômicos contrastantes, sem parâmetro dedicado de calibração.
 \end{description}
 
-O presente trabalho propõe, portanto, a construção de um conjunto de dados sintéticos sociologicamente fundamentado e o desenvolvimento comparativo de modelos de classificação (Árvore de Decisão, Floresta Aleatória e XGBoost) para prever a tendência de desempenho ao final do ano letivo (Aprovado, Em Risco ou Reprovado), a partir de sinais acadêmicos parciais do primeiro semestre e do contexto socioeconômico, identificando as variáveis mais determinantes e fornecendo subsídios para intervenções pedagógicas preventivas.
+O presente trabalho propõe, portanto, a construção de um conjunto de dados sintéticos sociologicamente fundamentado e o desenvolvimento comparativo de modelos de classificação (\textit{Decision Tree}, \textit{Random Forest} e XGBoost) para prever a tendência de desempenho ao final do ano letivo (Aprovado, Em Risco ou Reprovado), a partir de sinais acadêmicos parciais do primeiro semestre e do contexto socioeconômico, identificando as variáveis mais determinantes e fornecendo subsídios para intervenções pedagógicas preventivas.
 
 \section{Objetivo Geral}
 
@@ -54,6 +54,6 @@ Desenvolver um modelo preditivo de tendência de desempenho acadêmico para estu
 
 \begin{enumerate}
     \item Construir e parametrizar um gerador de dados sintéticos que reproduza o perfil demográfico, socioeconômico e acadêmico de uma turma média do ensino médio da rede pública estadual do Piauí, com rastreabilidade documentada entre cada parâmetro de distribuição e sua fonte estatística ou acadêmica, incluindo o nível de desagregação de cada fonte.
-    \item Testar e avaliar comparativamente algoritmos de aprendizado de máquina (Árvore de Decisão, Floresta Aleatória e XGBoost) frente a \textit{baselines} de referência, para identificar aquele com melhor desempenho na predição da tendência de rendimento acadêmico, sob tratamento adequado de desbalanceamento de classes, prevenção de vazamento de dados e teste estatístico pareado entre os modelos.
+    \item Testar e avaliar comparativamente algoritmos de aprendizado de máquina (\textit{Decision Tree}, \textit{Random Forest} e XGBoost) frente a \textit{baselines} de referência, para identificar aquele com melhor desempenho na predição da tendência de rendimento acadêmico, sob tratamento adequado de desbalanceamento de classes, prevenção de vazamento de dados e teste estatístico pareado entre os modelos.
     \item Analisar e interpretar os resultados obtidos, verificando se os fatores sociológicos parametrizados no fenômeno gerador são recuperados pelos classificadores como atributos determinantes e discutindo suas implicações para intervenções pedagógicas e políticas de permanência, com salvaguardas explícitas contra vieses discriminatórios.
 \end{enumerate}

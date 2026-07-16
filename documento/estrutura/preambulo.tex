@@ -7,6 +7,9 @@
 
 \usepackage[T1]{fontenc}				% Seleção de códigos de fonte.
 \usepackage[utf8]{inputenc}				% Codificação do documento (conversão automática dos acentos)
+\usepackage{newunicodechar}				% Correção de caracteres Unicode sob LuaLaTeX + T1
+\newunicodechar{º}{\textordmasculine}	% Evita que "º" seja impresso como "ž"
+\newunicodechar{ª}{\textordfeminine}
 \usepackage{indentfirst}				% Indenta o primeiro parágrafo de cada seção.
 \usepackage{nomencl} 					% Usado pela Lista de símbolos
 \usepackage{color}						% Controle das cores
