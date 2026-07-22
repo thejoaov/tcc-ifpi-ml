@@ -185,6 +185,18 @@ img, video, canvas, svg {
 .slide-meta .num { display: flex; align-items: center; gap: 14px; }
 .slide-meta .dot { width: 10px; height: 10px; background: var(--ink); border-radius: 50%; }
 
+/* Nota de rodapé com fontes bibliográficas do slide */
+.slide-meta .fontes {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    letter-spacing: 0.03em;
+    text-transform: none;
+    color: var(--ink-2);
+    max-width: 1500px;
+    line-height: 1.35;
+}
+.inverted .slide-meta .fontes { color: rgba(239, 233, 217, 0.85); }
+
 /* Chrome invertido (slides com fundo verde) */
 .inverted .topbar, .inverted .slide-meta { color: var(--cream); }
 .inverted .topbar .pill { border-color: var(--cream); }
@@ -500,7 +512,7 @@ img, video, canvas, svg {
         <p class="body-lg reveal" style="margin-top:54px; max-width:1500px;">Identificar <strong>precocemente</strong> estudantes em trajetória de risco permite intervenção pedagógica <strong>antes</strong> do desfecho - essa é a promessa da Mineração de Dados Educacionais (EDM).</p>
     </div>
     <div class="slide-meta">
-        <span>Contexto · Educação Básica Brasileira</span>
+        <span class="fontes">Todos Pela Educação (2023) · INEP - Censo Escolar 2024 (2025) · Baker, Isotani &amp; Carvalho (2011) · Romero &amp; Ventura (2010)</span>
         <span class="num">03 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -540,7 +552,7 @@ img, video, canvas, svg {
         <p class="body-lg reveal" style="margin-top:52px; max-width:1560px;">O desempenho escolar é <strong>multifatorial</strong>: renda, trabalho juvenil, exclusão digital e distorção idade-série condicionam a trajetória - sem, contudo, determiná-la de forma fatalista.</p>
     </div>
     <div class="slide-meta">
-        <span>Contexto · Indicadores do Piauí</span>
+        <span class="fontes">IBGE (2024) · PNAD Contínua TIC (2024/25) · INEP (2025) · Fund. Abrinq (2023) · Minuto MT (2026) · Santos et al. (2026)</span>
         <span class="num">04 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -562,7 +574,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Problema de Pesquisa</span>
+        <span class="fontes">D'Abreu &amp; Marturano (2010) · Campos et al. (2024) · Berlato, Mendes &amp; Andretta (2020)</span>
         <span class="num">05 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -673,7 +685,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Referencial Teórico</span>
+        <span class="fontes">Baker et al. (2011) · Romero &amp; Ventura (2010) · Berlato et al. (2020) · Kostopoulos et al. (2026) · Shabnam et al. (2025)</span>
         <span class="num">08 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -711,7 +723,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Dados Sintéticos · Justificativa</span>
+        <span class="fontes">IBGE · INEP · PNAD Contínua (matriz de rastreabilidade) · Kostopoulos, Tsiakmaki &amp; Kotsiantis (2026) · Shabnam et al. (2025)</span>
         <span class="num">09 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -759,7 +771,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Geração de Dados · Fenômeno Gerador</span>
+        <span class="fontes">Fonte: Brasil (1996) - LDB, Lei nº 9.394 (critérios de aprovação: média 6,0 e frequência 75%)</span>
         <span class="num">10 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -794,7 +806,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Geração de Dados · Variáveis</span>
+        <span class="fontes">MTE - Trabalho infantil na PNAD Contínua (2024) · Fredricks, Blumenfeld &amp; Paris (2004) · Costa et al. (2012)</span>
         <span class="num">11 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -845,7 +857,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Geração de Dados · Aderência</span>
+        <span class="fontes">alvos de IBGE, INEP e PNAD Contínua (matriz de rastreabilidade) · dados realizados: elaborado pelo autor (2026)</span>
         <span class="num">12 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -883,7 +895,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Geração de Dados · Cenários</span>
+        <span class="fontes">Brasil (2024) - Lei nº 14.818 · MDS - CadÚnico nº 50 (2024) · SEDUC-PI · Todos Pela Educação</span>
         <span class="num">13 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -924,7 +936,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Metodologia · Protocolo</span>
+        <span class="fontes">Fayyad et al. (1996) · Chawla et al. (2002) · He &amp; Garcia (2009) · Demšar (2006) · Chen &amp; Guestrin (2016) · Friedman (2001)</span>
         <span class="num">14 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -955,7 +967,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Metodologia · Sensibilidade ao Ruído</span>
+        <span class="fontes">elaborado pelo autor (2026) · faixa de referência em EDM: Costa et al. (2012) · Shabnam et al. (2025)</span>
         <span class="num">15 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -998,7 +1010,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Resultados · Métricas Comparativas</span>
+        <span class="fontes">Fonte: elaborado pelo autor (2026)</span>
         <span class="num">16 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1036,7 +1048,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Resultados · Verificação Estatística</span>
+        <span class="fontes">elaborado pelo autor (2026) · protocolo do teste: Demšar (2006)</span>
         <span class="num">17 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1062,7 +1074,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Resultados · Curvas ROC</span>
+        <span class="fontes">Fonte: elaborado pelo autor (2026)</span>
         <span class="num">18 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1088,7 +1100,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Resultados · Análise de Erros</span>
+        <span class="fontes">Fonte: elaborado pelo autor (2026)</span>
         <span class="num">19 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1120,7 +1132,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Resultados · Classe Crítica</span>
+        <span class="fontes">Fonte: elaborado pelo autor (2026)</span>
         <span class="num">20 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1147,7 +1159,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Resultados · Importância dos Atributos</span>
+        <span class="fontes">elaborado pelo autor (2026) · Curi (2006) · Fredricks et al. (2004) · Berlato et al. (2020) · Santos et al. (2026)</span>
         <span class="num">21 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1182,7 +1194,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Conclusões · Hipóteses</span>
+        <span class="fontes">elaborado pelo autor (2026) · arquitetura do XGBoost: Chen &amp; Guestrin (2016) · Friedman (2001)</span>
         <span class="num">22 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1213,7 +1225,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Conclusões · Contribuições</span>
+        <span class="fontes">Madugula et al. (2026) · Demšar (2006) · He &amp; Garcia (2009)</span>
         <span class="num">23 <span class="dot"></span> 25</span>
     </div>
 </section>
@@ -1259,7 +1271,7 @@ img, video, canvas, svg {
         </div>
     </div>
     <div class="slide-meta">
-        <span>Conclusões · Limitações e Futuro</span>
+        <span class="fontes">Madugula et al. (2026) · Kostopoulos et al. (2026) - privacidade em geração sintética</span>
         <span class="num">24 <span class="dot"></span> 25</span>
     </div>
 </section>
