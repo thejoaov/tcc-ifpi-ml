@@ -44,5 +44,6 @@
   "[latex]": {
     "editor.wordWrap": "on",
     "editor.wrappingStrategy": "advanced"
-  }
+  },
+  "livePreview.defaultPreviewPath": "/apresentacao/index.html"
 }
