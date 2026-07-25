@@ -1,0 +1,60 @@
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{newunicodechar}
+
+\definecolor{ink}{HTML}{0F0F0F}
+\definecolor{ink2}{HTML}{2A2A2A}
+\definecolor{green}{HTML}{1F8A4C}
+\definecolor{greendark}{HTML}{136636}
+\definecolor{cream}{HTML}{EFE9D9}
+\definecolor{rule}{HTML}{C9C2AC}
+
+\setmainfont{STIX Two Text}[Ligatures=TeX]
+\setsansfont{Helvetica Neue}[BoldFont={Helvetica Neue Bold}]
+\setmonofont{JetBrains Mono}[Scale=0.86]
+
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{≈}{\ensuremath{\approx}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{−}{\ensuremath{-}}
+\newunicodechar{×}{\ensuremath{\times}}
+
+\newcommand{\subsectionbreak}{\clearpage}
+
+\titleformat{\section}{\sffamily\bfseries\LARGE\color{ink}}{}{0pt}{}
+\titleformat{\subsection}{\sffamily\bfseries\Large\color{greendark}}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{0pt}{10pt}
+
+\newcommand{\miniaturaslide}[1]{%
+  \par\nointerlineskip
+  \noindent\fcolorbox{rule}{white}{\includegraphics[width=7.2cm]{#1}}%
+  \par\vspace{4pt}%
+}
+
+\renewenvironment{quote}{%
+  \begin{mdframed}[
+    linewidth=3pt, linecolor=green,
+    topline=false, bottomline=false, rightline=false,
+    backgroundcolor=cream,
+    innerleftmargin=12pt, innerrightmargin=12pt,
+    innertopmargin=10pt, innerbottommargin=10pt,
+    skipabove=8pt, skipbelow=10pt]%
+  \setlength{\parskip}{7pt}\color{ink}\large%
+}{\end{mdframed}}
+
+\setlist[itemize]{leftmargin=1.2em, itemsep=3pt, topsep=5pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\color{rule}\hrule height 0.4pt}
+\fancyhead[L]{\sffamily\footnotesize\color{ink2}Mini roteiro · Defesa de TCC}
+\fancyhead[R]{\sffamily\footnotesize\color{ink2}\thepage}
