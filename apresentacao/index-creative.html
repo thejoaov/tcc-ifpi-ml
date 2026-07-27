@@ -5,57 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Modelo Preditivo para Avaliação de Desempenho Acadêmico - Defesa de TCC</title>
 
+<!-- === FONTES (Creative Mode: Archivo Black / Space Grotesk / JetBrains Mono) === -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ===========================================
-   CARTESIAN DESIGN SYSTEM
+   TOKENS DO DESIGN SYSTEM (Creative Mode)
    =========================================== */
 :root {
-    --bg-primary: #ede8e0;
-    --bg-secondary: #e2dbd1;
-    --text-primary: #1a1a1a;
-    --text-secondary: #5a5a5a;
-    --accent: #8a8178;
-    --line: #b8b0a4;
+    --cream: #EFE9D9;
+    --cream-2: #E4DCC4;
+    --ink: #0F0F0F;
+    --ink-2: #2A2A2A;
+    --green: #1F8A4C;
+    --green-dark: #136636;
+    --pink: #F06CA8;
+    --pink-dark: #D14E8B;
+    --orange: #E85A1F;
+    --yellow: #F5C518;
 
-    --font-display: "Playfair Display", Georgia, serif;
-    --font-body: "Inter", system-ui, sans-serif;
-    --font-mono: "Inter", system-ui, sans-serif;
+    --font-display: "Archivo Black", sans-serif;
+    --font-body: "Space Grotesk", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-    --stage-bg: #1a1a1a;
-    --slide-bg: var(--bg-primary);
-
-    /* Compatibility aliases for residual inline styles */
-    --cream: var(--bg-primary);
-    --cream-2: var(--bg-secondary);
-    --ink: var(--text-primary);
-    --ink-2: var(--text-secondary);
-    --green: var(--accent);
-    --green-dark: var(--accent);
-    --pink: var(--accent);
-    --pink-dark: var(--accent);
-    --orange: var(--accent);
-    --yellow: var(--accent);
+    --stage-bg: var(--ink);
+    --slide-bg: var(--cream);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html, body {
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   =========================================== */
+html,
+body {
     width: 100%;
     height: 100%;
     margin: 0;
     overflow: hidden;
-    background: var(--stage-bg);
+    background: var(--stage-bg, #000);
 }
 
 .deck-viewport {
     position: fixed;
     inset: 0;
     overflow: hidden;
-    background: var(--stage-bg);
+    background: var(--stage-bg, #000);
 }
 
 .deck-stage {
@@ -66,7 +63,7 @@ html, body {
     height: 1080px;
     overflow: hidden;
     transform-origin: 0 0;
-    background: var(--slide-bg);
+    background: var(--slide-bg, #fff);
 }
 
 .slide {
@@ -79,7 +76,7 @@ html, body {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
-    background: var(--slide-bg);
+    background: var(--slide-bg, #fff);
 }
 
 .slide.active,
@@ -129,284 +126,264 @@ img, video, canvas, svg {
     }
 }
 
-/* Animações */
+/* ===========================================
+   ANIMAÇÕES DE ENTRADA
+   =========================================== */
 .reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(28px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .slide.visible .reveal { opacity: 1; transform: translateY(0); }
 .slide.visible .reveal:nth-child(1) { transition-delay: 0.05s; }
-.slide.visible .reveal:nth-child(2) { transition-delay: 0.12s; }
-.slide.visible .reveal:nth-child(3) { transition-delay: 0.19s; }
-.slide.visible .reveal:nth-child(4) { transition-delay: 0.26s; }
-.slide.visible .reveal:nth-child(5) { transition-delay: 0.33s; }
-.slide.visible .reveal:nth-child(6) { transition-delay: 0.40s; }
-.slide.visible .reveal:nth-child(7) { transition-delay: 0.47s; }
+.slide.visible .reveal:nth-child(2) { transition-delay: 0.14s; }
+.slide.visible .reveal:nth-child(3) { transition-delay: 0.23s; }
+.slide.visible .reveal:nth-child(4) { transition-delay: 0.32s; }
+.slide.visible .reveal:nth-child(5) { transition-delay: 0.41s; }
+.slide.visible .reveal:nth-child(6) { transition-delay: 0.50s; }
+.slide.visible .reveal:nth-child(7) { transition-delay: 0.59s; }
 
-/* Chrome */
+/* ===========================================
+   CHROME DE SLIDE (topbar + rodapé)
+   =========================================== */
 .topbar {
     position: absolute;
     left: 64px;
     right: 64px;
-    top: 40px;
+    top: 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--ink);
     z-index: 5;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--line);
 }
 .topbar .pill {
-    border: 1px solid var(--line);
+    border: 2px solid var(--ink);
     border-radius: 999px;
     padding: 6px 16px;
-    letter-spacing: 0.1em;
 }
 .slide-meta {
     position: absolute;
     left: 64px;
     right: 64px;
-    bottom: 36px;
+    bottom: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-family: var(--font-mono);
+    font-size: 24px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--ink);
     z-index: 5;
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
 }
-.slide-meta .num { display: flex; align-items: center; gap: 12px; }
-.slide-meta .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+.slide-meta .num { display: flex; align-items: center; gap: 14px; }
+.slide-meta .dot { width: 10px; height: 10px; background: var(--ink); border-radius: 50%; }
 
+/* Chamada numerada que liga o dado à fonte no rodapé */
 .ref-n {
-    font-family: var(--font-body);
+    font-family: var(--font-mono);
     font-size: 0.55em;
     font-weight: 500;
     vertical-align: super;
     line-height: 0;
     margin-left: 2px;
-    color: var(--accent);
+    color: var(--orange);
     white-space: nowrap;
 }
+.fill-green .ref-n,
+.fill-ink .ref-n,
+.fill-orange .ref-n,
+.inverted .ref-n { color: var(--yellow); }
+.cm-table th .ref-n { color: var(--yellow); }
+.slide-meta .fontes .ref-n {
+    font-size: 13px;
+    margin-left: 0;
+    margin-right: 3px;
+    color: var(--orange);
+}
+
+/* Nota de rodapé com fontes bibliográficas do slide */
 .slide-meta .fontes {
-    font-family: var(--font-body);
-    font-size: 15px;
-    letter-spacing: 0.02em;
+    font-family: var(--font-mono);
+    font-size: 17px;
+    letter-spacing: 0.03em;
     text-transform: none;
-    color: var(--text-secondary);
+    color: var(--ink-2);
     max-width: 1500px;
     line-height: 1.35;
 }
-.slide-meta .fontes .ref-n {
-    font-size: 12px;
-    margin-left: 0;
-    margin-right: 3px;
-    color: var(--accent);
-}
+.inverted .slide-meta .fontes { color: rgba(239, 233, 217, 0.85); }
 
-/* Tipografia */
-.d-hero, .d-xl, .d-lg, .d-md, .d-sm, .d-xs {
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    text-transform: none;
-    color: var(--text-primary);
-    line-height: 1.05;
-}
-.d-hero { font-size: 120px; }
-.d-xl   { font-size: 100px; }
-.d-lg   { font-size: 72px; }
-.d-md   { font-size: 56px; }
-.d-sm   { font-size: 44px; }
-.d-xs   { font-size: 36px; }
+/* Chrome invertido (slides com fundo verde) */
+.inverted .topbar, .inverted .slide-meta { color: var(--cream); }
+.inverted .topbar .pill { border-color: var(--cream); }
+.inverted .slide-meta .dot { background: var(--cream); }
 
-.kicker, .label {
+/* ===========================================
+   TIPOGRAFIA
+   =========================================== */
+.d-hero  { font-family: var(--font-display); font-size: 150px; line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+.d-xl    { font-family: var(--font-display); font-size: 130px; line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+.d-lg    { font-family: var(--font-display); font-size: 100px; line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+.d-md    { font-family: var(--font-display); font-size: 84px;  line-height: 0.92; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+.d-sm    { font-family: var(--font-display); font-size: 72px;  line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+.d-xs    { font-family: var(--font-display); font-size: 56px;  line-height: 0.98; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); }
+.kicker {
     display: inline-block;
-    background: transparent;
-    color: var(--accent);
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    padding: 0;
-}
-.body-lg { font-family: var(--font-body); font-size: 28px; line-height: 1.45; color: var(--text-secondary); font-weight: 400; }
-.body-md { font-family: var(--font-body); font-size: 23px; line-height: 1.4; color: var(--text-secondary); font-weight: 400; }
-.mono-tag {
-    font-family: var(--font-body);
-    font-size: 18px;
-    font-weight: 500;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-size: 24px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
+    padding: 10px 18px;
+}
+.body-lg { font-family: var(--font-body); font-size: 30px; line-height: 1.4; color: var(--ink-2); }
+.body-md { font-family: var(--font-body); font-size: 25px; line-height: 1.35; color: var(--ink-2); }
+.mono-tag {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
-.content { position: absolute; left: 96px; right: 96px; top: 130px; bottom: 110px; }
+/* ===========================================
+   COMPONENTES
+   =========================================== */
+.content { position: absolute; left: 96px; right: 96px; top: 150px; bottom: 120px; }
 
-/* Cartões / estatísticas — filete fino, sem preenchimento colorido */
+/* Cartões de estatística */
 .stat-cell {
-    border: 1px solid var(--line);
+    border: 4px solid var(--ink);
     padding: 28px 32px;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    background: transparent;
-    color: var(--text-primary);
 }
-.stat-num {
-    font-family: var(--font-display);
-    font-size: 72px;
-    line-height: 0.95;
-    font-weight: 400;
-    color: var(--text-primary);
-}
-.stat-label {
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-}
-.stat-desc {
-    font-family: var(--font-body);
-    font-size: 20px;
-    line-height: 1.35;
-    color: var(--text-secondary);
-}
+.stat-num { font-family: var(--font-display); font-size: 88px; line-height: 0.9; }
+.stat-label { font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.06em; text-transform: uppercase; }
+.stat-desc { font-family: var(--font-body); font-size: 23px; line-height: 1.3; }
+.fill-green  { background: var(--green);  color: var(--cream); }
+.fill-pink   { background: var(--pink);   color: var(--ink); }
+.fill-orange { background: var(--orange); color: var(--cream); }
+.fill-yellow { background: var(--yellow); color: var(--ink); }
+.fill-cream  { background: var(--cream);  color: var(--ink); }
+.fill-cream2 { background: var(--cream-2); color: var(--ink); }
+.fill-ink    { background: var(--ink);    color: var(--cream); }
 
+/* Cartões de passo/processo */
 .step-card {
-    border: 1px solid var(--line);
+    border: 4px solid var(--ink);
     padding: 26px;
     display: flex;
     flex-direction: column;
     gap: 14px;
     position: relative;
-    background: transparent;
-    color: var(--text-primary);
 }
-.step-num {
-    font-family: var(--font-display);
-    font-size: 64px;
-    line-height: 0.9;
-    font-weight: 400;
-    color: var(--accent);
-}
-.step-title {
-    font-family: var(--font-display);
-    font-size: 28px;
-    line-height: 1.15;
-    font-weight: 400;
-    text-transform: none;
-    color: var(--text-primary);
-}
-.step-desc {
-    font-family: var(--font-body);
-    font-size: 20px;
-    line-height: 1.4;
-    color: var(--text-secondary);
-}
+.step-num { font-family: var(--font-display); font-size: 90px; line-height: 0.85; }
+.step-title { font-family: var(--font-display); font-size: 30px; line-height: 1.0; text-transform: uppercase; }
+.step-desc { font-family: var(--font-body); font-size: 22px; line-height: 1.3; }
 .step-phase {
     position: absolute;
     right: 14px;
     bottom: 14px;
-    font-family: var(--font-body);
-    font-size: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid var(--line);
-    background: var(--bg-secondary);
-    color: var(--accent);
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
     padding: 4px 10px;
     line-height: 1.2;
     white-space: nowrap;
 }
-
-.hard-block, .hard-block-ink {
-    border: 1px solid var(--line)
-    background: var(--bg-secondary);
+.fill-green .step-phase {
+    border-color: var(--cream);
+    background: var(--green-dark);
+    color: var(--cream);
+}
+.fill-pink .step-phase {
+    border-color: var(--ink);
+    background: #fff;
 }
 
+/* Bloco com sombra dura (destaque) */
+.hard-block {
+    border: 4px solid var(--ink);
+    box-shadow: 24px 24px 0 var(--orange), 24px 24px 0 4px var(--ink);
+}
+.hard-block-ink { border: 4px solid var(--ink); box-shadow: 18px 18px 0 var(--ink); }
+
+/* Tabela editorial */
 .cm-table {
     width: 100%;
-    border: 1px solid var(--line);
+    border: 4px solid var(--ink);
     border-collapse: collapse;
-    background: transparent;
+    background: var(--cream-2);
 }
 .cm-table th {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: var(--ink);
+    color: var(--cream);
     font-family: var(--font-display);
-    font-size: 22px;
-    text-transform: none;
+    font-size: 26px;
+    text-transform: uppercase;
     font-weight: 400;
     padding: 16px 24px;
     text-align: left;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+    border-right: 3px solid var(--cream);
 }
 .cm-table th:last-child { border-right: none; }
 .cm-table td {
     font-family: var(--font-body);
-    font-size: 22px;
-    padding: 14px 24px;
-    border-top: 1px solid var(--line);
-    border-right: 1px solid var(--line);
-    color: var(--text-primary);
+    font-size: 26px;
+    padding: 15px 24px;
+    border-top: 3px solid var(--ink);
+    border-right: 3px solid var(--ink);
+    color: var(--ink);
 }
 .cm-table td:last-child { border-right: none; }
-.cm-table td.mono { font-family: var(--font-body); font-size: 20px; letter-spacing: 0.02em; }
-.cm-table td.best {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
-    font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 600;
-}
+.cm-table td.mono { font-family: var(--font-mono); font-size: 24px; }
+.cm-table td.best { background: var(--green); color: var(--cream); font-family: var(--font-display); font-size: 26px; }
 
+/* Selo rotacionado */
 .badge-rot {
     display: inline-block;
-    background: var(--bg-secondary);
-    border: 1px solid var(--line);
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 500;
+    background: var(--yellow);
+    border: 4px solid var(--ink);
+    font-family: var(--font-display);
+    font-size: 27px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    padding: 10px 18px;
-    transform: none;
+    color: var(--ink);
+    padding: 14px 22px;
+    transform: rotate(-4deg);
 }
 
+/* Painel de figura (imagens do estudo) */
 .figure-panel {
-    border: 1px solid var(--line);
+    border: 4px solid var(--ink);
     background: #fff;
-    padding: 16px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .figure-panel img { object-fit: contain; width: 100%; height: 100%; }
 
+/* Barras CSS (análise de ruído) */
 .bar-col { display: flex; flex-direction: column; align-items: center; gap: 12px; justify-content: flex-end; height: 100%; }
-.bar { width: 100%; border: 1px solid var(--line); background: var(--bg-secondary); }
-.bar-val { font-family: var(--font-body); font-size: 18px; letter-spacing: 0.04em; color: var(--accent); }
-.bar-lab { font-family: var(--font-display); font-size: 20px; color: var(--text-primary); }
+.bar { width: 100%; border: 3px solid var(--ink); }
+.bar-val { font-family: var(--font-mono); font-size: 22px; letter-spacing: 0.04em; }
+.bar-lab { font-family: var(--font-display); font-size: 24px; }
 
+/* Lista de referências bibliográficas */
 .ref-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -416,84 +393,54 @@ img, video, canvas, svg {
 .ref-col { display: flex; flex-direction: column; gap: 12px; }
 .ref-item {
     font-family: var(--font-body);
-    font-size: 17px;
-    line-height: 1.3;
-    color: var(--text-secondary);
-    padding-left: 16px;
-    border-left: 1px solid var(--line);
+    font-size: 17.5px;
+    line-height: 1.26;
+    color: var(--ink-2);
+    padding-left: 18px;
+    border-left: 4px solid var(--cream-2);
 }
-.ref-item strong { color: var(--text-primary); font-weight: 500; }
+.ref-item strong { color: var(--ink); }
 
+/* Setas de fluxo */
 .flow-arrow {
     width: 0; height: 0;
-    border-top: 12px solid transparent;
-    border-bottom: 12px solid transparent;
-    border-left: 16px solid var(--line);
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-left: 24px solid var(--ink);
     flex-shrink: 0;
     align-self: center;
 }
 
-/* Decoração geométrica Cartesian */
-.geo-decoration {
-    position: absolute;
-    border: 1px solid var(--line);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.45;
-}
-.geo-ring {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 720px;
-    height: 720px;
-}
-.geo-ring::before {
-    content: '';
-    position: absolute;
-    top: 12%;
-    left: 12%;
-    width: 76%;
-    height: 76%;
-    border: 1px dashed var(--line);
-    border-radius: 50%;
-}
-.slide-closing { background: var(--bg-secondary); }
-.slide-closing .content { position: relative; z-index: 1; }
-
-strong { font-weight: 600; color: var(--text-primary); }
-em { font-style: italic; }
-
-/* Edição inline */
+/* ===========================================
+   EDIÇÃO INLINE
+   =========================================== */
 .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
 .edit-toggle {
     position: fixed; top: 18px; left: 18px;
     z-index: 10001;
-    font-size: 16px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--line);
+    font-size: 22px;
+    background: var(--yellow);
+    border: 3px solid var(--ink);
     padding: 8px 12px;
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-    font-family: var(--font-body);
-    color: var(--text-primary);
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
 }
 .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
-.editing [contenteditable="true"] { outline: 1px dashed var(--accent); outline-offset: 4px; }
+.editing [contenteditable="true"] { outline: 2px dashed var(--pink); outline-offset: 4px; }
 
+/* Contador de slides (fora do stage) */
 .deck-counter {
     position: fixed;
     right: 24px;
     bottom: 20px;
     z-index: 1000;
-    font-family: var(--font-body);
-    font-size: 13px;
-    letter-spacing: 0.12em;
-    color: rgba(237, 232, 224, 0.65);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: rgba(239, 233, 217, 0.75);
 }
 </style>
 </head>
@@ -506,33 +453,32 @@ em { font-style: italic; }
      SLIDE 01 - CAPA
 ============================================================ -->
 <section class="slide active">
-    <div class="geo-decoration" style="right:80px; bottom:120px; width:420px; height:420px;"></div>
     <div class="topbar">
         <span>IFPI - Campus Teresina Zona Sul</span>
         <span class="pill">Defesa de TCC · 2026</span>
     </div>
     <div class="content">
         <div class="reveal" style="display:flex; align-items:center; gap:28px; margin-top:8px;">
-            <div style="border:1px solid var(--line); background:transparent; padding:10px; width:110px; height:110px; display:flex; align-items:center; justify-content:center;">
+            <div style="border:4px solid var(--ink); background:#fff; padding:10px; width:110px; height:110px; display:flex; align-items:center; justify-content:center;">
                 <img src="assets/logo_ifpi.jpg" alt="Logotipo do IFPI" style="object-fit:contain;">
             </div>
             <span class="mono-tag" style="font-size:24px;">Licenciatura em Computação</span>
         </div>
-        <h1 class="reveal" style="font-family:var(--font-display); font-size:78px; line-height:1.05; line-height:0.94; letter-spacing:-0.01em; text-transform:none; color:var(--text-primary); margin-top:40px; max-width:1660px;">Modelo Preditivo para Avaliação de Desempenho Acadêmico</h1>
+        <h1 class="reveal" style="font-family:var(--font-display); font-size:104px; line-height:0.94; letter-spacing:-0.01em; text-transform:uppercase; color:var(--ink); margin-top:40px; max-width:1660px;">Modelo Preditivo para Avaliação de Desempenho Acadêmico</h1>
         <!-- <div class="reveal" style="margin-top:44px; display:flex; gap:24px; align-items:center;">
-            <div class="hard-block" style="padding:20px 32px;">
-                <span style="font-family:var(--font-display); font-size:32px; text-transform:none;">Ensino Médio · Rede Pública · Piauí</span>
+            <div class="hard-block fill-pink" style="padding:20px 32px;">
+                <span style="font-family:var(--font-display); font-size:32px; text-transform:uppercase;">Ensino Médio · Rede Pública · Piauí</span>
             </div>
             <span class="badge-rot">EDM + Machine Learning</span>
         </div> -->
         <div class="reveal" style="margin-top:56px; display:flex; gap:80px;">
             <div>
                 <div class="mono-tag" style="margin-bottom:10px;">Autor</div>
-                <div class="body-lg" style="font-weight:700; color:var(--text-primary);">João Victor dos Santos Mendes</div>
+                <div class="body-lg" style="font-weight:700; color:var(--ink);">João Victor dos Santos Mendes</div>
             </div>
             <div>
                 <div class="mono-tag" style="margin-bottom:10px;">Orientador</div>
-                <div class="body-lg" style="font-weight:700; color:var(--text-primary);">Prof. Dr. Kelson Carvalho Santos</div>
+                <div class="body-lg" style="font-weight:700; color:var(--ink);">Prof. Dr. Kelson Carvalho Santos</div>
             </div>
         </div>
     </div>
@@ -553,35 +499,41 @@ em { font-style: italic; }
     </div>
     <div class="content">
         <h2 class="d-lg reveal">Jornada de pesquisa</h2>
-        <div class="reveal" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:22px; margin-top:56px;">
-            <div class="step-card" style="min-height:400px; padding:28px 26px 52px;">
-                <div class="step-num" style="font-size:56px;">01</div>
-                <div class="step-title" style="font-size:28px;">Problema</div>
-                <div class="step-desc" style="font-size:20px;">Contexto, questão de pesquisa, hipóteses e objetivos.</div>
+        <div class="reveal" style="display:grid; grid-template-columns:repeat(6, 1fr); gap:16px; margin-top:52px;">
+            <div class="step-card fill-cream" style="min-height:380px; padding:22px 22px 48px;">
+                <div class="step-num" style="color:var(--pink); font-size:58px;">01</div>
+                <div class="step-title" style="font-size:24px;">Problema</div>
+                <div class="step-desc" style="font-size:19px;">Por que prever tendência de desempenho no EM público do Piauí - e as hipóteses.</div>
                 <div class="step-phase">Introdução</div>
             </div>
-            <div class="step-card" style="min-height:400px; padding:28px 26px 52px;">
-                <div class="step-num" style="font-size:56px;">02</div>
-                <div class="step-title" style="font-size:28px;">Correlatos</div>
-                <div class="step-desc" style="font-size:20px;">O que a literatura já fez — e o diferencial deste estudo.</div>
+            <div class="step-card fill-cream2" style="min-height:380px; padding:22px 22px 48px;">
+                <div class="step-num" style="font-size:58px; color:var(--green);">02</div>
+                <div class="step-title" style="font-size:24px;">Fundamentos</div>
+                <div class="step-desc" style="font-size:19px;">Os conceitos que sustentam o trabalho: fatores sociais, dados sintéticos, KDD e os algoritmos.</div>
                 <div class="step-phase">Introdução</div>
             </div>
-            <div class="step-card" style="min-height:400px; padding:28px 26px 52px;">
-                <div class="step-num" style="font-size:56px;">03</div>
-                <div class="step-title" style="font-size:28px;">Metodologia</div>
-                <div class="step-desc" style="font-size:20px;">Fundamentos, geração da base sintética, treino e avaliação.</div>
-                <div class="step-phase">Método</div>
+            <div class="step-card fill-yellow" style="min-height:380px; padding:22px 22px 48px;">
+                <div class="step-num" style="font-size:58px;">03</div>
+                <div class="step-title" style="font-size:24px;">Correlatos</div>
+                <div class="step-desc" style="font-size:19px;">O que a literatura já fez - e o que este estudo adiciona.</div>
+                <div class="step-phase">Introdução</div>
             </div>
-            <div class="step-card" style="min-height:400px; padding:28px 26px 52px;">
-                <div class="step-num" style="font-size:56px;">04</div>
-                <div class="step-title" style="font-size:28px;">Resultados</div>
-                <div class="step-desc" style="font-size:20px;">Métricas, significância, ROC, recall e importância dos atributos.</div>
-                <div class="step-phase">Evidência</div>
+            <div class="step-card fill-pink" style="min-height:380px; padding:22px 22px 48px;">
+                <div class="step-num" style="font-size:58px;">04</div>
+                <div class="step-title" style="font-size:24px;">Dados</div>
+                <div class="step-desc" style="font-size:19px;">Como a base sintética foi gerada, com rastreabilidade às fontes.</div>
+                <div class="step-phase">Metodologia</div>
             </div>
-            <div class="step-card" style="min-height:400px; padding:28px 26px 52px;">
-                <div class="step-num" style="font-size:56px;">05</div>
-                <div class="step-title" style="font-size:28px;">Fechamento</div>
-                <div class="step-desc" style="font-size:20px;">Hipóteses revisitadas, contribuições, limitações e próximos passos.</div>
+            <div class="step-card fill-cream2" style="min-height:380px; padding:22px 22px 48px;">
+                <div class="step-num" style="font-size:58px; color:var(--orange);">05</div>
+                <div class="step-title" style="font-size:24px;">Treino</div>
+                <div class="step-desc" style="font-size:19px;">Como os modelos foram treinados e avaliados (SMOTE, CV, Wilcoxon).</div>
+                <div class="step-phase">Metodologia</div>
+            </div>
+            <div class="step-card fill-green" style="min-height:380px; padding:22px 22px 48px;">
+                <div class="step-num" style="font-size:58px; color:var(--yellow);">06</div>
+                <div class="step-title" style="font-size:24px;">Resultados</div>
+                <div class="step-desc" style="font-size:19px;">Números, figuras, hipóteses defendidas e limitações.</div>
                 <div class="step-phase">Conclusão</div>
             </div>
         </div>
@@ -603,17 +555,17 @@ em { font-style: italic; }
     <div class="content">
         <h2 class="d-lg reveal" style="max-width:1500px;">O ensino médio é o gargalo da educação básica</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:56px;">
-            <div class="stat-cell">
+            <div class="stat-cell fill-orange">
                 <div class="stat-num">74,3%<sup class="ref-n">1</sup></div>
                 <div class="stat-label">Conclusão até os 19 anos</div>
                 <div class="stat-desc">1 em cada 4 jovens brasileiros não conclui o ensino médio na idade esperada.</div>
             </div>
-            <div class="stat-cell">
+            <div class="stat-cell fill-pink">
                 <div class="stat-num">69,5%<sup class="ref-n">1</sup></div>
                 <div class="stat-label">Entre pretos, pardos e indígenas</div>
                 <div class="stat-desc">A desigualdade racial e de renda reduz ainda mais a taxa de conclusão.</div>
             </div>
-            <div class="stat-cell">
+            <div class="stat-cell fill-green">
                 <div class="stat-num">82%<sup class="ref-n">2</sup></div>
                 <div class="stat-label">Matrículas na rede pública</div>
                 <div class="stat-desc">É na escola pública que o problema se concentra - e onde a predição pode agir.</div>
@@ -638,22 +590,22 @@ em { font-style: italic; }
     <div class="content">
         <h2 class="d-lg reveal">Piauí em números</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:26px; margin-top:52px;">
-            <div class="stat-cell">
-                <div class="stat-num" style="color:var(--accent);">45,3%<sup class="ref-n">1</sup></div>
+            <div class="stat-cell fill-cream">
+                <div class="stat-num" style="color:var(--orange);">45,3%<sup class="ref-n">1</sup></div>
                 <div class="stat-label">População em pobreza</div>
                 <div class="stat-desc">IBGE, 2023 - uma das maiores taxas do país.</div>
             </div>
-            <div class="stat-cell">
+            <div class="stat-cell fill-yellow">
                 <div class="stat-num">92,5% <span style="font-size:44px;">vs</span> 25,5%<sup class="ref-n">2</sup></div>
                 <div class="stat-label">Internet vs computador</div>
                 <div class="stat-desc">Quase todos têm internet no domicílio, mas só 1/4 possui computador ou tablet.</div>
             </div>
-            <div class="stat-cell">
+            <div class="stat-cell fill-pink">
                 <div class="stat-num">21,7%<sup class="ref-n">3</sup></div>
                 <div class="stat-label">Distorção idade-série</div>
                 <div class="stat-desc">Rede estadual - após patamar histórico de 33,2%.</div>
             </div>
-            <div class="stat-cell">
+            <div class="stat-cell fill-green">
                 <div class="stat-num">8,6% <span style="font-size:44px;">→</span> 0,5%<sup class="ref-n">4</sup></div>
                 <div class="stat-label">Abandono (2022–2025)</div>
                 <div class="stat-desc">Queda drástica com as políticas de permanência (ex.: Pé-de-Meia).</div>
@@ -678,9 +630,9 @@ em { font-style: italic; }
     <div class="content">
         <span class="kicker reveal">A lacuna</span>
         <p class="body-lg reveal" style="margin-top:30px; max-width:1560px;">Há dados educacionais e técnicas de ML consolidadas, mas <strong>faltam modelos preditivos que incorporem explicitamente os fatores sociológicos</strong><sup class="ref-n">1</sup> - com fundamentação estatística rastreável - no ensino médio público, onde evasão e fracasso escolar têm alto custo social<sup class="ref-n">2</sup>.</p>
-        <div class="hard-block reveal" style="margin-top:56px; padding:52px 60px; max-width:1560px;">
+        <div class="hard-block fill-cream2 reveal" style="margin-top:56px; padding:52px 60px; max-width:1560px;">
             <div class="mono-tag" style="margin-bottom:22px;">Pergunta central</div>
-            <p style="font-family:var(--font-display); font-size:46px; line-height:1.15; text-transform:none; color:var(--text-primary);">Como construir um modelo de previsão de tendência de desempenho fundamentado em fatores sociológicos - e quais fatores são mais determinantes?</p>
+            <p style="font-family:var(--font-display); font-size:46px; line-height:1.15; text-transform:uppercase; color:var(--ink);">Como construir um modelo de previsão de tendência de desempenho fundamentado em fatores sociológicos - e quais fatores são mais determinantes?</p>
         </div>
     </div>
     <div class="slide-meta">
@@ -700,20 +652,20 @@ em { font-style: italic; }
     <div class="content">
         <h2 class="d-lg reveal">Quatro hipóteses guiam o estudo</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:26px; margin-top:50px;">
-            <div class="step-card" style="min-height:250px;">
+            <div class="step-card fill-pink" style="min-height:250px;">
                 <div class="step-title" style="font-size:40px;">H1</div>
                 <div class="step-desc" style="font-size:25px;">Classificadores de <em>ensemble</em> (<strong>Random Forest</strong> e <strong>XGBoost</strong>) superam a <em>decision tree</em> única e os <em>baselines</em> de referência - classificador majoritário e Regressão Logística - na predição da tendência de desempenho.</div>
             </div>
-            <div class="step-card" style="min-height:250px;">
+            <div class="step-card fill-yellow" style="min-height:250px;">
                 <div class="step-title" style="font-size:40px;">H2</div>
                 <div class="step-desc" style="font-size:25px;">Os <strong>fatores sociológicos</strong> parametrizados no fenômeno gerador são recuperáveis pelos modelos como atributos de <strong>importância não redundante</strong>, mesmo na presença de indicadores acadêmicos diretos.</div>
             </div>
-            <div class="step-card" style="min-height:250px;">
-                <div class="step-title" style="font-size:40px; color:var(--accent);">H3</div>
+            <div class="step-card fill-cream" style="min-height:250px;">
+                <div class="step-title" style="font-size:40px; color:var(--orange);">H3</div>
                 <div class="step-desc" style="font-size:25px;">Sinais acadêmicos <strong>parciais do primeiro semestre</strong> são suficientes para prever a tendência do desfecho anual com desempenho substancialmente superior ao <em>baseline</em> majoritário.</div>
             </div>
-            <div class="step-card" style="min-height:250px;">
-                <div class="step-title" style="font-size:40px; color:var(--accent);">H4</div>
+            <div class="step-card fill-green" style="min-height:250px;">
+                <div class="step-title" style="font-size:40px; color:var(--yellow);">H4</div>
                 <div class="step-desc" style="font-size:25px;">A <strong>regra legal de elegibilidade</strong> da assistência financeira estudantil produz, por si só, proporções coerentes de beneficiários entre cenários socioeconômicos contrastantes, <strong>sem parâmetro dedicado de calibração</strong>.</div>
             </div>
         </div>
@@ -736,23 +688,23 @@ em { font-style: italic; }
         <div style="display:grid; grid-template-columns: 640px 1fr; gap:60px; height:100%;">
             <div>
                 <h2 class="d-md reveal">Objetivo geral</h2>
-                <div class="hard-block-ink reveal" style="margin-top:40px; padding:38px;">
-                    <p style="font-family:var(--font-body); font-size:29px; line-height:1.4; color:var(--text-primary);">Desenvolver um modelo preditivo de <strong>tendência de desempenho acadêmico</strong> para o ensino médio público do Piauí, com base em fatores sociológicos e dados sintéticos fundamentados em estatísticas oficiais.</p>
+                <div class="hard-block-ink fill-orange reveal" style="margin-top:40px; padding:38px;">
+                    <p style="font-family:var(--font-body); font-size:29px; line-height:1.4; color:var(--cream);">Desenvolver um modelo preditivo de <strong>tendência de desempenho acadêmico</strong> para o ensino médio público do Piauí, com base em fatores sociológicos e dados sintéticos fundamentados em estatísticas oficiais.</p>
                 </div>
             </div>
             <div>
                 <h2 class="d-md reveal">Específicos</h2>
                 <div class="reveal" style="display:flex; flex-direction:column; gap:24px; margin-top:40px;">
-                    <div class="step-card" style="flex-direction:row; align-items:center; gap:28px; padding:22px 28px;">
-                        <span class="step-num" style="font-size:64px; color:var(--accent);">1</span>
+                    <div class="step-card fill-cream" style="flex-direction:row; align-items:center; gap:28px; padding:22px 28px;">
+                        <span class="step-num" style="font-size:64px; color:var(--pink);">1</span>
                         <span class="step-desc" style="font-size:25px;">Construir um <strong>gerador de dados sintéticos</strong> com rastreabilidade documentada parâmetro → fonte oficial (IBGE, INEP, PNAD).</span>
                     </div>
-                    <div class="step-card" style="flex-direction:row; align-items:center; gap:28px; padding:22px 28px;">
-                        <span class="step-num" style="font-size:64px; color:var(--accent);">2</span>
+                    <div class="step-card fill-cream" style="flex-direction:row; align-items:center; gap:28px; padding:22px 28px;">
+                        <span class="step-num" style="font-size:64px; color:var(--orange);">2</span>
                         <span class="step-desc" style="font-size:25px;">Comparar <strong>Decision Tree, Random Forest e XGBoost</strong> frente a baselines, com balanceamento, prevenção de vazamento e teste estatístico.</span>
                     </div>
-                    <div class="step-card" style="flex-direction:row; align-items:center; gap:28px; padding:22px 28px;">
-                        <span class="step-num" style="font-size:64px; color:var(--accent);">3</span>
+                    <div class="step-card fill-cream" style="flex-direction:row; align-items:center; gap:28px; padding:22px 28px;">
+                        <span class="step-num" style="font-size:64px; color:var(--green);">3</span>
                         <span class="step-desc" style="font-size:25px;">Interpretar os resultados: os fatores sociológicos são <strong>recuperados como determinantes</strong>? Com salvaguardas anti-viés.</span>
                     </div>
                 </div>
@@ -766,17 +718,238 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 08 - TRABALHOS CORRELATOS: SILVA + COSTA
+     SLIDE 08 - REFERENCIAL: FATORES SOCIOLÓGICOS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 02 · Correlatos</span>
-        <span class="pill">Silva · Costa</span>
+        <span>Parte 02 · Fundamentos</span>
+        <span class="pill">Fatores Sociológicos</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">A escola tende a reproduzir a origem social</h2>
+        <p class="body-lg reveal" style="margin-top:16px; max-width:1620px;">Desde Bourdieu, a sociologia da educação mostra que o sistema escolar reproduz mais as condições de origem do que as transforma. Em <strong>3.287 estudantes</strong> do EM público, as diferenças entre grupos vinham mais da família e da classe social do que da escola<sup class="ref-n">1</sup>.</p>
+        <div class="reveal" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; margin-top:28px;">
+            <div class="step-card fill-cream" style="min-height:250px;">
+                <div class="step-title" style="font-size:28px; color:var(--orange);">Pobreza<sup class="ref-n">2</sup></div>
+                <div class="step-desc" style="font-size:23px;">Cerca de 60% dos estudantes de 15 a 17 anos da rede pública vivem com até meio salário mínimo per capita.</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:250px;">
+                <div class="step-title" style="font-size:28px; color:var(--pink);">Exclusão digital<sup class="ref-n">3</sup></div>
+                <div class="step-desc" style="font-size:23px;">No Piauí é <strong>qualitativa</strong>: quase todos têm internet, poucos têm computador - o acesso é só pelo celular.</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:250px;">
+                <div class="step-title" style="font-size:28px; color:var(--green);">Distorção idade-série<sup class="ref-n">4</sup></div>
+                <div class="step-desc" style="font-size:23px;">Dois anos ou mais de atraso; associada a gênero masculino, pobreza e necessidade de renda.</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:250px;">
+                <div class="step-title" style="font-size:28px; color:var(--orange);">Trabalho juvenil<sup class="ref-n">5</sup></div>
+                <div class="step-desc" style="font-size:23px;">Subtrai tempo de estudo e está ligado ao abandono temporário e à retenção.</div>
+            </div>
+        </div>
+        <div class="reveal" style="display:flex; gap:26px; margin-top:18px; align-items:stretch;">
+            <div class="stat-cell fill-green" style="flex:1; padding:22px 30px;">
+                <div class="stat-label" style="color:var(--yellow);">Contrapeso · Política pública<sup class="ref-n">6</sup></div>
+                <div class="stat-desc" style="font-size:25px; color:var(--cream);"><strong>Pé-de-Meia</strong> (Lei nº 14.818/2024): poupança condicionada a 80% de frequência, para famílias do CadÚnico. Opera como mecanismo de <strong>reversão de tendência</strong>.</div>
+            </div>
+            <div class="stat-cell fill-yellow" style="flex:1; padding:22px 30px;">
+                <div class="stat-label">Alerta · Sem determinismo<sup class="ref-n">7</sup></div>
+                <div class="stat-desc" style="font-size:25px;">Vulnerabilidade não é destino: Cocal dos Alves (PI) superou milhares de escolas no ENEM. O modelo precisa <strong>tolerar resiliência</strong>, não punir o vulnerável.</div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Berlato, Mendes &amp; Andretta (2020) · <sup class="ref-n">2</sup>Fund. Abrinq (2023); IBGE - SIS (2024) · <sup class="ref-n">3</sup>IBGE - PNAD TIC (2025) · <sup class="ref-n">4</sup>Lima &amp; Gomes (2013); INEP (2025) · <sup class="ref-n">5</sup>MTE (2024); Campos et al. (2024) · <sup class="ref-n">6</sup>Brasil (2024); Santos et al. (2026) · <sup class="ref-n">7</sup>SEDUC-PI</span>
+        <span class="num">08 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 09 - REFERENCIAL: DADOS SINTÉTICOS EM EDM
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 02 · Fundamentos</span>
+        <span class="pill">Dados Sintéticos em EDM</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">Dados sintéticos: duas famílias diferentes</h2>
+        <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:30px;">
+            <div class="step-card fill-yellow" style="min-height:400px;">
+                <div class="mono-tag" style="margin-bottom:12px;">Família 01</div>
+                <div class="step-title" style="font-size:32px;">Derivados de microdados reais<sup class="ref-n">1</sup></div>
+                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.4;">Modelos generativos (redes adversárias condicionais, transformadores tabulares) são ajustados sobre uma base autêntica e produzem réplicas que preservam suas distribuições.<br><br><strong>Equivalência preditiva de 96% a 98%</strong> frente aos dados originais; conjuntos híbridos chegam a 87,76% de acurácia<sup class="ref-n">2</sup>.</div>
+            </div>
+            <div class="step-card fill-green" style="min-height:400px;">
+                <div class="mono-tag" style="margin-bottom:12px; color:var(--yellow);">Família 02 · este trabalho</div>
+                <div class="step-title" style="font-size:32px; color:var(--cream);">Simulação baseada em regras<sup class="ref-n">3</sup></div>
+                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.4; color:var(--cream);">Sem microdados: as distribuições vêm de <strong>estatísticas agregadas oficiais</strong> e as relações entre variáveis são especificadas com base na literatura.<br><br>A validade <strong>não é herdada</strong> de dados reais - ela depende inteiramente da qualidade da parametrização e da auditabilidade das fontes.</div>
+            </div>
+        </div>
+        <div class="reveal" style="display:flex; gap:26px; margin-top:38px; align-items:stretch;">
+            <div class="stat-cell fill-cream2" style="flex:1; flex-direction:row; align-items:center; gap:28px; padding:24px 30px;">
+                <span class="stat-num" style="font-size:56px; color:var(--pink);">i</span>
+                <span class="body-md" style="font-size:25px;"><strong>Rastreabilidade:</strong> todo parâmetro aponta para uma fonte estatística ou acadêmica, com o nível de desagregação registrado.</span>
+            </div>
+            <div class="stat-cell fill-cream2" style="flex:1; flex-direction:row; align-items:center; gap:28px; padding:24px 30px;">
+                <span class="stat-num" style="font-size:56px; color:var(--orange);">ii</span>
+                <span class="body-md" style="font-size:25px;"><strong>Não trivialidade:</strong> ruído estocástico e casos-limite impedem que o classificador simplesmente memorize a regra geradora.</span>
+            </div>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Kostopoulos, Tsiakmaki &amp; Kotsiantis (2026) · <sup class="ref-n">2</sup>Shabnam, Ramachandriah &amp; Haladappa (2025) · <sup class="ref-n">3</sup>elaborado pelo autor (2026)</span>
+        <span class="num">09 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 - REFERENCIAL: KDD E MINERAÇÃO DE DADOS EDUCACIONAIS
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 02 · Fundamentos</span>
+        <span class="pill">KDD e EDM</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">Do dado bruto ao conhecimento<sup class="ref-n">1</sup></h2>
+        <div class="reveal" style="display:flex; gap:14px; margin-top:42px; align-items:stretch;">
+            <div class="step-card fill-cream" style="flex:1;">
+                <div class="step-num" style="font-size:52px; color:var(--pink);">1</div>
+                <div class="step-title" style="font-size:25px;">Seleção</div>
+                <div class="step-desc" style="font-size:21px;">Define a origem dos dados e as características relevantes.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-yellow" style="flex:1;">
+                <div class="step-num" style="font-size:52px;">2</div>
+                <div class="step-title" style="font-size:25px;">Pré-processamento</div>
+                <div class="step-desc" style="font-size:21px;">Corrige ausentes, <em>outliers</em> e inconsistências.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-pink" style="flex:1;">
+                <div class="step-num" style="font-size:52px;">3</div>
+                <div class="step-title" style="font-size:25px;">Transformação</div>
+                <div class="step-desc" style="font-size:21px;">Converte formatos e cria novas variáveis.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-cream2" style="flex:1;">
+                <div class="step-num" style="font-size:52px; color:var(--orange);">4</div>
+                <div class="step-title" style="font-size:25px;">Mineração</div>
+                <div class="step-desc" style="font-size:21px;">Etapa central: algoritmos encontram os padrões.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-green" style="flex:1;">
+                <div class="step-num" style="font-size:52px; color:var(--yellow);">5</div>
+                <div class="step-title" style="font-size:25px; color:var(--cream);">Interpretação</div>
+                <div class="step-desc" style="font-size:21px; color:var(--cream);">Transforma padrão em decisão - e realimenta o ciclo.</div>
+            </div>
+        </div>
+        <p class="body-md reveal" style="margin-top:22px;">Processo <strong>iterativo</strong>: novas descobertas fazem voltar a etapas anteriores<sup class="ref-n">2</sup>.</p>
+        <div class="reveal" style="display:flex; gap:26px; margin-top:34px; align-items:stretch;">
+            <div class="stat-cell fill-ink" style="flex:1.1; padding:26px 32px;">
+                <div class="stat-label" style="color:var(--yellow);">EDM · Mineração de Dados Educacionais<sup class="ref-n">3</sup></div>
+                <div class="stat-desc" style="font-size:25px; color:var(--cream);">Aplicação do KDD a dados de comportamento, avaliação e conquistas dos alunos. Entre seus objetivos: modelagem do aluno e <strong>previsão de desempenho acadêmico</strong>.</div>
+            </div>
+            <div class="stat-cell fill-cream2" style="flex:1; padding:26px 32px;">
+                <div class="stat-label">Engajamento contínuo<sup class="ref-n">4</sup></div>
+                <div class="stat-desc" style="font-size:25px;">Notas e frequência somadas a métricas de engajamento dão acurácia <strong>&gt; 80%</strong> ainda no início do curso - base para usar sinais parciais do 1º semestre.</div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Fayyad, Piatetsky-Shapiro &amp; Smyth (1996) · <sup class="ref-n">2</sup>Maimon &amp; Rokach (2010); Castro &amp; Ferrari (2016) · <sup class="ref-n">3</sup>Baker et al. (2011); Romero &amp; Ventura (2010); Peña-Ayala (2014) · <sup class="ref-n">4</sup>Fredricks et al. (2004); Costa et al. (2012)</span>
+        <span class="num">10 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 - REFERENCIAL: OS TRÊS CLASSIFICADORES
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 02 · Fundamentos</span>
+        <span class="pill">Classificadores</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">Uma árvore, uma floresta e um gradiente</h2>
+        <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:44px;">
+            <div class="step-card fill-cream" style="min-height:420px;">
+                <div class="mono-tag" style="margin-bottom:10px;">Árvore única</div>
+                <div class="step-title" style="font-size:32px; color:var(--pink);">Decision Tree<sup class="ref-n">1</sup></div>
+                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.45;">A classificação parte de um nó raiz, percorre condições sucessivas e chega a uma folha, que atribui a classe.<br><br><strong>Vantagem:</strong> cada predição é uma trajetória legível de regras - o modelo é diretamente interpretável.</div>
+            </div>
+            <div class="step-card fill-yellow" style="min-height:420px;">
+                <div class="mono-tag" style="margin-bottom:10px;">Bagging · paralelo</div>
+                <div class="step-title" style="font-size:32px;">Random Forest<sup class="ref-n">2</sup></div>
+                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.45;">Muitas árvores treinadas em paralelo sobre amostras <em>bootstrap</em>, com subconjunto aleatório de atributos em cada divisão; a predição sai por <strong>votação majoritária</strong>.<br><br><strong>Vantagem:</strong> a aleatoriedade dupla reduz variância e resiste ao sobreajuste.</div>
+            </div>
+            <div class="step-card fill-green" style="min-height:420px;">
+                <div class="mono-tag" style="margin-bottom:10px; color:var(--yellow);">Boosting · sequencial</div>
+                <div class="step-title" style="font-size:32px; color:var(--cream);">XGBoost<sup class="ref-n">3</sup></div>
+                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.45; color:var(--cream);">Árvores em <strong>sequência</strong>: cada nova corrige o erro residual das anteriores.<br><br><strong>Vantagem:</strong> aproximação de Taylor de 2ª ordem (usa também o Hessiano) e regularização explícita da complexidade das árvores.</div>
+            </div>
+        </div>
+        <div class="reveal" style="margin-top:40px; display:flex; align-items:center; gap:28px;">
+            <span class="badge-rot">Bagging × Boosting</span>
+            <p class="body-lg" style="max-width:1400px;"><strong>Bagging</strong> (Random Forest) constrói árvores independentes e combina por voto; <strong>boosting</strong> (XGBoost) constrói árvores dependentes, cada uma aprendendo com o erro da anterior.</p>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Russel &amp; Norvig (2013); Grus (2016) · <sup class="ref-n">2</sup>Artero (2009); Géron (2019); Denisko &amp; Hoffman (2018) · <sup class="ref-n">3</sup>Friedman (2001); Chen &amp; Guestrin (2016)</span>
+        <span class="num">11 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 - REFERENCIAL: VALIDAÇÃO, BALANCEAMENTO E MÉTRICAS
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 02 · Fundamentos</span>
+        <span class="pill">Validação e Avaliação</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">Como se mede um classificador</h2>
+        <div class="reveal" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; margin-top:44px;">
+            <div class="step-card fill-cream" style="min-height:330px;">
+                <div class="step-title" style="font-size:27px; color:var(--pink);">Seleção de atributos<sup class="ref-n">1</sup></div>
+                <div class="step-desc" style="font-size:22px;">Três famílias: <em>Filter</em> (barata, remove o inútil), <em>Wrapper</em> (testa subconjuntos, cara) e <em>Embedded</em> - esta última embutida no próprio treino de árvores e florestas.</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:330px;">
+                <div class="step-title" style="font-size:27px; color:var(--orange);">Validação<sup class="ref-n">3</sup></div>
+                <div class="step-desc" style="font-size:22px;"><strong>Validação cruzada:</strong> divide os dados em k partes e roda k rodadas, cada uma testando numa parte diferente (k=10 é o usual). <strong>Holdout:</strong> uma única divisão treino/teste.</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:330px;">
+                <div class="step-title" style="font-size:27px; color:var(--green);">Desbalanceamento<sup class="ref-n">2</sup></div>
+                <div class="step-desc" style="font-size:22px;"><strong>SMOTE</strong> cria exemplos sintéticos da classe minoritária por interpolação. Aplicá-lo antes da divisão treino/teste é uma fonte clássica de <strong>vazamento de dados</strong>.</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:330px;">
+                <div class="step-title" style="font-size:27px; color:var(--pink);">Métricas<sup class="ref-n">4</sup></div>
+                <div class="step-desc" style="font-size:22px;">Com classes desiguais, a acurácia engana. Usa-se o <strong>F1 ponderado</strong> (média harmônica de precisão e <em>recall</em>) e o <strong>AUC-ROC</strong> multiclasse na estratégia uma-contra-o-resto.</div>
+            </div>
+        </div>
+        <div class="hard-block fill-cream2 reveal" style="margin-top:40px; padding:30px 40px; display:flex; align-items:center; gap:36px;">
+            <span style="font-family:var(--font-display); font-size:34px; text-transform:uppercase; flex-shrink:0;">Contra o número solto</span>
+            <p class="body-lg" style="max-width:1250px;">80% de acurácia não diz nada se a classe majoritária já tem 80%. Daí os <strong>baselines</strong> (classe majoritária e regressão logística) e o <strong>teste pareado de Wilcoxon</strong><sup class="ref-n">5</sup>, que verifica se a diferença entre dois modelos sobrevive à variação amostral.</p>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Liu &amp; Motoda (2007) · <sup class="ref-n">2</sup>Chawla et al. (2002); He &amp; Garcia (2009); Madugula et al. (2026) · <sup class="ref-n">3</sup>Géron (2019) · <sup class="ref-n">4</sup>Fawcett (2006); Hand &amp; Till (2001) · <sup class="ref-n">5</sup>Demšar (2006)</span>
+        <span class="num">12 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 - TRABALHOS CORRELATOS: SILVA + COSTA
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 03 · Correlatos</span>
+        <span class="pill">O que a literatura fez</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">Dois trabalhos de referência</h2>
         <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:44px;">
-            <div class="step-card" style="min-height:460px;">
+            <div class="step-card fill-yellow" style="min-height:460px;">
                 <div class="mono-tag" style="margin-bottom:12px;">Silva et al. (2019)<sup class="ref-n">1</sup></div>
                 <div class="step-title" style="font-size:32px;">Universidade · retenção</div>
                 <div class="step-desc" style="font-size:23px; margin-top:18px; line-height:1.4;">
@@ -785,7 +958,7 @@ em { font-style: italic; }
                     <strong>Ponto de contato:</strong> eixo socioeconômico - aqui expandido com conectividade, trabalho e Pé-de-Meia.
                 </div>
             </div>
-            <div class="step-card" style="min-height:460px;">
+            <div class="step-card fill-pink" style="min-height:460px;">
                 <div class="mono-tag" style="margin-bottom:12px;">Costa et al. (2012)<sup class="ref-n">2</sup></div>
                 <div class="step-title" style="font-size:32px;">Programação · risco</div>
                 <div class="step-desc" style="font-size:23px; margin-top:18px; line-height:1.4;">
@@ -798,7 +971,7 @@ em { font-style: italic; }
     </div>
     <div class="slide-meta">
         <span class="fontes"><sup class="ref-n">1</sup>Silva et al. (2019) · <sup class="ref-n">2</sup>Costa et al. (2012)</span>
-        <span class="num">08 <span class="dot"></span> 37</span>
+        <span class="num">13 <span class="dot"></span> 37</span>
     </div>
 </section>
 
@@ -807,24 +980,24 @@ em { font-style: italic; }
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 02 · Correlatos</span>
-        <span class="pill">Peña · EDM</span>
+        <span>Parte 03 · Correlatos</span>
+        <span class="pill">O que a literatura fez</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">Ensemble, desbalanceamento e EDM</h2>
         <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:44px;">
-            <div class="step-card" style="min-height:460px;">
+            <div class="step-card fill-cream" style="min-height:460px;">
                 <div class="mono-tag" style="margin-bottom:12px;">Peña et al. (2014)<sup class="ref-n">1</sup></div>
-                <div class="step-title" style="font-size:32px; color:var(--accent);">Evasão · Random Forest</div>
+                <div class="step-title" style="font-size:32px; color:var(--orange);">Evasão · Random Forest</div>
                 <div class="step-desc" style="font-size:23px; margin-top:18px; line-height:1.4;">
                     <strong>O que fizeram:</strong> compararam redes neurais, SVM e Random Forest para previsão ligada a evasão, com histórico escolar e taxas municipais.<br><br>
                     <strong>Ponto de contato:</strong> Random Forest como modelo robusto - aqui integrado a SMOTE e comparado com XGBoost e baselines.
                 </div>
             </div>
-            <div class="step-card" style="min-height:460px;">
-                <div class="mono-tag" style="margin-bottom:12px; color:var(--accent);">Baker (2011) · Romero &amp; Ventura (2010)<sup class="ref-n">2</sup></div>
-                <div class="step-title" style="font-size:32px; color:var(--text-primary);">Campo EDM</div>
-                <div class="step-desc" style="font-size:23px; margin-top:18px; line-height:1.4; color:var(--text-primary);">
+            <div class="step-card fill-green" style="min-height:460px;">
+                <div class="mono-tag" style="margin-bottom:12px; color:var(--yellow);">Baker (2011) · Romero &amp; Ventura (2010)<sup class="ref-n">2</sup></div>
+                <div class="step-title" style="font-size:32px; color:var(--cream);">Campo EDM</div>
+                <div class="step-desc" style="font-size:23px; margin-top:18px; line-height:1.4; color:var(--cream);">
                     <strong>O que defendem:</strong> integrar registros acadêmicos + contexto; tratar desbalanceamento (ex.: SMOTE) para não “perder” a classe de risco.<br><br>
                     <strong>Ponto de contato:</strong> neste trabalho o SMOTE<sup class="ref-n">3</sup> fica <strong>dentro de cada fold</strong> - para não vazar informação do teste para o treino.
                 </div>
@@ -833,7 +1006,7 @@ em { font-style: italic; }
     </div>
     <div class="slide-meta">
         <span class="fontes"><sup class="ref-n">1</sup>Peña-Ayala (2014) · <sup class="ref-n">2</sup>Baker, Isotani &amp; Carvalho (2011); Romero &amp; Ventura (2010) · <sup class="ref-n">3</sup>Chawla et al. (2002)</span>
-        <span class="num">09 <span class="dot"></span> 37</span>
+        <span class="num">14 <span class="dot"></span> 37</span>
     </div>
 </section>
 
@@ -842,8 +1015,8 @@ em { font-style: italic; }
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 02 · Correlatos</span>
-        <span class="pill">Diferencial</span>
+        <span>Parte 03 · Correlatos</span>
+        <span class="pill">Lacuna preenchida</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">O que este estudo adiciona</h2>
@@ -861,282 +1034,138 @@ em { font-style: italic; }
     </div>
     <div class="slide-meta">
         <span class="fontes"><sup class="ref-n">1</sup>Silva et al. (2019); Costa et al. (2012); Peña-Ayala (2014) · <sup class="ref-n">2</sup>elaborado pelo autor (2026)</span>
-        <span class="num">10 <span class="dot"></span> 37</span>
+        <span class="num">15 <span class="dot"></span> 37</span>
     </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 11 - REFERENCIAL: KDD E MINERAÇÃO DE DADOS EDUCACIONAIS
+     SLIDE 11 - POR QUE DADOS SINTÉTICOS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Fundamento · KDD</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">Do dado bruto ao conhecimento<sup class="ref-n">1</sup></h2>
-        <div class="reveal" style="display:flex; gap:14px; margin-top:42px; align-items:stretch;">
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:52px; color:var(--accent);">1</div>
-                <div class="step-title" style="font-size:25px;">Seleção</div>
-                <div class="step-desc" style="font-size:21px;">Define a origem dos dados e as características relevantes.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:52px;">2</div>
-                <div class="step-title" style="font-size:25px;">Pré-processamento</div>
-                <div class="step-desc" style="font-size:21px;">Corrige ausentes, <em>outliers</em> e inconsistências.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:52px;">3</div>
-                <div class="step-title" style="font-size:25px;">Transformação</div>
-                <div class="step-desc" style="font-size:21px;">Converte formatos e cria novas variáveis.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:52px; color:var(--accent);">4</div>
-                <div class="step-title" style="font-size:25px;">Mineração</div>
-                <div class="step-desc" style="font-size:21px;">Etapa central: algoritmos encontram os padrões.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:52px; color:var(--accent);">5</div>
-                <div class="step-title" style="font-size:25px; color:var(--text-primary);">Interpretação</div>
-                <div class="step-desc" style="font-size:21px; color:var(--text-primary);">Transforma padrão em decisão - e realimenta o ciclo.</div>
-            </div>
-        </div>
-        <p class="body-md reveal" style="margin-top:22px;">Processo <strong>iterativo</strong>: novas descobertas fazem voltar a etapas anteriores<sup class="ref-n">2</sup>.</p>
-        <div class="reveal" style="display:flex; gap:26px; margin-top:34px; align-items:stretch;">
-            <div class="stat-cell" style="flex:1.1; padding:26px 32px;">
-                <div class="stat-label" style="color:var(--accent);">EDM · Mineração de Dados Educacionais<sup class="ref-n">3</sup></div>
-                <div class="stat-desc" style="font-size:25px; color:var(--text-primary);">Aplicação do KDD a dados de comportamento, avaliação e conquistas dos alunos. Entre seus objetivos: modelagem do aluno e <strong>previsão de desempenho acadêmico</strong>.</div>
-            </div>
-            <div class="stat-cell" style="flex:1; padding:26px 32px;">
-                <div class="stat-label">Engajamento contínuo<sup class="ref-n">4</sup></div>
-                <div class="stat-desc" style="font-size:25px;">Notas e frequência somadas a métricas de engajamento dão acurácia <strong>&gt; 80%</strong> ainda no início do curso - base para usar sinais parciais do 1º semestre.</div>
-            </div>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Fayyad, Piatetsky-Shapiro &amp; Smyth (1996) · <sup class="ref-n">2</sup>Maimon &amp; Rokach (2010); Castro &amp; Ferrari (2016) · <sup class="ref-n">3</sup>Baker et al. (2011); Romero &amp; Ventura (2010); Peña-Ayala (2014) · <sup class="ref-n">4</sup>Fredricks et al. (2004); Costa et al. (2012)</span>
-        <span class="num">11 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 12 - REFERENCIAL: DADOS SINTÉTICOS EM EDM
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Fundamento · Dados Sintéticos</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">Dados sintéticos: duas famílias diferentes</h2>
-        <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:30px;">
-            <div class="step-card" style="min-height:400px;">
-                <div class="mono-tag" style="margin-bottom:12px;">Família 01</div>
-                <div class="step-title" style="font-size:32px;">Derivados de microdados reais<sup class="ref-n">1</sup></div>
-                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.4;">Modelos generativos (redes adversárias condicionais, transformadores tabulares) são ajustados sobre uma base autêntica e produzem réplicas que preservam suas distribuições.<br><br><strong>Equivalência preditiva de 96% a 98%</strong> frente aos dados originais; conjuntos híbridos chegam a 87,76% de acurácia<sup class="ref-n">2</sup>.</div>
-            </div>
-            <div class="step-card" style="min-height:400px;">
-                <div class="mono-tag" style="margin-bottom:12px; color:var(--accent);">Família 02 · este trabalho</div>
-                <div class="step-title" style="font-size:32px; color:var(--text-primary);">Simulação baseada em regras<sup class="ref-n">3</sup></div>
-                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.4; color:var(--text-primary);">Sem microdados: as distribuições vêm de <strong>estatísticas agregadas oficiais</strong> e as relações entre variáveis são especificadas com base na literatura.<br><br>A validade <strong>não é herdada</strong> de dados reais - ela depende inteiramente da qualidade da parametrização e da auditabilidade das fontes.</div>
-            </div>
-        </div>
-        <div class="reveal" style="display:flex; gap:26px; margin-top:38px; align-items:stretch;">
-            <div class="stat-cell" style="flex:1; flex-direction:row; align-items:center; gap:28px; padding:24px 30px;">
-                <span class="stat-num" style="font-size:56px; color:var(--accent);">i</span>
-                <span class="body-md" style="font-size:25px;"><strong>Rastreabilidade:</strong> todo parâmetro aponta para uma fonte estatística ou acadêmica, com o nível de desagregação registrado.</span>
-            </div>
-            <div class="stat-cell" style="flex:1; flex-direction:row; align-items:center; gap:28px; padding:24px 30px;">
-                <span class="stat-num" style="font-size:56px; color:var(--accent);">ii</span>
-                <span class="body-md" style="font-size:25px;"><strong>Não trivialidade:</strong> ruído estocástico e casos-limite impedem que o classificador simplesmente memorize a regra geradora.</span>
-            </div>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Kostopoulos, Tsiakmaki &amp; Kotsiantis (2026) · <sup class="ref-n">2</sup>Shabnam, Ramachandriah &amp; Haladappa (2025) · <sup class="ref-n">3</sup>elaborado pelo autor (2026)</span>
-        <span class="num">12 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 13 - POR QUE DADOS SINTÉTICOS
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Por que dados sintéticos</span>
+        <span>Parte 04 · Dados</span>
+        <span class="pill">Decisão Metodológica</span>
     </div>
     <div class="content">
         <h2 class="d-lg reveal" style="max-width:1450px;">Por que dados sintéticos?</h2>
         <div style="display:grid; grid-template-columns: 1fr 620px; gap:60px; margin-top:52px;">
             <div class="reveal" style="display:flex; flex-direction:column; gap:26px;">
-                <div class="stat-cell" style="flex-direction:row; align-items:center; gap:30px; padding:24px 30px;">
-                    <span class="stat-num" style="font-size:60px; color:var(--accent);">01</span>
+                <div class="stat-cell fill-cream" style="flex-direction:row; align-items:center; gap:30px; padding:24px 30px;">
+                    <span class="stat-num" style="font-size:60px; color:var(--pink);">01</span>
                     <span class="body-md" style="font-size:26px;"><strong>LGPD e ética:</strong> microdados reais de estudantes exigem autorizações cujo trâmite excede o cronograma do TCC<sup class="ref-n">1</sup>.</span>
                 </div>
-                <div class="stat-cell" style="flex-direction:row; align-items:center; gap:30px; padding:24px 30px;">
-                    <span class="stat-num" style="font-size:60px; color:var(--accent);">02</span>
+                <div class="stat-cell fill-cream" style="flex-direction:row; align-items:center; gap:30px; padding:24px 30px;">
+                    <span class="stat-num" style="font-size:60px; color:var(--orange);">02</span>
                     <span class="body-md" style="font-size:26px;"><strong>Rastreabilidade:</strong> cada parâmetro do gerador é ancorado em fonte oficial<sup class="ref-n">2</sup> e exportado em matriz de rastreabilidade.</span>
                 </div>
-                <div class="stat-cell" style="flex-direction:row; align-items:center; gap:30px; padding:24px 30px;">
-                    <span class="stat-num" style="font-size:60px; color:var(--accent);">03</span>
+                <div class="stat-cell fill-cream" style="flex-direction:row; align-items:center; gap:30px; padding:24px 30px;">
+                    <span class="stat-num" style="font-size:60px; color:var(--green);">03</span>
                     <span class="body-md" style="font-size:26px;"><strong>Controle experimental:</strong> cenários contrastantes e nível de ruído configuráveis<sup class="ref-n">3</sup> - impossível com uma única base real.</span>
                 </div>
             </div>
-            <div class="hard-block reveal" style="padding:44px; align-self:start;">
+            <div class="hard-block fill-yellow reveal" style="padding:44px; align-self:start;">
                 <div class="mono-tag" style="margin-bottom:20px;">Natureza dos dados</div>
-                <p style="font-family:var(--font-display); font-size:34px; line-height:1.15; text-transform:none;">A base é sintética e essa condição é explicitada no documento.</p>
+                <p style="font-family:var(--font-display); font-size:34px; line-height:1.15; text-transform:uppercase;">A base é sintética e essa condição é explicitada no documento.</p>
                 <p class="body-md" style="margin-top:22px; font-size:24px;">A validação com registros reais constitui etapa futura, condicionada a autorização institucional e ética (ex.: SUAP).</p>
             </div>
         </div>
     </div>
     <div class="slide-meta">
         <span class="fontes"><sup class="ref-n">1</sup>documento, seç. Aspectos Éticos · <sup class="ref-n">2</sup>IBGE; INEP; PNAD Contínua (matriz de rastreabilidade) · <sup class="ref-n">3</sup>Kostopoulos, Tsiakmaki &amp; Kotsiantis (2026); Shabnam et al. (2025)</span>
-        <span class="num">13 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 14 - REFERENCIAL: FATORES SOCIOLÓGICOS
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Fundamento · Fatores Sociológicos</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">A escola tende a reproduzir a origem social</h2>
-        <p class="body-lg reveal" style="margin-top:16px; max-width:1620px;">Desde Bourdieu, a sociologia da educação mostra que o sistema escolar reproduz mais as condições de origem do que as transforma. Em <strong>3.287 estudantes</strong> do EM público, as diferenças entre grupos vinham mais da família e da classe social do que da escola<sup class="ref-n">1</sup>.</p>
-        <div class="reveal" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; margin-top:28px;">
-            <div class="step-card" style="min-height:250px;">
-                <div class="step-title" style="font-size:28px; color:var(--accent);">Pobreza<sup class="ref-n">2</sup></div>
-                <div class="step-desc" style="font-size:23px;">Cerca de 60% dos estudantes de 15 a 17 anos da rede pública vivem com até meio salário mínimo per capita.</div>
-            </div>
-            <div class="step-card" style="min-height:250px;">
-                <div class="step-title" style="font-size:28px; color:var(--accent);">Exclusão digital<sup class="ref-n">3</sup></div>
-                <div class="step-desc" style="font-size:23px;">No Piauí é <strong>qualitativa</strong>: quase todos têm internet, poucos têm computador - o acesso é só pelo celular.</div>
-            </div>
-            <div class="step-card" style="min-height:250px;">
-                <div class="step-title" style="font-size:28px; color:var(--accent);">Distorção idade-série<sup class="ref-n">4</sup></div>
-                <div class="step-desc" style="font-size:23px;">Dois anos ou mais de atraso; associada a gênero masculino, pobreza e necessidade de renda.</div>
-            </div>
-            <div class="step-card" style="min-height:250px;">
-                <div class="step-title" style="font-size:28px; color:var(--accent);">Trabalho juvenil<sup class="ref-n">5</sup></div>
-                <div class="step-desc" style="font-size:23px;">Subtrai tempo de estudo e está ligado ao abandono temporário e à retenção.</div>
-            </div>
-        </div>
-        <div class="reveal" style="display:flex; gap:26px; margin-top:18px; align-items:stretch;">
-            <div class="stat-cell" style="flex:1; padding:22px 30px;">
-                <div class="stat-label" style="color:var(--accent);">Contrapeso · Política pública<sup class="ref-n">6</sup></div>
-                <div class="stat-desc" style="font-size:25px; color:var(--text-primary);"><strong>Pé-de-Meia</strong> (Lei nº 14.818/2024): poupança condicionada a 80% de frequência, para famílias do CadÚnico. Opera como mecanismo de <strong>reversão de tendência</strong>.</div>
-            </div>
-            <div class="stat-cell" style="flex:1; padding:22px 30px;">
-                <div class="stat-label">Alerta · Sem determinismo<sup class="ref-n">7</sup></div>
-                <div class="stat-desc" style="font-size:25px;">Vulnerabilidade não é destino: Cocal dos Alves (PI) superou milhares de escolas no ENEM. O modelo precisa <strong>tolerar resiliência</strong>, não punir o vulnerável.</div>
-            </div>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Berlato, Mendes &amp; Andretta (2020) · <sup class="ref-n">2</sup>Fund. Abrinq (2023); IBGE - SIS (2024) · <sup class="ref-n">3</sup>IBGE - PNAD TIC (2025) · <sup class="ref-n">4</sup>Lima &amp; Gomes (2013); INEP (2025) · <sup class="ref-n">5</sup>MTE (2024); Campos et al. (2024) · <sup class="ref-n">6</sup>Brasil (2024); Santos et al. (2026) · <sup class="ref-n">7</sup>SEDUC-PI</span>
-        <span class="num">14 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 15 - COMO OS DADOS SÃO GERADOS
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Fenômeno gerador</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">O alvo não é sorteado: ele é derivado</h2>
-        <div class="reveal" style="display:flex; gap:18px; margin-top:52px; align-items:stretch;">
-            <div class="step-card" style="flex:1;">
-                <div class="step-title" style="color:var(--accent);">1 · Sinal Parcial</div>
-                <div class="step-desc">Nota, frequência e atividades do <strong>1º semestre</strong> - o que a escola observa no meio do ano.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-title">2 · Deriva do 2º Sem.</div>
-                <div class="step-desc">Engajamento, renda, trabalho, conectividade e assistência estudantil puxam a trajetória.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-title">3 · Não Linearidades</div>
-                <div class="step-desc">Retenção do Pé-de-Meia, dupla penalidade trabalho × distorção, perfis de resiliência.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-title" style="color:var(--accent);">4 · Ruído</div>
-                <div class="step-desc">Componente idiossincrático: saúde, eventos familiares, motivação - o que ninguém observa.</div>
-            </div>
-            <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-title" style="color:var(--text-primary);">5 · Rótulo LDB<sup class="ref-n">1</sup></div>
-                <div class="step-desc" style="color:var(--text-primary);">Média ≥ 6,0 e frequência ≥ 75% sobre a <strong>projeção anual</strong>, com banda de fronteira.</div>
-            </div>
-        </div>
-        <div class="reveal" style="margin-top:56px; display:flex; gap:26px;">
-            <div class="stat-cell" style="flex:1;"><div class="stat-num" style="font-size:66px;">Aprovado</div><div class="stat-desc" style="color:var(--text-primary);">Trajetória de aprovação ao final do ano letivo.</div></div>
-            <div class="stat-cell" style="flex:1;"><div class="stat-num" style="font-size:66px;">Em Risco</div><div class="stat-desc">Zona de fronteira dos critérios de aprovação.</div></div>
-            <div class="stat-cell" style="flex:1;"><div class="stat-num" style="font-size:66px;">Reprovado</div><div class="stat-desc" style="color:var(--text-primary);">Projeção abaixo dos critérios da LDB.</div></div>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Brasil (1996) - LDB, Lei nº 9.394 (critérios de aprovação: média 6,0 e frequência 75%) · demais etapas: elaborado pelo autor (2026)</span>
-        <span class="num">15 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 16 - VARIÁVEIS
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Variáveis</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">O que o modelo enxerga</h2>
-        <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:48px;">
-            <div class="step-card" style="min-height:400px;">
-                <div class="step-title" style="color:var(--accent);">Sinais acadêmicos (1º sem.)<sup class="ref-n">1</sup></div>
-                <div class="step-desc" style="font-size:24px; line-height:1.5;">· Nota média parcial<br>· Frequência (%)<br>· Média das atividades<br>· Taxa de entrega de atividades<br>· Reprovações acumuladas</div>
-            </div>
-            <div class="step-card" style="min-height:400px;">
-                <div class="step-title" style="color:var(--accent);">Contexto socioeconômico<sup class="ref-n">2</sup></div>
-                <div class="step-desc" style="font-size:24px; line-height:1.5;">· Renda per capita<br>· Trabalho juvenil<br>· Acesso à internet / computador<br>· Distorção idade-série<br>· Pé-de-Meia (elegibilidade legal)</div>
-            </div>
-            <div class="step-card" style="min-height:400px;">
-                <div class="step-title" style="color:var(--accent);">Derivadas (via ablação)<sup class="ref-n">3</sup></div>
-                <div class="step-desc" style="font-size:24px; line-height:1.5;">· <span style="font-family:var(--font-mono);">nota_x_frequencia</span><br>· <span style="font-family:var(--font-mono);">reprov_por_serie</span><br><br>Escore composto testado e <strong>excluído</strong> - não agregou desempenho.</div>
-            </div>
-        </div>
-        <div class="reveal" style="margin-top:48px; display:flex; align-items:center; gap:28px;">
-            <span class="badge-rot" style="background:var(--bg-secondary);">Salvaguarda anti-viés</span>
-            <p class="body-lg" style="max-width:1300px;">Gênero e cor/raça têm <strong>peso zero</strong> no fenômeno gerador e são <strong>excluídos do treinamento</strong><sup class="ref-n">4</sup> - nenhuma decisão se apoia em atributos protegidos.</p>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Fredricks, Blumenfeld &amp; Paris (2004); Costa et al. (2012) · <sup class="ref-n">2</sup>MTE - Trabalho infantil na PNAD Contínua (2024); IBGE (2024/2025) · <sup class="ref-n">3</sup>elaborado pelo autor (2026) · <sup class="ref-n">4</sup>documento, seç. Aspectos Éticos</span>
         <span class="num">16 <span class="dot"></span> 37</span>
     </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 17 - ADERÊNCIA ÀS FONTES
+     SLIDE 10 - COMO OS DADOS SÃO GERADOS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Aderência às fontes</span>
+        <span>Parte 04 · Dados</span>
+        <span class="pill">Fenômeno Gerador</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">O alvo não é sorteado: ele é derivado</h2>
+        <div class="reveal" style="display:flex; gap:18px; margin-top:52px; align-items:stretch;">
+            <div class="step-card fill-cream" style="flex:1;">
+                <div class="step-title" style="color:var(--pink);">1 · Sinal Parcial</div>
+                <div class="step-desc">Nota, frequência e atividades do <strong>1º semestre</strong> - o que a escola observa no meio do ano.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-yellow" style="flex:1;">
+                <div class="step-title">2 · Deriva do 2º Sem.</div>
+                <div class="step-desc">Engajamento, renda, trabalho, conectividade e assistência estudantil puxam a trajetória.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-pink" style="flex:1;">
+                <div class="step-title">3 · Não Linearidades</div>
+                <div class="step-desc">Retenção do Pé-de-Meia, dupla penalidade trabalho × distorção, perfis de resiliência.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-cream2" style="flex:1;">
+                <div class="step-title" style="color:var(--orange);">4 · Ruído</div>
+                <div class="step-desc">Componente idiossincrático: saúde, eventos familiares, motivação - o que ninguém observa.</div>
+            </div>
+            <div class="flow-arrow"></div>
+            <div class="step-card fill-green" style="flex:1;">
+                <div class="step-title" style="color:var(--cream);">5 · Rótulo LDB<sup class="ref-n">1</sup></div>
+                <div class="step-desc" style="color:var(--cream);">Média ≥ 6,0 e frequência ≥ 75% sobre a <strong>projeção anual</strong>, com banda de fronteira.</div>
+            </div>
+        </div>
+        <div class="reveal" style="margin-top:56px; display:flex; gap:26px;">
+            <div class="stat-cell fill-green" style="flex:1;"><div class="stat-num" style="font-size:66px;">Aprovado</div><div class="stat-desc" style="color:var(--cream);">Trajetória de aprovação ao final do ano letivo.</div></div>
+            <div class="stat-cell fill-yellow" style="flex:1;"><div class="stat-num" style="font-size:66px;">Em Risco</div><div class="stat-desc">Zona de fronteira dos critérios de aprovação.</div></div>
+            <div class="stat-cell fill-orange" style="flex:1;"><div class="stat-num" style="font-size:66px;">Reprovado</div><div class="stat-desc" style="color:var(--cream);">Projeção abaixo dos critérios da LDB.</div></div>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Brasil (1996) - LDB, Lei nº 9.394 (critérios de aprovação: média 6,0 e frequência 75%) · demais etapas: elaborado pelo autor (2026)</span>
+        <span class="num">17 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 - VARIÁVEIS
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 04 · Dados</span>
+        <span class="pill">Dicionário de Variáveis</span>
+    </div>
+    <div class="content">
+        <h2 class="d-md reveal">O que o modelo enxerga</h2>
+        <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:48px;">
+            <div class="step-card fill-cream" style="min-height:400px;">
+                <div class="step-title" style="color:var(--green);">Sinais acadêmicos (1º sem.)<sup class="ref-n">1</sup></div>
+                <div class="step-desc" style="font-size:24px; line-height:1.5;">· Nota média parcial<br>· Frequência (%)<br>· Média das atividades<br>· Taxa de entrega de atividades<br>· Reprovações acumuladas</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:400px;">
+                <div class="step-title" style="color:var(--orange);">Contexto socioeconômico<sup class="ref-n">2</sup></div>
+                <div class="step-desc" style="font-size:24px; line-height:1.5;">· Renda per capita<br>· Trabalho juvenil<br>· Acesso à internet / computador<br>· Distorção idade-série<br>· Pé-de-Meia (elegibilidade legal)</div>
+            </div>
+            <div class="step-card fill-cream" style="min-height:400px;">
+                <div class="step-title" style="color:var(--pink);">Derivadas (via ablação)<sup class="ref-n">3</sup></div>
+                <div class="step-desc" style="font-size:24px; line-height:1.5;">· <span style="font-family:var(--font-mono);">nota_x_frequencia</span><br>· <span style="font-family:var(--font-mono);">reprov_por_serie</span><br><br>Escore composto testado e <strong>excluído</strong> - não agregou desempenho.</div>
+            </div>
+        </div>
+        <div class="reveal" style="margin-top:48px; display:flex; align-items:center; gap:28px;">
+            <span class="badge-rot" style="background:var(--pink);">Salvaguarda anti-viés</span>
+            <p class="body-lg" style="max-width:1300px;">Gênero e cor/raça têm <strong>peso zero</strong> no fenômeno gerador e são <strong>excluídos do treinamento</strong><sup class="ref-n">4</sup> - nenhuma decisão se apoia em atributos protegidos.</p>
+        </div>
+    </div>
+    <div class="slide-meta">
+        <span class="fontes"><sup class="ref-n">1</sup>Fredricks, Blumenfeld &amp; Paris (2004); Costa et al. (2012) · <sup class="ref-n">2</sup>MTE - Trabalho infantil na PNAD Contínua (2024); IBGE (2024/2025) · <sup class="ref-n">3</sup>elaborado pelo autor (2026) · <sup class="ref-n">4</sup>documento, seç. Aspectos Éticos</span>
+        <span class="num">18 <span class="dot"></span> 37</span>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 - ADERÊNCIA ÀS FONTES
+============================================================ -->
+<section class="slide">
+    <div class="topbar">
+        <span>Parte 04 · Dados</span>
+        <span class="pill">Validação da Base</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">A base gerada respeita as fontes</h2>
@@ -1156,17 +1185,17 @@ em { font-style: italic; }
                 <div class="mono-tag" style="margin-bottom:18px;">Distribuição das classes (emergente)</div>
                 <div style="display:flex; flex-direction:column; gap:16px;">
                     <div style="display:flex; align-items:center; gap:16px;">
-                        <div style="width:calc(450px * 0.45); height:74px; background:var(--bg-secondary); border:1px solid var(--line);"></div>
+                        <div style="width:calc(450px * 0.45); height:74px; background:var(--green); border:4px solid var(--ink);"></div>
                         <span class="bar-lab">45,0%</span>
                     </div>
                     <div class="mono-tag">Aprovado</div>
                     <div style="display:flex; align-items:center; gap:16px;">
-                        <div style="width:calc(450px * 0.317); height:74px; background:var(--bg-secondary); border:1px solid var(--line);"></div>
+                        <div style="width:calc(450px * 0.317); height:74px; background:var(--yellow); border:4px solid var(--ink);"></div>
                         <span class="bar-lab">31,7%</span>
                     </div>
                     <div class="mono-tag">Em Risco</div>
                     <div style="display:flex; align-items:center; gap:16px;">
-                        <div style="width:calc(450px * 0.233); height:74px; background:var(--bg-secondary); border:1px solid var(--line);"></div>
+                        <div style="width:calc(450px * 0.233); height:74px; background:var(--orange); border:4px solid var(--ink);"></div>
                         <span class="bar-lab">23,3%</span>
                     </div>
                     <div class="mono-tag">Reprovado</div>
@@ -1177,155 +1206,78 @@ em { font-style: italic; }
     </div>
     <div class="slide-meta">
         <span class="fontes"><sup class="ref-n">1</sup>IBGE; INEP; PNAD Contínua (matriz de rastreabilidade) · <sup class="ref-n">2</sup>elaborado pelo autor (2026) · <sup class="ref-n">3</sup>Brasil (1996) - LDB, Lei nº 9.394</span>
-        <span class="num">17 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 18 - CENÁRIOS DE CONTRASTE
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Cenários de contraste</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">O gerador se comporta como o mundo</h2>
-        <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:50px;">
-            <div class="stat-cell">
-                <div class="stat-label">Cenário · Média Nacional<sup class="ref-n">1</sup></div>
-                <div class="stat-num" style="font-size:64px;">46,7 / 30,1 / 23,1</div>
-                <div class="stat-desc">Aprovado / Em Risco / Reprovado - próximo do cenário base do Piauí, coerente com a convergência recente dos indicadores.</div>
-            </div>
-            <div class="stat-cell">
-                <div class="stat-label">Cenário · Alta Vulnerabilidade<sup class="ref-n">2</sup></div>
-                <div class="stat-num" style="font-size:64px;">36,0%</div>
-                <div class="stat-desc">de reprovados - e beneficiários do Pé-de-Meia sobem para 57,6%.</div>
-            </div>
-            <div class="stat-cell">
-                <div class="stat-label">Cenário · Rede Privada / Renda Alta<sup class="ref-n">2</sup></div>
-                <div class="stat-num" style="font-size:64px;">81,4%</div>
-                <div class="stat-desc">de aprovados - e apenas 6,5% de beneficiários, sem nenhum parâmetro dedicado.</div>
-            </div>
-        </div>
-        <div class="hard-block reveal" style="margin-top:56px; padding:34px 44px; display:flex; align-items:center; gap:36px;">
-            <span style="font-family:var(--font-display); font-size:52px;">H4 ✓</span>
-            <p class="body-lg" style="max-width:1350px; color:var(--text-primary);">Proporção de <strong>beneficiários do Pé-de-Meia</strong><sup class="ref-n">3</sup> só com a regra legal: <strong>47,7%</strong> no cenário base (Piauí) · <strong>57,6%</strong> no vulnerável · <strong>6,5%</strong> no de renda alta. H4 ✓</p>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>SEDUC-PI; Todos Pela Educação (2023) · <sup class="ref-n">2</sup>elaborado pelo autor (2026) · <sup class="ref-n">3</sup>Brasil (2024) - Lei nº 14.818; MDS - CadÚnico nº 50 (2024)</span>
-        <span class="num">18 <span class="dot"></span> 37</span>
-    </div>
-</section>
-
-<!-- ============================================================
-     SLIDE 19 - REFERENCIAL: OS TRÊS CLASSIFICADORES
-============================================================ -->
-<section class="slide">
-    <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Fundamento · Classificadores</span>
-    </div>
-    <div class="content">
-        <h2 class="d-md reveal">Uma árvore, uma floresta e um gradiente</h2>
-        <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:44px;">
-            <div class="step-card" style="min-height:420px;">
-                <div class="mono-tag" style="margin-bottom:10px;">Árvore única</div>
-                <div class="step-title" style="font-size:32px; color:var(--accent);">Decision Tree<sup class="ref-n">1</sup></div>
-                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.45;">A classificação parte de um nó raiz, percorre condições sucessivas e chega a uma folha, que atribui a classe.<br><br><strong>Vantagem:</strong> cada predição é uma trajetória legível de regras - o modelo é diretamente interpretável.</div>
-            </div>
-            <div class="step-card" style="min-height:420px;">
-                <div class="mono-tag" style="margin-bottom:10px;">Bagging · paralelo</div>
-                <div class="step-title" style="font-size:32px;">Random Forest<sup class="ref-n">2</sup></div>
-                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.45;">Muitas árvores treinadas em paralelo sobre amostras <em>bootstrap</em>, com subconjunto aleatório de atributos em cada divisão; a predição sai por <strong>votação majoritária</strong>.<br><br><strong>Vantagem:</strong> a aleatoriedade dupla reduz variância e resiste ao sobreajuste.</div>
-            </div>
-            <div class="step-card" style="min-height:420px;">
-                <div class="mono-tag" style="margin-bottom:10px; color:var(--accent);">Boosting · sequencial</div>
-                <div class="step-title" style="font-size:32px; color:var(--text-primary);">XGBoost<sup class="ref-n">3</sup></div>
-                <div class="step-desc" style="font-size:23px; margin-top:14px; line-height:1.45; color:var(--text-primary);">Árvores em <strong>sequência</strong>: cada nova corrige o erro residual das anteriores.<br><br><strong>Vantagem:</strong> aproximação de Taylor de 2ª ordem (usa também o Hessiano) e regularização explícita da complexidade das árvores.</div>
-            </div>
-        </div>
-        <div class="reveal" style="margin-top:40px; display:flex; align-items:center; gap:28px;">
-            <span class="badge-rot">Bagging × Boosting</span>
-            <p class="body-lg" style="max-width:1400px;"><strong>Bagging</strong> (Random Forest) constrói árvores independentes e combina por voto; <strong>boosting</strong> (XGBoost) constrói árvores dependentes, cada uma aprendendo com o erro da anterior.</p>
-        </div>
-    </div>
-    <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Russel &amp; Norvig (2013); Grus (2016) · <sup class="ref-n">2</sup>Artero (2009); Géron (2019); Denisko &amp; Hoffman (2018) · <sup class="ref-n">3</sup>Friedman (2001); Chen &amp; Guestrin (2016)</span>
         <span class="num">19 <span class="dot"></span> 37</span>
     </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 20 - REFERENCIAL: VALIDAÇÃO, BALANCEAMENTO E MÉTRICAS
+     SLIDE 13 - CENÁRIOS DE CONTRASTE
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Fundamento · Validação</span>
+        <span>Parte 04 · Dados</span>
+        <span class="pill">Cenários de Contraste</span>
     </div>
     <div class="content">
-        <h2 class="d-md reveal">Como se mede um classificador</h2>
-        <div class="reveal" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; margin-top:44px;">
-            <div class="step-card" style="min-height:330px;">
-                <div class="step-title" style="font-size:27px; color:var(--accent);">Seleção de atributos<sup class="ref-n">1</sup></div>
-                <div class="step-desc" style="font-size:22px;">Três famílias: <em>Filter</em> (barata, remove o inútil), <em>Wrapper</em> (testa subconjuntos, cara) e <em>Embedded</em> - esta última embutida no próprio treino de árvores e florestas.</div>
+        <h2 class="d-md reveal">O gerador se comporta como o mundo</h2>
+        <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:50px;">
+            <div class="stat-cell fill-cream2">
+                <div class="stat-label">Cenário · Média Nacional<sup class="ref-n">1</sup></div>
+                <div class="stat-num" style="font-size:64px;">46,7 / 30,1 / 23,1</div>
+                <div class="stat-desc">Aprovado / Em Risco / Reprovado - próximo do cenário base do Piauí, coerente com a convergência recente dos indicadores.</div>
             </div>
-            <div class="step-card" style="min-height:330px;">
-                <div class="step-title" style="font-size:27px; color:var(--accent);">Validação<sup class="ref-n">3</sup></div>
-                <div class="step-desc" style="font-size:22px;"><strong>Validação cruzada:</strong> divide os dados em k partes e roda k rodadas, cada uma testando numa parte diferente (k=10 é o usual). <strong>Holdout:</strong> uma única divisão treino/teste.</div>
+            <div class="stat-cell fill-orange">
+                <div class="stat-label">Cenário · Alta Vulnerabilidade<sup class="ref-n">2</sup></div>
+                <div class="stat-num" style="font-size:64px;">36,0%</div>
+                <div class="stat-desc">de reprovados - e beneficiários do Pé-de-Meia sobem para 57,6%.</div>
             </div>
-            <div class="step-card" style="min-height:330px;">
-                <div class="step-title" style="font-size:27px; color:var(--accent);">Desbalanceamento<sup class="ref-n">2</sup></div>
-                <div class="step-desc" style="font-size:22px;"><strong>SMOTE</strong> cria exemplos sintéticos da classe minoritária por interpolação. Aplicá-lo antes da divisão treino/teste é uma fonte clássica de <strong>vazamento de dados</strong>.</div>
-            </div>
-            <div class="step-card" style="min-height:330px;">
-                <div class="step-title" style="font-size:27px; color:var(--accent);">Métricas<sup class="ref-n">4</sup></div>
-                <div class="step-desc" style="font-size:22px;">Com classes desiguais, a acurácia engana. Usa-se o <strong>F1 ponderado</strong> (média harmônica de precisão e <em>recall</em>) e o <strong>AUC-ROC</strong> multiclasse na estratégia uma-contra-o-resto.</div>
+            <div class="stat-cell fill-green">
+                <div class="stat-label">Cenário · Rede Privada / Renda Alta<sup class="ref-n">2</sup></div>
+                <div class="stat-num" style="font-size:64px;">81,4%</div>
+                <div class="stat-desc">de aprovados - e apenas 6,5% de beneficiários, sem nenhum parâmetro dedicado.</div>
             </div>
         </div>
-        <div class="hard-block reveal" style="margin-top:40px; padding:30px 40px; display:flex; align-items:center; gap:36px;">
-            <span style="font-family:var(--font-display); font-size:34px; text-transform:none; flex-shrink:0;">Contra o número solto</span>
-            <p class="body-lg" style="max-width:1250px;">80% de acurácia não diz nada se a classe majoritária já tem 80%. Daí os <strong>baselines</strong> (classe majoritária e regressão logística) e o <strong>teste pareado de Wilcoxon</strong><sup class="ref-n">5</sup>, que verifica se a diferença entre dois modelos sobrevive à variação amostral.</p>
+        <div class="hard-block fill-yellow reveal" style="margin-top:56px; padding:34px 44px; display:flex; align-items:center; gap:36px;">
+            <span style="font-family:var(--font-display); font-size:52px;">H4 ✓</span>
+            <p class="body-lg" style="max-width:1350px; color:var(--ink);">Proporção de <strong>beneficiários do Pé-de-Meia</strong><sup class="ref-n">3</sup> só com a regra legal: <strong>47,7%</strong> no cenário base (Piauí) · <strong>57,6%</strong> no vulnerável · <strong>6,5%</strong> no de renda alta. H4 ✓</p>
         </div>
     </div>
     <div class="slide-meta">
-        <span class="fontes"><sup class="ref-n">1</sup>Liu &amp; Motoda (2007) · <sup class="ref-n">2</sup>Chawla et al. (2002); He &amp; Garcia (2009); Madugula et al. (2026) · <sup class="ref-n">3</sup>Géron (2019) · <sup class="ref-n">4</sup>Fawcett (2006); Hand &amp; Till (2001) · <sup class="ref-n">5</sup>Demšar (2006)</span>
+        <span class="fontes"><sup class="ref-n">1</sup>SEDUC-PI; Todos Pela Educação (2023) · <sup class="ref-n">2</sup>elaborado pelo autor (2026) · <sup class="ref-n">3</sup>Brasil (2024) - Lei nº 14.818; MDS - CadÚnico nº 50 (2024)</span>
         <span class="num">20 <span class="dot"></span> 37</span>
     </div>
 </section>
 
 <!-- ============================================================
-     SLIDE 21 - PROTOCOLO EXPERIMENTAL
+     SLIDE 14 - PROTOCOLO EXPERIMENTAL
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Protocolo experimental</span>
+        <span>Parte 05 · Metodologia</span>
+        <span class="pill">Protocolo Experimental</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">Rigor antes de resultado</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:26px; margin-top:48px;">
-            <div class="step-card">
-                <div class="step-title" style="color:var(--accent);">Divisão &amp; Ajuste<sup class="ref-n">1</sup></div>
+            <div class="step-card fill-cream">
+                <div class="step-title" style="color:var(--pink);">Divisão &amp; Ajuste<sup class="ref-n">1</sup></div>
                 <div class="step-desc" style="font-size:24px;">Split estratificado <strong>70/30</strong> · ajuste fino via <strong>GridSearchCV</strong> (cv=5) · mesma semente e mesmos folds para todos os modelos.</div>
             </div>
-            <div class="step-card">
-                <div class="step-title" style="color:var(--accent);">Balanceamento<sup class="ref-n">2</sup></div>
+            <div class="step-card fill-cream">
+                <div class="step-title" style="color:var(--orange);">Balanceamento<sup class="ref-n">2</sup></div>
                 <div class="step-desc" style="font-size:24px;"><strong>SMOTE confinado a cada fold</strong> de treino - previne vazamento de dados. Métrica de otimização: F1-Score ponderado.</div>
             </div>
-            <div class="step-card">
-                <div class="step-title" style="color:var(--accent);">Verificação<sup class="ref-n">3</sup></div>
+            <div class="step-card fill-cream">
+                <div class="step-title" style="color:var(--green);">Verificação<sup class="ref-n">3</sup></div>
                 <div class="step-desc" style="font-size:24px;">Validação cruzada estratificada <strong>k=10</strong> · teste pareado de <strong>Wilcoxon</strong> sobre os folds · estudo de ablação das derivadas.</div>
             </div>
         </div>
         <div class="reveal" style="display:flex; gap:26px; margin-top:44px; align-items:stretch;">
-            <div class="stat-cell" style="flex:1.4;">
-                <div class="stat-label" style="color:var(--accent);">Competidores<sup class="ref-n">4</sup></div>
-                <div style="font-family:var(--font-display); font-size:44px; line-height:1.1; text-transform:none;">Decision Tree · Random Forest · XGBoost</div>
+            <div class="stat-cell fill-ink" style="flex:1.4;">
+                <div class="stat-label" style="color:var(--yellow);">Competidores<sup class="ref-n">4</sup></div>
+                <div style="font-family:var(--font-display); font-size:44px; line-height:1.1; text-transform:uppercase;">Decision Tree · Random Forest · XGBoost</div>
             </div>
-            <div class="stat-cell" style="flex:1;">
+            <div class="stat-cell fill-cream2" style="flex:1;">
                 <div class="stat-label">Baselines de referência<sup class="ref-n">5</sup></div>
                 <div class="stat-desc" style="font-size:25px;">Classe majoritária (Dummy) e <strong>Regressão Logística</strong> - para saber se o problema é trivial e quanto é sinal linear.</div>
             </div>
@@ -1338,48 +1290,48 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 22 - PIPELINE DE TREINO
+     SLIDE 17 - PIPELINE DE TREINO
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Pipeline de treino</span>
+        <span>Parte 05 · Metodologia</span>
+        <span class="pill">Como o modelo foi treinado</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">Do dado ao modelo, passo a passo</h2>
         <div class="reveal" style="display:flex; gap:14px; margin-top:48px; align-items:stretch;">
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:56px; color:var(--accent);">1</div>
+            <div class="step-card fill-cream" style="flex:1;">
+                <div class="step-num" style="font-size:56px; color:var(--pink);">1</div>
                 <div class="step-title" style="font-size:26px;">Base fixa<sup class="ref-n">1</sup></div>
                 <div class="step-desc" style="font-size:21px;">N=3.000 · semente 42 · mesmo CSV para todos os modelos.</div>
             </div>
             <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
+            <div class="step-card fill-yellow" style="flex:1;">
                 <div class="step-num" style="font-size:56px;">2</div>
                 <div class="step-title" style="font-size:26px;">Split 70/30</div>
                 <div class="step-desc" style="font-size:21px;">Estratificado: treino e teste guardam a mesma proporção das classes.</div>
             </div>
             <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
+            <div class="step-card fill-pink" style="flex:1;">
                 <div class="step-num" style="font-size:56px;">3</div>
                 <div class="step-title" style="font-size:26px;">GridSearch</div>
                 <div class="step-desc" style="font-size:21px;">Ajuste fino de hiperparâmetros no treino (cv=5), otimizando F1 ponderado.</div>
             </div>
             <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:56px; color:var(--accent);">4</div>
+            <div class="step-card fill-cream2" style="flex:1;">
+                <div class="step-num" style="font-size:56px; color:var(--orange);">4</div>
                 <div class="step-title" style="font-size:26px;">CV k=10<sup class="ref-n">2</sup></div>
                 <div class="step-desc" style="font-size:21px;">Reavalia com 10 partições · SMOTE só dentro de cada fold de treino.</div>
             </div>
             <div class="flow-arrow"></div>
-            <div class="step-card" style="flex:1;">
-                <div class="step-num" style="font-size:56px; color:var(--accent);">5</div>
+            <div class="step-card fill-green" style="flex:1;">
+                <div class="step-num" style="font-size:56px; color:var(--yellow);">5</div>
                 <div class="step-title" style="font-size:26px;">Comparar</div>
-                <div class="step-desc" style="font-size:21px; color:var(--text-primary);">Holdout + Wilcoxon pareado + baselines (Dummy e RegLog).</div>
+                <div class="step-desc" style="font-size:21px; color:var(--cream);">Holdout + Wilcoxon pareado + baselines (Dummy e RegLog).</div>
             </div>
         </div>
-        <div class="hard-block reveal" style="margin-top:48px; padding:28px 36px;">
-            <p class="body-lg" style="color:var(--text-primary);"><strong>Ponto crítico:</strong> todos os classificadores veem o <strong>mesmo split</strong> e os <strong>mesmos folds</strong><sup class="ref-n">3</sup>. A diferença de desempenho vem do algoritmo - não de “sorte no embaralhamento”.</p>
+        <div class="hard-block fill-yellow reveal" style="margin-top:48px; padding:28px 36px;">
+            <p class="body-lg" style="color:var(--ink);"><strong>Ponto crítico:</strong> todos os classificadores veem o <strong>mesmo split</strong> e os <strong>mesmos folds</strong><sup class="ref-n">3</sup>. A diferença de desempenho vem do algoritmo - não de “sorte no embaralhamento”.</p>
         </div>
     </div>
     <div class="slide-meta">
@@ -1389,23 +1341,23 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 23 - SMOTE E VAZAMENTO
+     SLIDE 18 - SMOTE E VAZAMENTO
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">SMOTE e vazamento</span>
+        <span>Parte 05 · Metodologia</span>
+        <span class="pill">Balanceamento correto</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">SMOTE: o que é e onde entra</h2>
         <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:44px;">
-            <div class="step-card" style="min-height:420px;">
-                <div class="step-title" style="color:var(--accent);">O problema</div>
+            <div class="step-card fill-cream" style="min-height:420px;">
+                <div class="step-title" style="color:var(--pink);">O problema</div>
                 <div class="step-desc" style="font-size:24px; margin-top:16px; line-height:1.4;">As classes não estão iguais (45% / 32% / 23%). Sem cuidado, o modelo “aprende” a favorecer Aprovado e erra Em Risco / Reprovado.<br><br><strong>SMOTE</strong><sup class="ref-n">1</sup> cria exemplos sintéticos das classes menores - mas se for aplicado no dataset inteiro <em>antes</em> do split, <strong>vaza</strong> informação do teste para o treino<sup class="ref-n">2</sup>.</div>
             </div>
-            <div class="step-card" style="min-height:420px;">
-                <div class="step-title" style="color:var(--text-primary);">A solução neste trabalho</div>
-                <div class="step-desc" style="font-size:24px; margin-top:16px; line-height:1.4; color:var(--text-primary);">SMOTE só no <strong>fold de treino</strong> da validação cruzada (pipeline imblearn). O fold de teste permanece “limpo”.<br><br>É uma salvaguarda metodológica explícita - e um ponto que a banca costuma perguntar.</div>
+            <div class="step-card fill-green" style="min-height:420px;">
+                <div class="step-title" style="color:var(--cream);">A solução neste trabalho</div>
+                <div class="step-desc" style="font-size:24px; margin-top:16px; line-height:1.4; color:var(--cream);">SMOTE só no <strong>fold de treino</strong> da validação cruzada (pipeline imblearn). O fold de teste permanece “limpo”.<br><br>É uma salvaguarda metodológica explícita - e um ponto que a banca costuma perguntar.</div>
             </div>
         </div>
         <p class="body-md reveal" style="margin-top:36px;">Métrica de otimização: <strong>F1 ponderado</strong> (não só acurácia) - porque classes desbalanceadas pedem equilíbrio entre precisão e recall<sup class="ref-n">3</sup>.</p>
@@ -1417,24 +1369,24 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 24 - SENSIBILIDADE AO RUÍDO
+     SLIDE 19 - SENSIBILIDADE AO RUÍDO
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 03 · Metodologia</span>
-        <span class="pill">Sensibilidade ao ruído</span>
+        <span>Parte 05 · Metodologia</span>
+        <span class="pill">Teto de Acurácia</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">O ruído define o teto do problema</h2>
         <div class="reveal" style="display:flex; gap:22px; height:420px; margin-top:56px; align-items:flex-end; border-bottom:3px solid var(--ink); border-left:3px solid var(--ink); padding:0 30px 0 30px;">
-            <div class="bar-col" style="flex:1;"><span class="bar-val">90,7%</span><div class="bar" style="height:88%;"></div><span class="bar-lab">0</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">90,2%</span><div class="bar" style="height:86%;"></div><span class="bar-lab">1</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">88,1%</span><div class="bar" style="height:80%;"></div><span class="bar-lab">2</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">84,3%</span><div class="bar" style="height:70%"></div><span class="bar-lab" style="background:var(--bg-secondary); color:var(--text-primary); padding:2px 12px;">3 ★</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">80,5%</span><div class="bar" style="height:60%;"></div><span class="bar-lab">4</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">77,5%</span><div class="bar" style="height:52%;"></div><span class="bar-lab">5</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">74,4%</span><div class="bar" style="height:44%;"></div><span class="bar-lab">6</span></div>
-            <div class="bar-col" style="flex:1;"><span class="bar-val">68,7%</span><div class="bar" style="height:30%;"></div><span class="bar-lab">8</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">90,7%</span><div class="bar fill-green" style="height:88%;"></div><span class="bar-lab">0</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">90,2%</span><div class="bar fill-green" style="height:86%;"></div><span class="bar-lab">1</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">88,1%</span><div class="bar fill-yellow" style="height:80%;"></div><span class="bar-lab">2</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">84,3%</span><div class="bar fill-pink" style="height:70%; box-shadow:12px 12px 0 var(--ink);"></div><span class="bar-lab" style="background:var(--ink); color:var(--cream); padding:2px 12px;">3 ★</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">80,5%</span><div class="bar fill-yellow" style="height:60%;"></div><span class="bar-lab">4</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">77,5%</span><div class="bar fill-orange" style="height:52%;"></div><span class="bar-lab">5</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">74,4%</span><div class="bar fill-orange" style="height:44%;"></div><span class="bar-lab">6</span></div>
+            <div class="bar-col" style="flex:1;"><span class="bar-val">68,7%</span><div class="bar fill-orange" style="height:30%;"></div><span class="bar-lab">8</span></div>
         </div>
         <div class="reveal" style="display:flex; gap:40px; margin-top:34px; align-items:center;">
             <span class="mono-tag">Acurácia da Random Forest (CV k=5) × NOISE_LEVEL<sup class="ref-n">1</sup></span>
@@ -1448,12 +1400,12 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 25 - RESULTADOS: MÉTRICAS GERAIS
+     SLIDE 16 - RESULTADOS: MÉTRICAS GERAIS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 04 · Resultados</span>
-        <span class="pill">Métricas gerais</span>
+        <span>Parte 06 · Resultados</span>
+        <span class="pill">Comparação Geral</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">XGBoost lidera em todas as métricas</h2>
@@ -1467,20 +1419,20 @@ em { font-style: italic; }
             </table>
         </div>
         <div class="reveal" style="display:flex; gap:26px; margin-top:30px;">
-            <div class="stat-cell" style="flex:1; padding:22px 32px;">
+            <div class="stat-cell fill-orange" style="flex:1; padding:22px 32px;">
                 <div class="stat-label">Baseline majoritário</div>
                 <div class="stat-num" style="font-size:64px;">45,0%</div>
-                <div class="stat-desc" style="color:var(--text-primary);">O problema não é trivial: os ensembles superam em ~39 p.p. (H3 ✓)</div>
+                <div class="stat-desc" style="color:var(--cream);">O problema não é trivial: os ensembles superam em ~39 p.p. (H3 ✓)</div>
             </div>
-            <div class="stat-cell" style="flex:1; padding:22px 32px;">
+            <div class="stat-cell fill-cream2" style="flex:1; padding:22px 32px;">
                 <div class="stat-label">Regressão Logística</div>
                 <div class="stat-num" style="font-size:64px;">80,2%</div>
                 <div class="stat-desc">Forte componente linear - mas os ensembles agregam 2–4 p.p. das interações não lineares.</div>
             </div>
-            <div class="stat-cell" style="flex:1; padding:22px 32px;">
+            <div class="stat-cell fill-green" style="flex:1; padding:22px 32px;">
                 <div class="stat-label">Generalização</div>
                 <div class="stat-num" style="font-size:64px;">✓</div>
-                <div class="stat-desc" style="color:var(--text-primary);">Holdout dentro da faixa da CV - sem indícios de sobreajuste.</div>
+                <div class="stat-desc" style="color:var(--cream);">Holdout dentro da faixa da CV - sem indícios de sobreajuste.</div>
             </div>
         </div>
     </div>
@@ -1491,27 +1443,27 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 26 - SIGNIFICÂNCIA ESTATÍSTICA
+     SLIDE 17 - SIGNIFICÂNCIA ESTATÍSTICA
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 04 · Resultados</span>
-        <span class="pill">Significância estatística</span>
+        <span>Parte 06 · Resultados</span>
+        <span class="pill">Teste de Wilcoxon</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal" style="max-width:1500px;">A diferença é real - até certo ponto</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:56px;">
-            <div class="stat-cell" style="min-height:330px;">
+            <div class="stat-cell fill-green" style="min-height:330px;">
                 <div class="stat-label">RF × Decision Tree<sup class="ref-n">1</sup></div>
                 <div class="stat-num">p = 0,002</div>
-                <div class="stat-desc" style="color:var(--text-primary); font-size:25px;">Superioridade do ensemble é <strong>estatisticamente significativa</strong> (5%).</div>
+                <div class="stat-desc" style="color:var(--cream); font-size:25px;">Superioridade do ensemble é <strong>estatisticamente significativa</strong> (5%).</div>
             </div>
-            <div class="stat-cell" style="min-height:330px;">
+            <div class="stat-cell fill-green" style="min-height:330px;">
                 <div class="stat-label">XGBoost × Decision Tree<sup class="ref-n">1</sup></div>
                 <div class="stat-num">p = 0,002</div>
-                <div class="stat-desc" style="color:var(--text-primary); font-size:25px;">Idem - confirma <strong>H1</strong> para os ensembles frente à árvore única.</div>
+                <div class="stat-desc" style="color:var(--cream); font-size:25px;">Idem - confirma <strong>H1</strong> para os ensembles frente à árvore única.</div>
             </div>
-            <div class="stat-cell" style="min-height:330px;">
+            <div class="stat-cell fill-pink" style="min-height:330px;">
                 <div class="stat-label">XGBoost × Random Forest<sup class="ref-n">1</sup></div>
                 <div class="stat-num">p = 0,232</div>
                 <div class="stat-desc" style="font-size:25px;">Diferença <strong>não significativa</strong>: os dois ensembles são estatisticamente equivalentes.</div>
@@ -1529,12 +1481,12 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 27 - CURVAS ROC
+     SLIDE 18 - CURVAS ROC
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 04 · Resultados</span>
-        <span class="pill">Curvas ROC</span>
+        <span>Parte 06 · Resultados</span>
+        <span class="pill">Curvas ROC (OvR)</span>
     </div>
     <div class="content">
         <h2 class="d-xs reveal">Separabilidade por classe</h2>
@@ -1543,13 +1495,13 @@ em { font-style: italic; }
                 <img src="assets/roc_curves_comparison.png" alt="Curvas ROC One-vs-Rest dos três classificadores">
             </div>
             <div class="reveal" style="display:flex; flex-direction:column; gap:18px;">
-                <div class="step-card" style="padding:22px;">
+                <div class="step-card fill-yellow" style="padding:22px;">
                     <div class="step-title" style="font-size:26px;">Como ler</div>
                     <div class="step-desc" style="font-size:21px; margin-top:10px;">Curva sobe rápido para o canto superior esquerdo = boa separação. AUC perto de 1,0 = excelente; 0,5 = chute.</div>
                 </div>
-                <div class="kicker" style="background:var(--bg-secondary); color:var(--text-primary); text-align:center;">Aprovado · 0,971</div>
-                <div class="kicker" style="background:var(--bg-secondary); color:var(--text-primary); text-align:center;">Em Risco · 0,915</div>
-                <div class="kicker" style="background:var(--bg-secondary); color:var(--text-primary); text-align:center;">Reprovado · 0,983</div>
+                <div class="kicker" style="background:var(--green); color:var(--cream); text-align:center;">Aprovado · 0,971</div>
+                <div class="kicker" style="background:var(--yellow); color:var(--ink); text-align:center;">Em Risco · 0,915</div>
+                <div class="kicker" style="background:var(--orange); color:var(--cream); text-align:center;">Reprovado · 0,983</div>
                 <p class="body-md" style="font-size:22px;">(XGBoost) Em Risco é a mais difícil - fica entre duas fronteiras.</p>
             </div>
         </div>
@@ -1561,12 +1513,12 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 28 - MATRIZES DE CONFUSÃO
+     SLIDE 19 - MATRIZES DE CONFUSÃO
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 04 · Resultados</span>
-        <span class="pill">Matrizes de confusão</span>
+        <span>Parte 06 · Resultados</span>
+        <span class="pill">Matrizes de Confusão</span>
     </div>
     <div class="content">
         <h2 class="d-xs reveal">Onde os modelos erram</h2>
@@ -1575,12 +1527,12 @@ em { font-style: italic; }
                 <img src="assets/confusion_matrices_comparison.png" alt="Matrizes de confusão dos três classificadores no holdout">
             </div>
             <div class="reveal" style="display:flex; flex-direction:column; gap:18px;">
-                <div class="step-card" style="padding:22px;">
-                    <div class="step-title" style="font-size:26px; color:var(--accent);">Como ler</div>
+                <div class="step-card fill-cream" style="padding:22px;">
+                    <div class="step-title" style="font-size:26px; color:var(--pink);">Como ler</div>
                     <div class="step-desc" style="font-size:21px; margin-top:10px;">Linhas = verdade · colunas = previsão. Diagonal = acerto. Fora da diagonal = erro.</div>
                 </div>
-                <div class="hard-block-ink" style="padding:22px 26px;">
-                    <span style="font-family:var(--font-display); font-size:28px; text-transform:none;">Zero erros extremos</span>
+                <div class="hard-block-ink fill-yellow" style="padding:22px 26px;">
+                    <span style="font-family:var(--font-display); font-size:28px; text-transform:uppercase;">Zero erros extremos</span>
                     <p class="body-md" style="margin-top:12px; font-size:22px;">Nenhum Aprovado ↔ Reprovado. Erros só entre vizinhos - ordinalidade capturada.</p>
                 </div>
             </div>
@@ -1593,26 +1545,26 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 29 - RECALL DA CLASSE CRÍTICA
+     SLIDE 20 - RECALL DA CLASSE CRÍTICA
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 04 · Resultados</span>
-        <span class="pill">Recall da classe crítica</span>
+        <span>Parte 06 · Resultados</span>
+        <span class="pill">Leitura Pedagógica</span>
     </div>
     <div class="content">
         <div style="display:grid; grid-template-columns: 760px 1fr; gap:70px; align-items:center; height:100%;">
             <div>
                 <span class="kicker reveal">O número que importa</span>
                 <div class="reveal" style="margin-top:36px;">
-                    <div style="font-family:var(--font-display); font-size:210px; line-height:0.9; color:var(--text-primary);">84,3%</div>
+                    <div style="font-family:var(--font-display); font-size:210px; line-height:0.9; color:var(--ink);">84,3%</div>
                     <div class="mono-tag" style="margin-top:22px; font-size:26px;">Recall da classe Reprovado · XGBoost</div>
                 </div>
                 <p class="body-lg reveal" style="margin-top:36px;">com precisão de <strong>87,6%</strong> - o modelo raramente deixa de sinalizar o estudante em vulnerabilidade severa.</p>
             </div>
             <div class="reveal">
-                <div class="hard-block" style="padding:46px;">
-                    <p style="font-family:var(--font-display); font-size:40px; line-height:1.12; text-transform:none; color:var(--text-primary);">Falso negativo aqui é um estudante que ninguém foi buscar.</p>
+                <div class="hard-block fill-pink" style="padding:46px;">
+                    <p style="font-family:var(--font-display); font-size:40px; line-height:1.12; text-transform:uppercase; color:var(--ink);">Falso negativo aqui é um estudante que ninguém foi buscar.</p>
                     <p class="body-md" style="margin-top:26px; font-size:25px;">Para a finalidade preventiva, minimizar falsos negativos na classe crítica vale mais que acurácia global - e a predição chega <strong>no meio do ano</strong>, quando a intervenção pedagógica ainda é possível.</p>
                 </div>
             </div>
@@ -1625,12 +1577,12 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 30 - IMPORTÂNCIA DOS ATRIBUTOS
+     SLIDE 21 - IMPORTÂNCIA DOS ATRIBUTOS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 04 · Resultados</span>
-        <span class="pill">Importância dos atributos</span>
+        <span>Parte 06 · Resultados</span>
+        <span class="pill">Interpretabilidade</span>
     </div>
     <div class="content">
         <h2 class="d-xs reveal">O que decide a predição</h2>
@@ -1639,11 +1591,11 @@ em { font-style: italic; }
                 <img src="assets/feature_importances_comparison.png" alt="Importância dos atributos nos três classificadores">
             </div>
             <div class="reveal" style="display:flex; flex-direction:column; gap:18px;">
-                <div class="step-card" style="padding:22px;">
-                    <div class="step-title" style="font-size:26px; color:var(--accent);">Como ler</div>
+                <div class="step-card fill-cream" style="padding:22px;">
+                    <div class="step-title" style="font-size:26px; color:var(--orange);">Como ler</div>
                     <div class="step-desc" style="font-size:21px; margin-top:10px;">Barra maior = atributo que mais pesou na decisão daquele modelo. Comparar os três painéis.</div>
                 </div>
-                <div class="stat-cell" style="padding:18px 22px;">
+                <div class="stat-cell fill-green" style="padding:18px 22px;">
                     <div class="stat-label" style="font-size:18px;">1º em todos<sup class="ref-n">1</sup></div>
                     <div style="font-family:var(--font-mono); font-size:26px;">nota_x_frequencia</div>
                 </div>
@@ -1658,30 +1610,30 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 31 - HIPÓTESES REVISITADAS
+     SLIDE 22 - HIPÓTESES REVISITADAS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
-        <span class="pill">Hipóteses revisitadas</span>
+        <span>Parte 07 · Conclusões</span>
+        <span class="pill">Hipóteses Revisitadas</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">Balanço das hipóteses<sup class="ref-n">1</sup></h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:34px; margin-top:56px;">
-            <div class="step-card" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
-                <div style="font-family:var(--font-display); font-size:72px; color:var(--accent); flex-shrink:0;">H1</div>
+            <div class="step-card fill-cream" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
+                <div style="font-family:var(--font-display); font-size:72px; color:var(--orange); flex-shrink:0;">H1</div>
                 <div class="step-desc" style="font-size:27px;"><strong>Parcialmente confirmada.</strong> Os <em>ensembles</em><sup class="ref-n">2</sup> superam a árvore única com significância (p = 0,002), mas são estatisticamente equivalentes entre si (p = 0,232).</div>
             </div>
-            <div class="step-card" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
-                <div style="font-family:var(--font-display); font-size:72px; color:var(--accent); flex-shrink:0;">H2</div>
+            <div class="step-card fill-cream" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
+                <div style="font-family:var(--font-display); font-size:72px; color:var(--green); flex-shrink:0;">H2</div>
                 <div class="step-desc" style="font-size:27px;"><strong>Confirmada.</strong> Os fatores sociológicos são recuperados com importância não redundante, mesmo na presença dos indicadores acadêmicos diretos.</div>
             </div>
-            <div class="step-card" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
-                <div style="font-family:var(--font-display); font-size:72px; color:var(--accent); flex-shrink:0;">H3</div>
+            <div class="step-card fill-cream" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
+                <div style="font-family:var(--font-display); font-size:72px; color:var(--green); flex-shrink:0;">H3</div>
                 <div class="step-desc" style="font-size:27px;"><strong>Confirmada.</strong> Os sinais parciais do 1º semestre preveem a tendência anual ~39 p.p. acima do <em>baseline</em> majoritário.</div>
             </div>
-            <div class="step-card" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
-                <div style="font-family:var(--font-display); font-size:72px; color:var(--accent); flex-shrink:0;">H4</div>
+            <div class="step-card fill-cream" style="flex-direction:row; gap:34px; align-items:center; min-height:290px;">
+                <div style="font-family:var(--font-display); font-size:72px; color:var(--green); flex-shrink:0;">H4</div>
                 <div class="step-desc" style="font-size:27px;"><strong>Confirmada.</strong> A regra legal de elegibilidade<sup class="ref-n">3</sup> produz, sem calibração, 47,7% · 57,6% · 6,5% nos três cenários.</div>
             </div>
         </div>
@@ -1693,27 +1645,27 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 32 - CONTRIBUIÇÕES
+     SLIDE 23 - CONTRIBUIÇÕES
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
+        <span>Parte 07 · Conclusões</span>
         <span class="pill">Contribuições</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">O que este trabalho entrega</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:50px;">
-            <div class="step-card" style="min-height:420px;">
+            <div class="step-card fill-yellow" style="min-height:420px;">
                 <div class="step-title">Gerador rastreável<sup class="ref-n">1</sup></div>
                 <div class="step-desc" style="font-size:24px; line-height:1.45;">Base sintética sociologicamente fundamentada, com matriz de rastreabilidade parâmetro → fonte, mecanismos anti-deterministas (resiliência, elegibilidade legal, não linearidades) e rotulagem pela LDB.</div>
             </div>
-            <div class="step-card" style="min-height:420px;">
+            <div class="step-card fill-pink" style="min-height:420px;">
                 <div class="step-title">Boas práticas em EDM</div>
                 <div class="step-desc" style="font-size:24px; line-height:1.45;">SMOTE dentro do fold (sem vazamento)<sup class="ref-n">2</sup> · baselines de referência · Wilcoxon pareado<sup class="ref-n">3</sup> · ablação de derivadas · teto de acurácia caracterizado · equidade algorítmica<sup class="ref-n">4</sup>.</div>
             </div>
-            <div class="step-card" style="min-height:420px;">
-                <div class="step-title" style="color:var(--text-primary);">Pipeline reprodutível<sup class="ref-n">1</sup></div>
-                <div class="step-desc" style="font-size:24px; line-height:1.45; color:var(--text-primary);">Todo o procedimento é parametrizável (.env) e reprodutível - cenários socioeconômicos contrastantes por simples troca de configuração.</div>
+            <div class="step-card fill-green" style="min-height:420px;">
+                <div class="step-title" style="color:var(--cream);">Pipeline reprodutível<sup class="ref-n">1</sup></div>
+                <div class="step-desc" style="font-size:24px; line-height:1.45; color:var(--cream);">Todo o procedimento é parametrizável (.env) e reprodutível - cenários socioeconômicos contrastantes por simples troca de configuração.</div>
             </div>
         </div>
     </div>
@@ -1724,26 +1676,26 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 33 - LIMITAÇÕES
+     SLIDE 28 - LIMITAÇÕES
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
+        <span>Parte 07 · Conclusões</span>
         <span class="pill">Limitações</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">O que este trabalho não afirma</h2>
         <div class="reveal" style="display:flex; flex-direction:column; gap:24px; margin-top:44px;">
-            <div class="stat-cell" style="padding:28px 34px; flex-direction:row; align-items:center; gap:32px;">
+            <div class="stat-cell fill-orange" style="padding:28px 34px; flex-direction:row; align-items:center; gap:32px;">
                 <div class="stat-num" style="font-size:56px; flex-shrink:0;">01</div>
-                <div class="stat-desc" style="font-size:26px; color:var(--text-primary);"><strong>Base sintética por regras:</strong><sup class="ref-n">1</sup> o fenômeno é conhecido por construção. Os números medem se o classificador recupera a estrutura simulada - <strong>não</strong> se extrapolam direto para estudantes reais.</div>
+                <div class="stat-desc" style="font-size:26px; color:var(--cream);"><strong>Base sintética por regras:</strong><sup class="ref-n">1</sup> o fenômeno é conhecido por construção. Os números medem se o classificador recupera a estrutura simulada - <strong>não</strong> se extrapolam direto para estudantes reais.</div>
             </div>
-            <div class="stat-cell" style="padding:28px 34px; flex-direction:row; align-items:center; gap:32px;">
+            <div class="stat-cell fill-pink" style="padding:28px 34px; flex-direction:row; align-items:center; gap:32px;">
                 <div class="stat-num" style="font-size:56px; flex-shrink:0;">02</div>
                 <div class="stat-desc" style="font-size:26px;"><strong>Recorte temporal:</strong> prevê a tendência do ano a partir do 1º semestre. Não modela transição entre séries nem acumulação de reprovações ao longo da trajetória.</div>
             </div>
-            <div class="stat-cell" style="padding:28px 34px; flex-direction:row; align-items:center; gap:32px;">
-                <div class="stat-num" style="font-size:56px; color:var(--accent); flex-shrink:0;">03</div>
+            <div class="stat-cell fill-cream2" style="padding:28px 34px; flex-direction:row; align-items:center; gap:32px;">
+                <div class="stat-num" style="font-size:56px; color:var(--green); flex-shrink:0;">03</div>
                 <div class="stat-desc" style="font-size:26px;"><strong>Privacidade em dados reais:</strong> SMOTE em bases reais pode facilitar inferência. Implantação futura pede técnicas com privacidade diferencial<sup class="ref-n">2</sup>.</div>
             </div>
         </div>
@@ -1755,27 +1707,27 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 34 - TRABALHOS FUTUROS
+     SLIDE 29 - TRABALHOS FUTUROS
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
-        <span class="pill">Trabalhos futuros</span>
+        <span>Parte 07 · Conclusões</span>
+        <span class="pill">Próximos passos</span>
     </div>
     <div class="content">
         <h2 class="d-md reveal">Para onde o trabalho aponta</h2>
         <div class="reveal" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:28px; margin-top:52px;">
-            <div class="step-card" style="min-height:420px;">
-                <div class="step-title" style="color:var(--text-primary);">Dados reais</div>
-                <div class="step-desc" style="font-size:24px; color:var(--text-primary); line-height:1.4;">Validar a arquitetura com registros institucionais (ex.: SUAP), com autorização ética - etapa imprescindível antes de qualquer uso prático.</div>
+            <div class="step-card fill-orange" style="min-height:420px;">
+                <div class="step-title" style="color:var(--cream);">Dados reais</div>
+                <div class="step-desc" style="font-size:24px; color:var(--cream); line-height:1.4;">Validar a arquitetura com registros institucionais (ex.: SUAP), com autorização ética - etapa imprescindível antes de qualquer uso prático.</div>
             </div>
-            <div class="step-card" style="min-height:420px;">
+            <div class="step-card fill-pink" style="min-height:420px;">
                 <div class="step-title">Na escola</div>
                 <div class="step-desc" style="font-size:24px; line-height:1.4;">Alertas precoces em sistemas de gestão + explicações individuais (SHAP/LIME) para a equipe pedagógica entender <em>por quê</em> o aluno foi sinalizado.</div>
             </div>
-            <div class="step-card" style="min-height:420px;">
-                <div class="step-title" style="color:var(--text-primary);">Método</div>
-                <div class="step-desc" style="font-size:24px; color:var(--text-primary); line-height:1.4;">Modelagem ordinal/temporal da trajetória; simulação de contrafactuais de política com o gerador; geração com privacidade diferencial.</div>
+            <div class="step-card fill-green" style="min-height:420px;">
+                <div class="step-title" style="color:var(--cream);">Método</div>
+                <div class="step-desc" style="font-size:24px; color:var(--cream); line-height:1.4;">Modelagem ordinal/temporal da trajetória; simulação de contrafactuais de política com o gerador; geração com privacidade diferencial.</div>
             </div>
         </div>
     </div>
@@ -1786,12 +1738,12 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 35 - REFERÊNCIAS (1/2)
+     SLIDE 30 - REFERÊNCIAS (1/2)
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
-        <span class="pill">Referências 1/2</span>
+        <span>Referências Bibliográficas</span>
+        <span class="pill">1 / 2</span>
     </div>
     <div class="content">
         <h2 class="d-xs reveal" style="font-size:44px;">Referências</h2>
@@ -1835,12 +1787,12 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 36 - REFERÊNCIAS (2/2)
+     SLIDE 31 - REFERÊNCIAS (2/2)
 ============================================================ -->
 <section class="slide">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
-        <span class="pill">Referências 2/2</span>
+        <span>Referências Bibliográficas</span>
+        <span class="pill">2 / 2</span>
     </div>
     <div class="content">
         <h2 class="d-xs reveal" style="font-size:44px;">Referências</h2>
@@ -1882,31 +1834,28 @@ em { font-style: italic; }
 </section>
 
 <!-- ============================================================
-     SLIDE 37 - ENCERRAMENTO
+     SLIDE 32 - ENCERRAMENTO (fundo verde)
 ============================================================ -->
-<section class="slide slide-closing">
-    <div class="geo-decoration geo-ring"></div>
+<section class="slide inverted" style="background:var(--green);">
     <div class="topbar">
-        <span>Parte 05 · Fechamento</span>
-        <span class="pill">Encerramento</span>
+        <span>IFPI - Licenciatura em Computação</span>
+        <span class="pill">2026</span>
     </div>
-    <div class="content" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-        <p class="label reveal" style="margin-bottom:28px;">Defesa de TCC · IFPI · 2026</p>
-        <h1 class="d-lg reveal" style="max-width:1400px; text-transform:none; font-size:72px; line-height:1.1;">Obrigado</h1>
-        <p class="body-lg reveal" style="margin-top:36px; max-width:900px; color:var(--text-secondary);">Perguntas e discussão</p>
-        <div class="reveal" style="margin-top:64px; display:flex; gap:80px; justify-content:center;">
+    <div class="content" style="display:flex; flex-direction:column; justify-content:center;">
+        <h2 class="reveal" style="font-family:var(--font-display); font-size:200px; line-height:0.92; text-transform:uppercase; color:var(--cream);">Obrigado.</h2>
+        <div class="reveal" style="margin-top:72px; display:flex; gap:60px;">
             <div>
-                <div class="label" style="margin-bottom:10px;">Autor</div>
-                <div class="body-md" style="color:var(--text-primary); font-weight:500;">João Victor dos Santos Mendes</div>
+                <div class="mono-tag" style="color:var(--yellow); margin-bottom:8px;">Autor</div>
+                <div style="font-family:var(--font-body); font-size:28px; color:var(--cream); font-weight:700;">João Victor dos Santos Mendes</div>
             </div>
             <div>
-                <div class="label" style="margin-bottom:10px;">Orientador</div>
-                <div class="body-md" style="color:var(--text-primary); font-weight:500;">Prof. Dr. Kelson Carvalho Santos</div>
+                <div class="mono-tag" style="color:var(--yellow); margin-bottom:8px;">Orientador</div>
+                <div style="font-family:var(--font-body); font-size:28px; color:var(--cream); font-weight:700;">Prof. Dr. Kelson Carvalho Santos</div>
             </div>
         </div>
     </div>
     <div class="slide-meta">
-        <span></span>
+        <span>Perguntas da Banca</span>
         <span class="num">37 <span class="dot"></span> 37</span>
     </div>
 </section>
@@ -1914,11 +1863,15 @@ em { font-style: italic; }
 </main>
 </div>
 
+<!-- Chrome fora do stage -->
 <div class="deck-counter" id="deckCounter">01 / 37</div>
 <div class="edit-hotzone" id="editHotzone"></div>
-<button class="edit-toggle" id="editToggle" type="button">EDIT</button>
+<button class="edit-toggle" id="editToggle" title="Modo de edição (E)">EDIT</button>
 
 <script>
+/* ===========================================
+   CONTROLADOR DA APRESENTAÇÃO
+   =========================================== */
 class SlidePresentation {
     constructor() {
         this.slides = document.querySelectorAll('.slide');
@@ -1992,12 +1945,16 @@ class SlidePresentation {
     }
 }
 
+/* ===========================================
+   EDIÇÃO INLINE (hover no canto superior esquerdo ou tecla E)
+   =========================================== */
 class InlineEditor {
     constructor() {
         this.isActive = false;
-        this.storageKey = 'apresentacao-tcc-edits-cartesian';
+        this.storageKey = 'apresentacao-tcc-edits';
         this.toggle = document.getElementById('editToggle');
         this.hotzone = document.getElementById('editHotzone');
+        this.editableSelector = 'h1, h2, p, span, div.step-desc, div.stat-desc, div.step-title, div.stat-label, td';
         this.restore();
         this.bind();
     }
@@ -2045,7 +2002,7 @@ class InlineEditor {
         document.querySelectorAll('.slide').forEach((slide, si) => {
             texts[si] = slide.innerHTML;
         });
-        try { localStorage.setItem(this.storageKey, JSON.stringify(texts)); } catch (e) { /* ignore */ }
+        try { localStorage.setItem(this.storageKey, JSON.stringify(texts)); } catch (e) { /* storage cheio: ignora */ }
     }
 
     restore() {
@@ -2056,7 +2013,7 @@ class InlineEditor {
             document.querySelectorAll('.slide').forEach((slide, si) => {
                 if (texts[si]) slide.innerHTML = texts[si];
             });
-        } catch (e) { /* ignore */ }
+        } catch (e) { /* dados corrompidos: ignora */ }
     }
 }
 
