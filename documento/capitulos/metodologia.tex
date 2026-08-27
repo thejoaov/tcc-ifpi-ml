@@ -128,7 +128,7 @@ O pré-processamento visa garantir a qualidade e a adequação dos dados aos alg
     \item Verificação de valores ausentes e \textit{outliers} (por construção, o gerador não produz valores ausentes; os \textit{outliers} de resiliência são preservados intencionalmente)
 \end{enumerate}
 
-A exclusão de gênero e cor/raça do treinamento é decisão de desenho ético, e não o resultado de um ranking de importância: ambos os atributos entram no gerador com peso zero, de modo que não há sinal racial ou de gênero a reconstituir a partir dos demais preditores. Já \texttt{tipo\_escola\_origem} foi avaliada em execuções exploratórias restritas ao conjunto de treino (na mesma lógica do estudo de ablação das variáveis derivadas) e removida por baixa contribuição observada: 85\% da população sintética origina-se de escola pública, o que reduz a variância preditiva da variável.
+A exclusão de gênero e cor/raça do treinamento é decisão de desenho ético, e não o resultado de um \textit{ranking} de importância: ambos os atributos entram no gerador com peso zero, de modo que não há sinal racial ou de gênero a reconstituir a partir dos demais preditores. Já \texttt{tipo\_escola\_origem} foi avaliada em execuções exploratórias restritas ao conjunto de treino (na mesma lógica do estudo de ablação das variáveis derivadas) e removida por baixa contribuição observada: 85\% da população sintética origina-se de escola pública, o que reduz a variância preditiva da variável.
 
 \section{Transformação dos Dados (\textit{Feature Engineering})}
 
