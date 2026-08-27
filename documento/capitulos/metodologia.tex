@@ -155,7 +155,7 @@ São implementados e comparados três algoritmos:
     \item \textbf{\textit{Gradient Boosting}} (\texttt{XGBClassifier}): \textit{ensemble} sequencial com \textit{boosting}
 \end{enumerate}
 
-Os algoritmos são implementados com \textit{scikit-learn} e \textit{XGBoost} em Python. O ajuste de hiperparâmetros é realizado via \textit{GridSearchCV} com validação cruzada estratificada de 5 \textit{folds}, utilizando F1-Score ponderado como métrica de otimização.
+Os algoritmos são implementados com \textit{scikit-learn} e \textit{XGBoost} em Python. O ajuste de hiperparâmetros é realizado via \textit{GridSearchCV} com validação cruzada estratificada de 5 \textit{folds}, utilizando \textit{F1-Score} ponderado como métrica de otimização.
 
 Complementarmente, conforme a fundamentação apresentada no Referencial Teórico, dois \textbf{\textit{baselines} de referência} são avaliados sob o mesmo protocolo: um classificador trivial de classe majoritária (\texttt{DummyClassifier}), que estabelece o piso de desempenho do problema, e uma \textbf{Regressão Logística} multinomial, que quantifica a parcela do fenômeno explicável por relações lineares.
 
@@ -165,18 +165,18 @@ A avaliação considera múltiplas métricas:
 
 \begin{enumerate}
     \item Acurácia: proporção de previsões corretas
-    \item Precisão, \textit{Recall} e F1-Score ponderados: métricas por classe agregadas
+    \item Precisão, \textit{Recall} e \textit{F1-Score} ponderados: métricas por classe agregadas
     \item Área sob a curva ROC (AUC-ROC) multiclasse \textit{One-vs-Rest}
     \item Matriz de confusão
 \end{enumerate}
 
-Além do conjunto de teste isolado (\textit{holdout}, 30\% dos dados com estratificação), utiliza-se validação cruzada \textit{k-fold} estratificada (\textit{k}=10) para garantir robustez estatística. As diferenças de desempenho entre pares de modelos são submetidas ao \textbf{teste pareado de postos sinalizados de Wilcoxon} sobre os F1-Scores das mesmas partições da validação cruzada, ao nível de significância de 5\%, conforme a recomendação de \citeonline{demsar2006}: diferenças cujo valor-$p$ exceda esse nível são tratadas como estatisticamente não distinguíveis da flutuação amostral.
+Além do conjunto de teste isolado (\textit{holdout}, 30\% dos dados com estratificação), utiliza-se validação cruzada \textit{k-fold} estratificada (\textit{k}=10) para garantir robustez estatística. As diferenças de desempenho entre pares de modelos são submetidas ao \textbf{teste pareado de postos sinalizados de Wilcoxon} sobre os \textit{F1-Scores} das mesmas partições da validação cruzada, ao nível de significância de 5\%, conforme a recomendação de \citeonline{demsar2006}: diferenças cujo valor-$p$ exceda esse nível são tratadas como estatisticamente não distinguíveis da flutuação amostral.
 
 Complementarmente, realiza-se uma \textbf{análise de sensibilidade ao ruído idiossincrático}: o parâmetro \texttt{NOISE\_LEVEL} do gerador é variado em uma grade de valores e, para cada valor, o desempenho de um classificador de referência é medido, permitindo caracterizar como a previsibilidade do desfecho anual degrada conforme cresce a variância não observável do fenômeno (análise apresentada no capítulo de Experimentos e Discussão dos Resultados). Ressalta-se que a varredura não busca uma acurácia-alvo: ela caracteriza o problema, e o valor adotado no estudo é uma decisão fenomenológica registrada na matriz de rastreabilidade.
 
 \section{Análise e Interpretação dos Resultados}
 
-A interpretação dos resultados é conduzida pelo pesquisador em quatro frentes complementares: (i) comparação das métricas agregadas (acurácia, F1-Score, precisão, \textit{recall} e AUC-ROC) entre os classificadores e os \textit{baselines}, nos ambientes de \textit{holdout} e validação cruzada, com verificação estatística das diferenças; (ii) análise do desempenho por classe, por meio das curvas ROC \textit{One-vs-Rest} e das matrizes de confusão, com atenção à classe crítica \textit{Reprovado} e à estrutura ordinal dos erros; (iii) análise da importância dos atributos em cada modelo, confrontando os pesos recuperados pelos classificadores com os fatores sociológicos parametrizados no fenômeno gerador; e (iv) verificação da coerência do gerador nos cenários de contraste. Todos os artefatos quantitativos da análise (tabelas de métricas, figuras comparativas e matriz de rastreabilidade) são produzidos de forma automatizada e reprodutível, com semente aleatória fixa.
+A interpretação dos resultados é conduzida pelo pesquisador em quatro frentes complementares: (i) comparação das métricas agregadas (acurácia, \textit{F1-Score}, precisão, \textit{recall} e AUC-ROC) entre os classificadores e os \textit{baselines}, nos ambientes de \textit{holdout} e validação cruzada, com verificação estatística das diferenças; (ii) análise do desempenho por classe, por meio das curvas ROC \textit{One-vs-Rest} e das matrizes de confusão, com atenção à classe crítica \textit{Reprovado} e à estrutura ordinal dos erros; (iii) análise da importância dos atributos em cada modelo, confrontando os pesos recuperados pelos classificadores com os fatores sociológicos parametrizados no fenômeno gerador; e (iv) verificação da coerência do gerador nos cenários de contraste. Todos os artefatos quantitativos da análise (tabelas de métricas, figuras comparativas e matriz de rastreabilidade) são produzidos de forma automatizada e reprodutível, com semente aleatória fixa.
 
 \section{Aspectos Éticos}
 
