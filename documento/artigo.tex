@@ -1,0 +1,31 @@
+
+%% Artigo científico para depósito na BIA (versão enxuta do pré-textual).
+%% Os capítulos são os mesmos de documento.tex.
+
+\documentclass[
+	article,
+	12pt,
+	oneside,
+	a4paper,
+    chapter=TITLE,
+    section=TITLE,
+	brazil
+]{abntex2}
+
+\input{estrutura/preambulo}
+
+\begin{document}
+
+\selectlanguage{brazil}
+
+\input{estrutura/pre-textual-artigo.tex}
+
+\textual
+
+\input{estrutura/textual}
+
+\bookmarksetup{startatroot}
+
+\input{estrutura/pos-textual}
+
+\end{document}

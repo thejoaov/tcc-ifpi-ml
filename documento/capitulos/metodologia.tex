@@ -84,7 +84,7 @@ Posse de computador & 25,5\% & PI: domicílios com microcomputador ou \textit{ta
 Distorção idade-série & 21,7\% & Rede estadual do PI (histórico: 33,2\%); cauda etária até 24 anos & \citeonline{inep2025, todospelaeducacaopiaui} & Estadual (PI) \\
 Pé-de-Meia (regra) & - & Elegibilidade: 14--24 anos, renda per capita $\le$ 0,5 SM, frequência $\ge$ 80\%; 187.620 atendidos no PI & \citeonline{brasil2024lei14818, mds2024cadunico, minutomt2026} & Normativo (nacional), efeito documentado no PI \\
 Limiares de aprovação & 6,0 / 75\% & Média final mínima e frequência mínima de 75\% da carga horária & \citeonline{brasil1996ldb} & Normativo (nacional) \\
-Outliers de resiliência & 3\% & Perfis vulneráveis de alto desempenho (ex.: Cocal dos Alves--PI) & \citeonline{seducpi} & Decisão de modelagem, com âncora estadual \\
+\textit{Outliers} de resiliência & 3\% & Perfis vulneráveis de alto desempenho (ex.: Cocal dos Alves--PI) & \citeonline{seducpi} & Decisão de modelagem, com âncora estadual \\
 \end{longtable}
 \end{small}
 
@@ -95,9 +95,9 @@ Parâmetros sem estatística oficial correspondente em qualquer nível de desagr
 Em atenção à diretriz anti-determinista discutida no Referencial Teórico, três mecanismos afastam o gerador de uma soma linear de vulnerabilidades:
 
 \begin{enumerate}
-    \item \textbf{Assistência financeira como regra de elegibilidade}: o benefício do Pé-de-Meia não é sorteado, mas derivado das regras da Lei nº 14.818 (idade entre 14 e 24 anos e renda per capita de até meio salário mínimo, atuando como proxy do Cadastro Único), com taxa de adesão de 85\% entre os elegíveis. O incentivo eleva a frequência dos aderentes em direção à exigência mínima de 80\% mensais (efeito de retenção), e o beneficiário efetivo é aquele que mantém a frequência exigida. Beneficiários recebem bônus no escore latente, revertendo a tendência de queda do perfil vulnerável \cite{santos2026}.
+    \item \textbf{Assistência financeira como regra de elegibilidade}: o benefício do Pé-de-Meia não é sorteado, mas derivado das regras da Lei nº 14.818 (idade entre 14 e 24 anos e renda per capita de até meio salário mínimo, atuando como \textit{proxy} do Cadastro Único), com taxa de adesão de 85\% entre os elegíveis. O incentivo eleva a frequência dos aderentes em direção à exigência mínima de 80\% mensais (efeito de retenção), e o beneficiário efetivo é aquele que mantém a frequência exigida. Beneficiários recebem bônus no escore latente, revertendo a tendência de queda do perfil vulnerável \cite{santos2026}.
     \item \textbf{Interações entre fatores}: o estudante-trabalhador em distorção idade-série sofre penalidade adicional (dupla vulnerabilidade), enquanto variáveis de conectividade são geradas condicionalmente à faixa de renda, preservando o gradiente observado na PNAD Contínua.
-    \item \textbf{Outliers de resiliência acadêmica}: 3\% dos perfis de alta vulnerabilidade (renda mínima e sem computador) recebem desempenho acadêmico elevado (nota 8,5--9,7; frequência 90--100\%), inspirados em casos reais como o da U.E. Augustinho Brandão \cite{seducpi}, impedindo que os classificadores aprendam um determinismo social absoluto.
+    \item \textbf{\textit{Outliers} de resiliência acadêmica}: 3\% dos perfis de alta vulnerabilidade (renda mínima e sem computador) recebem desempenho acadêmico elevado (nota 8,5--9,7; frequência 90--100\%), inspirados em casos reais como o da U.E. Augustinho Brandão \cite{seducpi}, impedindo que os classificadores aprendam um determinismo social absoluto.
 \end{enumerate}
 
 Adicionalmente, gênero e cor/raça são gerados apenas para caracterização demográfica da turma, com \textbf{peso zero} no fenômeno gerador, uma decisão de salvaguarda contra vieses discriminatórios, complementada pela exclusão desses atributos do treinamento dos modelos.
@@ -127,6 +127,8 @@ O pré-processamento visa garantir a qualidade e a adequação dos dados aos alg
     \item Remoção de atributos protegidos e de baixa importância: \texttt{genero}, \texttt{cor\_raca} e \texttt{tipo\_escola\_origem} são excluídos do treinamento (os dois primeiros como salvaguarda contra vieses discriminatórios, o terceiro por baixa contribuição preditiva observada)
     \item Verificação de valores ausentes e \textit{outliers} (por construção, o gerador não produz valores ausentes; os \textit{outliers} de resiliência são preservados intencionalmente)
 \end{enumerate}
+
+A exclusão de gênero e cor/raça do treinamento é decisão de desenho ético, e não o resultado de um ranking de importância: ambos os atributos entram no gerador com peso zero, de modo que não há sinal racial ou de gênero a reconstituir a partir dos demais preditores. Já \texttt{tipo\_escola\_origem} foi avaliada em execuções exploratórias restritas ao conjunto de treino (na mesma lógica do estudo de ablação das variáveis derivadas) e removida por baixa contribuição observada: 85\% da população sintética origina-se de escola pública, o que reduz a variância preditiva da variável.
 
 \section{Transformação dos Dados (\textit{Feature Engineering})}
 

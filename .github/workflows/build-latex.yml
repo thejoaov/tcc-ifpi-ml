@@ -36,20 +36,22 @@ jobs:
         run: |
           echo '{"executablePath": "/usr/bin/chromium-browser", "args": ["--no-sandbox", "--disable-setuid-sandbox"]}' > puppeteer-config.json
 
-      - name: Compile LaTeX document
+      - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: documento.tex
+          root_file: |
+            documento.tex
+            artigo.tex
           working_directory: documento
           latexmk_use_xelatex: false
           extra_system_packages: nodejs npm chromium
           pre_compile: npm install -g @mermaid-js/mermaid-cli
           args: -pdf -lualatex -shell-escape -interaction=nonstopmode -file-line-error
 
-      - name: Install Pandoc
+      - name: Install Pandoc and Ghostscript
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc
+          sudo apt-get install -y pandoc ghostscript
 
       - name: Generate DOCX
         run: |
@@ -62,13 +64,34 @@ jobs:
       - name: Prepare output artifacts
         run: |
           mkdir -p output
-          cp documento.pdf output/documento.pdf || true
+          cp documento.pdf output/documento.pdf
+          cp artigo.pdf output/artigo.pdf
+          gs -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE \
+            -sColorConversionStrategy=RGB \
+            -sDEVICE=pdfwrite \
+            -dPDFACompatibilityPolicy=1 \
+            -sOutputFile=output/2026_tcc_jvsmendes.pdf \
+            output/artigo.pdf
 
-      - name: Upload PDF artifact
+      - name: Upload monograph PDF
         uses: actions/upload-artifact@v4
         with:
           name: tcc-pdf
           path: documento/output/documento.pdf
+          if-no-files-found: error
+
+      - name: Upload article PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcc-artigo
+          path: documento/output/artigo.pdf
+          if-no-files-found: error
+
+      - name: Upload PDF/A for BIA
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcc-pdfa
+          path: documento/output/2026_tcc_jvsmendes.pdf
           if-no-files-found: error
 
       - name: Upload DOCX artifact
@@ -95,6 +118,8 @@ jobs:
           prerelease: false
           files: |
             documento/output/documento.pdf
+            documento/output/artigo.pdf
+            documento/output/2026_tcc_jvsmendes.pdf
             documento/output/documento.docx
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

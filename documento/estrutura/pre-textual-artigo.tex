@@ -1,0 +1,30 @@
+%% Elementos pré-textuais do artigo para depósito na BIA
+%% (template IFPI: capa, folha de rosto, título, autor/orientador, resumo, abstract, data de aprovação)
+%% Sem folha de aprovação, ficha catalográfica, listas e sumário.
+
+%% 01: Capa
+\imprimircapa
+
+%% 02: Folha de Rosto (sem verso de ficha catalográfica)
+\imprimirfolhaderosto
+
+%% Título do trabalho (início do corpo do artigo)
+\begin{center}{\ABNTEXchapterfont\bfseries\MakeUppercase{\imprimirtitulo}}
+\end{center}
+
+\flushright
+
+      \autornomecompleto\footnote{Graduando do Curso de Licenciatura em Computação. Instituto Federal de Educação, Ciência e Tecnologia do Piauí (IFPI), Campus Teresina Zona Sul.} \\
+      \profnomecompleto\footnote{Professor orientador. Instituto Federal de Educação, Ciência e Tecnologia do Piauí (IFPI), Campus Teresina Zona Sul.}
+
+\justifying
+
+%% Resumo
+\input{pre-textual/resumo}
+
+%% Abstract
+\input{pre-textual/resumo-lingua-estrangeira}
+
+\noindent\textbf{Data de aprovação:} 11/08/2026
+
+\vspace{\onelineskip}

@@ -92,7 +92,7 @@ Os três modelos e os dois \textit{baselines} foram treinados sobre a base defin
 
 \begin{table}[htb]
 \centering
-\caption{Métricas comparativas entre os estimadores nos conjuntos de Holdout e Validação Cruzada.}
+\caption{Métricas comparativas entre os estimadores nos conjuntos de \textit{holdout} e validação cruzada.}
 \label{tab:resultados_comparativos}
 \footnotesize
 \setlength{\tabcolsep}{4pt}
@@ -100,16 +100,16 @@ Os três modelos e os dois \textit{baselines} foram treinados sobre a base defin
 \toprule
 \textbf{Métrica de Desempenho} & \textbf{\textit{Decision Tree}} & \textbf{\textit{Random Forest}} & \textbf{XGBoost} \\
 \midrule
-Acurácia (Holdout) & 78,22\% & 82,00\% & \textbf{84,11\%} \\
-F1-Score Ponderado (Holdout) & 78,58\% & 81,94\% & \textbf{84,10\%} \\
-Precisão Ponderada (Holdout) & 79,97\% & 81,90\% & \textbf{84,12\%} \\
-Recall Ponderado (Holdout) & 78,22\% & 82,00\% & \textbf{84,11\%} \\
-AUC-ROC OvR (Holdout) & 90,32\% & 95,13\% & \textbf{95,63\%} \\
+Acurácia (\textit{Holdout}) & 78,22\% & 82,00\% & \textbf{84,11\%} \\
+F1-Score Ponderado (\textit{Holdout}) & 78,58\% & 81,94\% & \textbf{84,10\%} \\
+Precisão Ponderada (\textit{Holdout}) & 79,97\% & 81,90\% & \textbf{84,12\%} \\
+\textit{Recall} Ponderado (\textit{Holdout}) & 78,22\% & 82,00\% & \textbf{84,11\%} \\
+AUC-ROC OvR (\textit{Holdout}) & 90,32\% & 95,13\% & \textbf{95,63\%} \\
 \midrule
 Acurácia (CV $k=10$) & 80,33\% $\pm$ 1,55\% & 85,05\% $\pm$ 2,09\% & \textbf{85,52\% $\pm$ 1,99\%} \\
 F1-Score Ponderado (CV $k=10$) & 80,50\% $\pm$ 1,70\% & 85,03\% $\pm$ 2,09\% & \textbf{85,54\% $\pm$ 1,98\%} \\
 Precisão Ponderada (CV $k=10$) & 81,07\% $\pm$ 1,84\% & 85,17\% $\pm$ 2,08\% & \textbf{85,64\% $\pm$ 1,95\%} \\
-Recall Ponderado (CV $k=10$) & 80,33\% $\pm$ 1,55\% & 85,05\% $\pm$ 2,09\% & \textbf{85,52\% $\pm$ 1,99\%} \\
+\textit{Recall} Ponderado (CV $k=10$) & 80,33\% $\pm$ 1,55\% & 85,05\% $\pm$ 2,09\% & \textbf{85,52\% $\pm$ 1,99\%} \\
 \bottomrule
 \end{tabular}
 \source{Elaborado pelo autor (2026).}
@@ -117,14 +117,14 @@ Recall Ponderado (CV $k=10$) & 80,33\% $\pm$ 1,55\% & 85,05\% $\pm$ 2,09\% & \te
 
 \begin{table}[htb]
 \centering
-\caption{Baselines de referência sob o mesmo protocolo de avaliação.}
+\caption{\textit{Baselines} de referência sob o mesmo protocolo de avaliação.}
 \label{tab:baselines}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Métrica de Desempenho} & \textbf{Classe Majoritária} & \textbf{Regressão Logística} \\
 \midrule
-Acurácia (Holdout) & 45,00\% & 80,22\% \\
-F1-Score Ponderado (Holdout) & 27,93\% & 80,26\% \\
+Acurácia (\textit{Holdout}) & 45,00\% & 80,22\% \\
+F1-Score Ponderado (\textit{Holdout}) & 27,93\% & 80,26\% \\
 Acurácia (CV $k=10$) & 45,05\% $\pm$ 0,23\% & 83,57\% $\pm$ 2,60\% \\
 F1-Score Ponderado (CV $k=10$) & 27,98\% $\pm$ 0,24\% & 83,69\% $\pm$ 2,55\% \\
 \bottomrule
@@ -136,6 +136,8 @@ Três leituras emergem das tabelas. Primeiro, o problema \textbf{não é trivial
 
 Para verificar se as diferenças entre os modelos são estatisticamente significativas, aplicou-se o teste pareado de postos sinalizados de Wilcoxon sobre os F1-Scores dos mesmos \textit{folds} da validação cruzada \cite{demsar2006}. A superioridade dos \textit{ensembles} sobre a \textit{Decision Tree} é significativa ao nível de 5\% (\textit{Random Forest} $\times$ \textit{Decision Tree}: $p = 0{,}002$; XGBoost $\times$ \textit{Decision Tree}: $p = 0{,}002$). Já a diferença entre XGBoost e \textit{Random Forest} \textbf{não é estatisticamente significativa} ($p = 0{,}232$): a vantagem numérica do XGBoost (85,54\% contra 85,03\% de F1 médio) não pode ser distinguida da flutuação amostral. O XGBoost é adotado como modelo final por sua vantagem numérica consistente em todas as métricas do \textit{holdout} (em especial na classe intermediária, como se verá adiante), registrando-se, contudo, que os dois \textit{ensembles} são estatisticamente equivalentes neste problema.
 
+A superioridade dos métodos de comitê em relação à árvore única admite leitura arquitetural, além da métrica. O \textit{bagging} da \textit{Random Forest} reduz a variância ao combinar árvores treinadas sobre amostras \textit{bootstrap} e subconjuntos aleatórios de atributos, o que confere resistência ao sobreajuste \cite{denisko2018}. O \textit{boosting} do XGBoost encadeia árvores que corrigem sequencialmente os erros das anteriores e penaliza a complexidade via regularização explícita \cite{chen2016}, o que favorece a captura das interações não lineares do fenômeno gerador (em especial a dupla penalidade entre trabalho juvenil e distorção idade-série). A Regressão Logística, ao atingir 80,22\% no \textit{holdout}, confirma que o sinal linear já é forte; os dois a quatro pontos percentuais adicionais dos \textit{ensembles} correspondem precisamente a essas interações.
+
 Quanto à generalização, a acurácia de \textit{holdout} de cada modelo situa-se dentro (ou ligeiramente abaixo) da faixa observada na validação cruzada (o XGBoost, por exemplo, obteve 84,11\% no \textit{holdout} contra 85,52\% $\pm$ 1,99\% na validação cruzada), não havendo, portanto, indícios de sobreajuste. A regularização do \textit{gradient boosting} (taxa de aprendizado de 0,1, profundidade máxima 3, subamostragem de 80\%) e a poda da árvore única contribuíram para esse comportamento. Os três modelos situaram-se na faixa de 78--86\%, próxima do teto estabelecido pela análise de sensibilidade, o que sugere que o desempenho restante é limitado pelo componente idiossincrático do fenômeno, e não pela capacidade dos algoritmos.
 
 \section{Análise de Desempenho por Classe e Curva ROC}
@@ -144,7 +146,7 @@ Para subsidiar intervenções pedagógicas qualificadas, o sistema preditivo dev
 
 \begin{figure}[htb]
 \centering
-\caption{Comparação das curvas ROC One-vs-Rest (OvR) dos classificadores propostos.}
+\caption{Comparação das curvas ROC \textit{One-vs-Rest} (OvR) dos classificadores propostos.}
 \label{fig:roc_comparison}
 \includegraphics[width=0.98\textwidth]{imagens/roc_curves_comparison.png}
 \source{Elaborado pelo autor (2026).}
@@ -158,7 +160,7 @@ Para investigar a origem granular dos erros de predição, elaborou-se o mapa de
 
 \begin{figure}[htb]
 \centering
-\caption{Matrizes de confusão obtidas nos ensaios de holdout (teste).}
+\caption{Matrizes de confusão obtidas nos ensaios de \textit{holdout} (teste).}
 \label{fig:confusion_comparison}
 \includegraphics[width=0.98\textwidth]{imagens/confusion_matrices_comparison.png}
 \source{Elaborado pelo autor (2026).}

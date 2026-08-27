@@ -1,14 +1,15 @@
 FILE = documento
+ARTIGO = artigo
 OUTDIR = ./output
 
-.PHONY: all pdf docx roteiro miniaturas clean help
+.PHONY: all pdf artigo pdfa docx roteiro miniaturas clean help
 
 help: ## Mostra esta ajuda
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
-all: pdf docx ## Gera PDF e DOCX
+all: pdf artigo ## Gera a monografia estendida e o artigo para a BIA
 
-pdf: ## Gera apenas o PDF
+pdf: ## Gera o PDF da monografia estendida
 	@mkdir -p $(OUTDIR)
 	-lualatex -shell-escape -interaction=nonstopmode $(FILE).tex
 	-bibtex $(FILE).aux
@@ -17,7 +18,25 @@ pdf: ## Gera apenas o PDF
 	@mv $(FILE).pdf $(OUTDIR)/$(FILE).pdf
 	@echo "PDF gerado em $(OUTDIR)/$(FILE).pdf"
 
-docx: pdf ## Gera DOCX a partir do PDF (requer pandoc)
+artigo: ## Gera o PDF do artigo (depósito na BIA)
+	@mkdir -p $(OUTDIR)
+	-lualatex -shell-escape -interaction=nonstopmode $(ARTIGO).tex
+	-bibtex $(ARTIGO).aux
+	-lualatex -shell-escape -interaction=nonstopmode $(ARTIGO).tex
+	-lualatex -shell-escape -interaction=nonstopmode $(ARTIGO).tex
+	@mv $(ARTIGO).pdf $(OUTDIR)/$(ARTIGO).pdf
+	@echo "PDF gerado em $(OUTDIR)/$(ARTIGO).pdf"
+
+pdfa: artigo ## Converte o artigo para PDF/A com o nome exigido pela BIA
+	gs -dPDFA=2 -dBATCH -dNOPAUSE -dNOOUTERSAVE \
+		-sColorConversionStrategy=RGB \
+		-sDEVICE=pdfwrite \
+		-dPDFACompatibilityPolicy=1 \
+		-sOutputFile=$(OUTDIR)/2026_tcc_jvsmendes.pdf \
+		$(OUTDIR)/$(ARTIGO).pdf
+	@echo "PDF/A gerado em $(OUTDIR)/2026_tcc_jvsmendes.pdf"
+
+docx: pdf ## Gera DOCX a partir da monografia (requer pandoc)
 	@mkdir -p $(OUTDIR)
 	pandoc $(FILE).tex -o $(OUTDIR)/$(FILE).docx \
 		--bibliography=bibliografia.bib \
@@ -44,5 +63,5 @@ roteiro:
 clean: ## Remove arquivos auxiliares do LaTeX
 	rm -rf *.aux *.bbl *.toc *.out *.log *.nls *.nlo *.lof *.lot *.blg *.ilg *.idx *.ind *.lop *.fls *.fdb_latexmk *.synctex.gz *.bcf *.run.xml *.xdv *.nav *.snm mermaid
 
-distclean: clean ## Remove tudo, incluindo PDFs locais
-	rm -f $(FILE).pdf
+distclean: clean ## Remove PDFs locais gerados na raiz
+	rm -f $(FILE).pdf $(ARTIGO).pdf
