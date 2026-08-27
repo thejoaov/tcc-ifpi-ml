@@ -76,13 +76,13 @@ Cada parâmetro de distribuição do gerador é ancorado em uma estatística ofi
 \multicolumn{5}{c}{\footnotesize Fonte: Elaborado pelo autor (2026).}\\
 \endlastfoot
 Origem em escola pública & 85\% & PI: 715.748 estudantes na rede pública (2025); BR: 82,0\% das matrículas do EM & \citeonline{inep2025, todospelaeducacaopiaui} & Estadual (PI) \\
-Renda per capita até 0,5 SM & 60\% & PI: 45,3\% da população geral em pobreza (2023); pobreza de 15--17 anos é superior à geral ($\sim$60\% no BR) & \citeonline{ibgesis2024, fadc2023} & Estadual (PI) (\textit{proxy}: população geral) \\
+Renda \textit{per capita} até 0,5 SM & 60\% & PI: 45,3\% da população geral em pobreza (2023); pobreza de 15--17 anos é superior à geral ($\sim$60\% no BR) & \citeonline{ibgesis2024, fadc2023} & Estadual (PI) (\textit{proxy}: população geral) \\
 Gênero / pretos e pardos & 51\% / 77\% & PI (Censo 2022): 64,8\% pardos, 12,3\% pretos; razão de sexo 95,81 homens por 100 mulheres & \citeonline{ibgecenso2022} & Estadual (PI) \\
 Estudantes trabalhadores & 26,3\% & Alunos de EM de baixa renda que conciliam trabalho e estudo; PI 5--17 anos: 6,8--8,6\% em trabalho infantil (conceito adjacente) & \citeonline{berlato2020, mte2024trabalho} & Decisão de modelagem (\textit{proxy}) \\
 Acesso doméstico à internet & 92,5\% & PI: domicílios com utilização de internet (2025) & \citeonline{ibgesidra2025tic} & Estadual (PI) \\
 Posse de computador & 25,5\% & PI: domicílios com microcomputador ou \textit{tablet} (2025); BR: 40,9\% & \citeonline{ibgesidra2025tic, ibge2024tic} & Estadual (PI) \\
 Distorção idade-série & 21,7\% & Rede estadual do PI (histórico: 33,2\%); cauda etária até 24 anos & \citeonline{inep2025, todospelaeducacaopiaui} & Estadual (PI) \\
-Pé-de-Meia (regra) & - & Elegibilidade: 14--24 anos, renda per capita $\le$ 0,5 SM, frequência $\ge$ 80\%; 187.620 atendidos no PI & \citeonline{brasil2024lei14818, mds2024cadunico, minutomt2026} & Normativo (nacional), efeito documentado no PI \\
+Pé-de-Meia (regra) & - & Elegibilidade: 14--24 anos, renda \textit{per capita} $\le$ 0,5 SM, frequência $\ge$ 80\%; 187.620 atendidos no PI & \citeonline{brasil2024lei14818, mds2024cadunico, minutomt2026} & Normativo (nacional), efeito documentado no PI \\
 Limiares de aprovação & 6,0 / 75\% & Média final mínima e frequência mínima de 75\% da carga horária & \citeonline{brasil1996ldb} & Normativo (nacional) \\
 \textit{Outliers} de resiliência & 3\% & Perfis vulneráveis de alto desempenho (ex.: Cocal dos Alves--PI) & \citeonline{seducpi} & Decisão de modelagem, com âncora estadual \\
 \end{longtable}
@@ -95,7 +95,7 @@ Parâmetros sem estatística oficial correspondente em qualquer nível de desagr
 Em atenção à diretriz anti-determinista discutida no Referencial Teórico, três mecanismos afastam o gerador de uma soma linear de vulnerabilidades:
 
 \begin{enumerate}
-    \item \textbf{Assistência financeira como regra de elegibilidade}: o benefício do Pé-de-Meia não é sorteado, mas derivado das regras da Lei nº 14.818 (idade entre 14 e 24 anos e renda per capita de até meio salário mínimo, atuando como \textit{proxy} do Cadastro Único), com taxa de adesão de 85\% entre os elegíveis. O incentivo eleva a frequência dos aderentes em direção à exigência mínima de 80\% mensais (efeito de retenção), e o beneficiário efetivo é aquele que mantém a frequência exigida. Beneficiários recebem bônus no escore latente, revertendo a tendência de queda do perfil vulnerável \cite{santos2026}.
+    \item \textbf{Assistência financeira como regra de elegibilidade}: o benefício do Pé-de-Meia não é sorteado, mas derivado das regras da Lei nº 14.818 (idade entre 14 e 24 anos e renda \textit{per capita} de até meio salário mínimo, atuando como \textit{proxy} do Cadastro Único), com taxa de adesão de 85\% entre os elegíveis. O incentivo eleva a frequência dos aderentes em direção à exigência mínima de 80\% mensais (efeito de retenção), e o beneficiário efetivo é aquele que mantém a frequência exigida. Beneficiários recebem bônus no escore latente, revertendo a tendência de queda do perfil vulnerável \cite{santos2026}.
     \item \textbf{Interações entre fatores}: o estudante-trabalhador em distorção idade-série sofre penalidade adicional (dupla vulnerabilidade), enquanto variáveis de conectividade são geradas condicionalmente à faixa de renda, preservando o gradiente observado na PNAD Contínua.
     \item \textbf{\textit{Outliers} de resiliência acadêmica}: 3\% dos perfis de alta vulnerabilidade (renda mínima e sem computador) recebem desempenho acadêmico elevado (nota 8,5--9,7; frequência 90--100\%), inspirados em casos reais como o da U.E. Augustinho Brandão \cite{seducpi}, impedindo que os classificadores aprendam um determinismo social absoluto.
 \end{enumerate}
@@ -115,7 +115,7 @@ Ressalta-se que os modelos de classificação \textbf{não têm acesso à proje�
 
 \subsection{Cenários de Contraste}
 
-Para avaliar a robustez do gerador e dos modelos frente a diferentes realidades socioeconômicas, foram configurados, além do cenário base (rede pública estadual do Piauí), três perfis contrastantes em arquivos de configuração próprios: \textbf{média nacional} (parâmetros agregados do ensino médio público brasileiro), \textbf{alta vulnerabilidade} (75\% dos estudantes com renda per capita de até 0,5 SM, distorção idade-série de 33,2\%, conectividade reduzida) e \textbf{rede privada de renda alta} (65\% acima de 1 SM per capita, distorção de 5\%, acesso pleno à internet). Nos cenários de contraste, a proporção de beneficiários do Pé-de-Meia decorre exclusivamente da regra de elegibilidade (no perfil de renda alta, apenas $\sim$6,5\% dos estudantes tornam-se beneficiários, sem qualquer parâmetro dedicado, o que evidencia a coerência interna da regra, em linha com a hipótese H4).
+Para avaliar a robustez do gerador e dos modelos frente a diferentes realidades socioeconômicas, foram configurados, além do cenário base (rede pública estadual do Piauí), três perfis contrastantes em arquivos de configuração próprios: \textbf{média nacional} (parâmetros agregados do ensino médio público brasileiro), \textbf{alta vulnerabilidade} (75\% dos estudantes com renda \textit{per capita} de até 0,5 SM, distorção idade-série de 33,2\%, conectividade reduzida) e \textbf{rede privada de renda alta} (65\% acima de 1 SM \textit{per capita}, distorção de 5\%, acesso pleno à internet). Nos cenários de contraste, a proporção de beneficiários do Pé-de-Meia decorre exclusivamente da regra de elegibilidade (no perfil de renda alta, apenas $\sim$6,5\% dos estudantes tornam-se beneficiários, sem qualquer parâmetro dedicado, o que evidencia a coerência interna da regra, em linha com a hipótese H4).
 
 \section{Pré-processamento dos Dados}
 
@@ -152,10 +152,10 @@ São implementados e comparados três algoritmos:
 \begin{enumerate}
     \item \textbf{\textit{Decision Tree}} (\texttt{DecisionTreeClassifier}): modelo interpretável baseado em regras de divisão hierárquica
     \item \textbf{\textit{Random Forest}} (\texttt{RandomForestClassifier}): \textit{ensemble} de múltiplas árvores com \textit{bagging}
-    \item \textbf{Gradient Boosting} (\texttt{XGBClassifier}): \textit{ensemble} sequencial com \textit{boosting}
+    \item \textbf{\textit{Gradient Boosting}} (\texttt{XGBClassifier}): \textit{ensemble} sequencial com \textit{boosting}
 \end{enumerate}
 
-Os algoritmos são implementados com \textit{scikit-learn} e \textit{XGBoost} em Python. O ajuste de hiperparâmetros é realizado via \textbf{GridSearchCV} com validação cruzada estratificada de 5 \textit{folds}, utilizando F1-Score ponderado como métrica de otimização.
+Os algoritmos são implementados com \textit{scikit-learn} e \textit{XGBoost} em Python. O ajuste de hiperparâmetros é realizado via \textit{GridSearchCV} com validação cruzada estratificada de 5 \textit{folds}, utilizando F1-Score ponderado como métrica de otimização.
 
 Complementarmente, conforme a fundamentação apresentada no Referencial Teórico, dois \textbf{\textit{baselines} de referência} são avaliados sob o mesmo protocolo: um classificador trivial de classe majoritária (\texttt{DummyClassifier}), que estabelece o piso de desempenho do problema, e uma \textbf{Regressão Logística} multinomial, que quantifica a parcela do fenômeno explicável por relações lineares.
 
